@@ -1,13 +1,13 @@
 package br.com.divulgamaisaqui.tv;
 import android.app.Activity; import android.app.admin.DevicePolicyManager; import android.content.ComponentName;
-import android.content.Context; import android.os.Bundle; import android.view.View; import android.view.WindowManager;
+import android.content.Context; import android.os.Bundle; import android.view.View; import android.view.WindowManager; import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient; import android.webkit.WebSettings; import android.webkit.WebView; import android.webkit.WebViewClient;
 public class MainActivity extends Activity {
  private WebView web;
  private static final String TV_URL="https://davisondcbr.github.io/divulgamaisaqui/tv.html";
  @Override public void onCreate(Bundle state){super.onCreate(state);
   getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); immersive();
-  web=new WebView(this);setContentView(web);
+  web=new WebView(this);web.setFocusable(true);web.setFocusableInTouchMode(true);setContentView(web);web.requestFocus();
   WebSettings s=web.getSettings(); s.setJavaScriptEnabled(true); s.setDomStorageEnabled(true);
   s.setMediaPlaybackRequiresUserGesture(false); s.setAllowFileAccess(false); s.setAllowContentAccess(false);
   web.setWebViewClient(new WebViewClient(){@Override public void onPageFinished(WebView v,String u){ immersive(); }});
