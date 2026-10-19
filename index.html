@@ -32,7 +32,7 @@ body{background:radial-gradient(ellipse 700px 500px at 75% -15%,#182a50 0%,trans
 </style></head>
 <body>
 <div class="app"><aside class="side"><div class="brand">DIVULGA<span>MAISAQUI</span></div><div class="sub">Plataforma de mídia digital • Painel de gestão</div><div class="navs"><button class="nav active" data-tab="overview">◈  Visão geral</button><button class="nav" data-tab="devices">▣  TV Boxes</button><button class="nav" data-tab="media">▧  Anúncios</button><button class="nav" data-tab="playlists">▷  Programação</button><button class="nav" data-tab="apk">⬡  Aplicativo Android (APK)</button><button class="nav" data-tab="settings">⚙  Configurações</button></div></aside>
-<main class="main"><header><div><h1 id="pageTitle">Visão geral</h1><p class="muted">Controle anúncios, playlists e seus pontos de exibição em um só lugar.</p></div><div class="line"><span class="pill warn" id="dbModeBadge">MODO LOCAL • SUPABASE PENDENTE</span></div></header>
+<main class="main"><header><div><h1 id="pageTitle">Visão geral</h1><p class="muted">Controle anúncios, playlists e seus pontos de exibição em um só lugar.</p></div><div class="line"><span class="pill warn" id="dbModeBadge">VERIFICANDO SUPABASE...</span></div></header>
 <section id="overview"><div class="live-summary"><span class="device-status" id="connectionSummary"><span class="led"></span><span>Aguardando conexão com o servidor</span></span><span class="note" id="lastStatusRefresh">Sem monitoramento em tempo real nesta versão</span></div><div class="stats" id="stats"></div><div class="section"><h2>Seus pontos de divulgação</h2><div class="grid" id="overviewDevices"></div></div></section>
 <section id="devices" class="hidden"><div class="line"><h2>TV Boxes cadastradas</h2><button class="btn" onclick="openDevice()">+ Nova TV Box</button></div><p class="muted">Cadastre as TV Boxes reais. Cada aparelho receberá sua programação quando conectarmos o banco e o APK Android.</p><div class="grid mt" id="devicesList"></div></section>
 <section id="media" class="hidden"><div class="line"><h2>Biblioteca de anúncios</h2><button class="btn" onclick="openMedia()">+ Adicionar anúncio</button></div><p class="muted">Cadastre links públicos HTTPS diretos para vídeos MP4 ou imagens JPG/PNG/WebP. O armazenamento de arquivos será implementado com o banco e serviço de mídia.</p><div class="card mt" id="mediaList"></div></section>
@@ -42,12 +42,12 @@ body{background:radial-gradient(ellipse 700px 500px at 75% -15%,#182a50 0%,trans
 <div class="grid section"><div class="card"><h2>Preparar geração no GitHub</h2><p>Quando o projeto Android e o fluxo GitHub Actions forem adicionados ao repositório, você poderá abrir a área de compilação por aqui.</p><div class="field"><label for="apkRepo">Endereço do repositório GitHub</label><input id="apkRepo" type="url" placeholder="https://github.com/usuario/DIVULGAMAISAQUI" autocomplete="off"></div><div class="rowBtns"><button class="btn" type="button" onclick="saveApkRepo()">Salvar repositório</button><button class="btn secondary" type="button" onclick="openApkActions()">Abrir GitHub Actions ↗</button></div><p class="muted" id="apkRepoMessage" role="status">Nenhum APK será criado somente por salvar este endereço.</p></div>
 <div class="card"><h2>Como o APK vai funcionar</h2><div class="item">① Instalar o mesmo APK em qualquer TV Box compatível</div><div class="item">② Ativar cada aparelho com um código individual</div><div class="item">③ Receber a programação correspondente ao aparelho</div><div class="item">④ Informar conexão e reprodução ao servidor</div><div class="help mt">O player Android, o serviço de sincronização e a compilação do APK ainda precisam ser desenvolvidos. O GitHub Pages hospeda este painel, mas não transforma HTML em APK automaticamente.</div></div></div></section>
 <section id="settings" class="hidden"><h2>Configurações do projeto</h2>
-<div class="card"><h2>Conexão Supabase</h2><p>Projeto identificado. Para testar a conexão, informe somente a <strong>Publishable Key</strong> (começa com <code>sb_publishable_</code>) ou a chave pública <code>anon</code>. <strong>Não informe secret/service_role.</strong></p>
+<div class="card"><h2>Conexão Supabase</h2><p>Chave pública configurada no código. A conexão com a API é verificada automaticamente; escrita e sincronização ainda dependem de autenticação e políticas RLS.</p>
 <div class="field"><label for="supabaseUrl">Project URL</label><input id="supabaseUrl" readonly value="https://rscdamfwtpvdbidbseqg.supabase.co"></div>
-<div class="field"><label for="supabasePublicKey">Publishable Key pública</label><input id="supabasePublicKey" type="text" autocomplete="off" spellcheck="false" placeholder="sb_publishable_..."></div>
-<div class="rowBtns"><button class="btn" type="button" onclick="testSupabaseConnection()">Verificar conexão</button><button class="btn secondary" type="button" onclick="clearSupabaseConnection()">Limpar chave</button></div>
-<p id="supabaseTestResult" class="muted" role="status">Aguardando chave pública. Este teste não altera os dados.</p>
-<div class="help mt">O painel continuará no modo local até configurarmos autenticação, políticas de acesso (RLS) e sincronização. A chave preenchida nesta tela fica apenas na memória da página; não é gravada no GitHub nem no localStorage. A URL <code>/rest/v1/</code> é um endpoint e <strong>não</strong> é uma Publishable Key.</div></div>
+<div class="field"><label for="supabasePublicKey">Publishable Key pública</label><input id="supabasePublicKey" type="text" readonly autocomplete="off" spellcheck="false" value="sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3"></div>
+<div class="rowBtns"><button class="btn" type="button" onclick="testSupabaseConnection()">Verificar conexão</button><span class="pill" id="supabaseApiStatus">VERIFICANDO...</span></div>
+<p id="supabaseTestResult" class="muted" role="status">Verificando automaticamente a resposta da API...</p>
+<div class="help mt">O painel continuará no modo local até configurarmos autenticação, políticas de acesso (RLS) e sincronização. A chave pública configurada neste HTML ficará visível no código hospedado no GitHub (isto é esperado para a Publishable Key). A URL <code>/rest/v1/</code> é um endpoint e <strong>não</strong> é uma Publishable Key.</div></div>
 <div class="card section"><p><strong>Esta é uma versão inicial para GitHub Pages.</strong></p><p>Os cadastros são mantidos no <code>localStorage</code> deste navegador, não são enviados para a internet e não sincronizam com nenhuma TV Box. Limpar os dados do navegador pode apagar as alterações.</p><div class="rowBtns"><button class="btn secondary" onclick="exportData()">↓ Exportar backup JSON</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">↑ Importar backup JSON</button><input id="importFile" class="hidden" type="file" accept="application/json,.json" onchange="importData(event)"></div><div class="help mt">Próximas etapas: autenticação, banco de dados, armazenamento de mídia, ativação segura dos dispositivos, status online real, histórico de exibições e APK Android com modo quiosque. Nunca coloque senhas de administrador ou chaves privadas neste HTML público.</div></div></section>
 </main></div>
 <dialog id="deviceDialog"><h2 id="deviceDlgTitle">Nova TV Box</h2><div class="field"><label>Nome do local</label><input id="deviceName" maxlength="60" placeholder="Ex.: Recepção da loja"></div><div class="field"><label>Código de referência</label><input id="deviceCode" maxlength="25" placeholder="Ex.: TV-001"></div><div class="rowBtns"><button class="btn" onclick="saveDevice()">Salvar</button><button class="btn secondary" onclick="document.getElementById('deviceDialog').close()">Cancelar</button></div></dialog>
@@ -131,20 +131,42 @@ render();
 if(STATUS_ENDPOINT){refreshDeviceStatuses();setInterval(refreshDeviceStatuses,15000);setInterval(render,5000)}
 
 const SUPABASE_PROJECT_URL='https://rscdamfwtpvdbidbseqg.supabase.co';
+const SUPABASE_PUBLIC_KEY='sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3';
+let dbTestInProgress=false;
 async function testSupabaseConnection(){
- const key=document.getElementById('supabasePublicKey').value.trim();
+ if(dbTestInProgress)return;
+ dbTestInProgress=true;
  const out=document.getElementById('supabaseTestResult');
- if(!key || key.startsWith('https://') || key.includes('/rest/v1/')){out.textContent='Esta informação não é uma Publishable Key. Copie-a em Project Settings > API Keys.';return}
- if(!key.startsWith('sb_publishable_') && !key.startsWith('eyJ')){out.textContent='Formato não reconhecido. Use a Publishable Key (sb_publishable_) ou a chave pública anon.';return}
- out.textContent='Verificando conexão sem modificar registros...';
+ const badge=document.getElementById('dbModeBadge');
+ const detail=document.getElementById('supabaseApiStatus');
+ badge.className='pill warn';
+ badge.textContent='VERIFICANDO SUPABASE...';
+ detail.textContent='VERIFICANDO...';
+ out.textContent='Consultando a API do Supabase (somente leitura)...';
  try{
-  const res=await fetch(SUPABASE_PROJECT_URL+'/rest/v1/dispositivos?select=id&limit=1',{
-   headers:{apikey:key,Authorization:'Bearer '+key},cache:'no-store'});
-  const body=await res.text();
-  if(res.ok){out.textContent='Conexão HTTP realizada. O banco respondeu à leitura de teste; as políticas RLS podem ocultar linhas. Nenhum dado foi alterado. O painel ainda funciona no modo local.'}
-  else if(res.status===401||res.status===403){out.textContent='A API respondeu, mas recusou o acesso ('+res.status+'). Verifique a chave e as regras RLS. Não remova as proteções.'}
-  else {out.textContent='Resposta HTTP '+res.status+'. Confirme as credenciais e se as tabelas existem. '+body.slice(0,170)}
- }catch(e){out.textContent='Não foi possível concluir o teste: '+e.message+'. Verifique conexão e URL.'}
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),12000);
+  let res;
+  try {
+   res=await fetch(SUPABASE_PROJECT_URL+'/rest/v1/dispositivos?select=id&limit=1',{
+    headers:{apikey:SUPABASE_PUBLIC_KEY},cache:'no-store',signal:controller.signal});
+  }finally{clearTimeout(timeout)}
+  if(res.ok){
+   badge.className='pill ok';badge.textContent='● API SUPABASE CONECTADA • PAINEL LOCAL';
+   detail.textContent='● API RESPONDENDO';
+   out.textContent='Conexão verificada ('+new Date().toLocaleTimeString('pt-BR')+'). A API aceitou a consulta. Os dados do painel ainda são locais: não há permissão de gravação nem sincronização de TV Boxes nesta etapa.';
+  }else{
+   badge.className='pill warn';badge.textContent='SUPABASE NÃO CONFIRMADO • PAINEL LOCAL';
+   detail.textContent='ACESSO NÃO CONFIRMADO';
+   out.textContent='A API respondeu HTTP '+res.status+'. Confira a chave, tabelas e permissões. Não desative o RLS.';
+  }
+ }catch(e){
+  badge.className='pill warn';badge.textContent='SUPABASE INDISPONÍVEL • PAINEL LOCAL';
+  detail.textContent='SEM CONEXÃO';
+  out.textContent='Não foi possível confirmar o acesso: '+(e.name==='AbortError'?'tempo limite excedido':e.message)+'. O painel local continua disponível.';
+ }finally{dbTestInProgress=false}
 }
-function clearSupabaseConnection(){document.getElementById('supabasePublicKey').value='';document.getElementById('supabaseTestResult').textContent='Chave apagada da tela.'}
+testSupabaseConnection();
+setInterval(testSupabaseConnection,60000);
+
 </script></body></html>
