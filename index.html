@@ -47,7 +47,7 @@ body{background:radial-gradient(ellipse 700px 500px at 75% -15%,#182a50 0%,trans
 <section id="settings" class="hidden"><h2>Configurações do projeto</h2>
 <div class="card"><h2>Conexão Supabase</h2><p>Chave pública configurada no código. A conexão com a API é verificada automaticamente; escrita e sincronização ainda dependem de autenticação e políticas RLS.</p>
 <div class="field"><label for="supabaseUrl">Project URL</label><input id="supabaseUrl" readonly value="https://rscdamfwtpvdbidbseqg.supabase.co"></div>
-<div class="field"><label for="supabasePublicKey">Publishable Key pública</label><input id="supabasePublicKey" type="text" readonly autocomplete="off" spellcheck="false" value="sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3"></div>
+<div class="field"><label for="supabasePublicKey">Publishable Key pública</label><input id="supabasePublicKey" type="text" readonly autocomplete="off" spellcheck="false" value="sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3-kk"></div>
 <div class="rowBtns"><button class="btn" type="button" onclick="testSupabaseConnection()">Verificar conexão</button><span class="pill" id="supabaseApiStatus">VERIFICANDO...</span></div>
 <p id="supabaseTestResult" class="muted" role="status">Verificando automaticamente a resposta da API...</p>
 <div class="help mt">O painel continuará no modo local até configurarmos autenticação, políticas de acesso (RLS) e sincronização. A chave pública configurada neste HTML ficará visível no código hospedado no GitHub (isto é esperado para a Publishable Key). A URL <code>/rest/v1/</code> é um endpoint e <strong>não</strong> é uma Publishable Key.</div></div>
@@ -115,7 +115,7 @@ render();
 setInterval(render,5000);
 
 const SUPABASE_PROJECT_URL='https://rscdamfwtpvdbidbseqg.supabase.co';
-const SUPABASE_PUBLIC_KEY='sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3';
+const SUPABASE_PUBLIC_KEY='sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3-kk';
 let dbTestInProgress=false;
 async function testSupabaseConnection(){try{await loadRemote();alert('Conexão com banco e autorização administrativa confirmadas.')}catch(e){alert('Não foi possível confirmar acesso: '+e.message)}}
 // Integração com autenticação via Supabase Auth + RPC com políticas seguras.
