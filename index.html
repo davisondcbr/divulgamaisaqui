@@ -30,7 +30,10 @@ body{background:radial-gradient(ellipse 700px 500px at 75% -15%,#182a50 0%,trans
 
 
 </style></head>
-<body>
+<body><div id="authGate" style="position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(circle at top,#1c3869,#080f20 75%);padding:20px"><form id="authForm" style="max-width:420px;width:100%;background:#15233a;border:1px solid #3b567d;padding:32px;border-radius:22px;box-shadow:0 35px 100px #0008"><h1 style="margin:0;color:white">DIVULGA<span style="color:#68a8ff">MAISAQUI</span></h1><p style="color:#aabbcf">Acesso seguro ao painel • Supabase</p><label for="loginEmail">E-mail do administrador</label><input required type="email" id="loginEmail" autocomplete="username" style="width:100%;margin:8px 0 17px;padding:14px;background:#0b1426;color:white;border:1px solid #405574;border-radius:10px"><label for="loginPassword">Senha</label><input required type="password" id="loginPassword" autocomplete="current-password" style="width:100%;margin:8px 0 19px;padding:14px;background:#0b1426;color:white;border:1px solid #405574;border-radius:10px"><button class="btn" style="width:100%;padding:14px" type="submit" id="loginButton">Entrar no painel</button><p id="loginFeedback" role="status" style="color:#ffa8ad"></p></form></div>
+<div id="loadingGate" style="position:fixed;inset:0;z-index:99998;display:none;place-items:center;background:#0b1220;color:white;text-align:center"><div><h1>DIVULGAMAISAQUI</h1><div style="width:170px;height:5px;background:#1a2f55;border-radius:4px;overflow:hidden;margin:auto"><div style="height:100%;width:55%;background:#6ea8fe;animation:loadingBar 1s ease-in-out infinite alternate"></div></div><p>Sincronizando seu painel...</p></div></div>
+<style>@keyframes loadingBar{from{transform:translateX(-100%)}to{transform:translateX(200%)}}</style>
+
 <div class="app"><aside class="side"><div class="brand">DIVULGA<span>MAISAQUI</span></div><div class="sub">Plataforma de mídia digital • Painel de gestão</div><div class="navs"><button class="nav active" data-tab="overview">◈  Visão geral</button><button class="nav" data-tab="devices">▣  TV Boxes</button><button class="nav" data-tab="media">▧  Anúncios</button><button class="nav" data-tab="playlists">▷  Programação</button><button class="nav" data-tab="apk">⬡  Aplicativo Android (APK)</button><button class="nav" data-tab="settings">⚙  Configurações</button></div></aside>
 <main class="main"><header><div><h1 id="pageTitle">Visão geral</h1><p class="muted">Controle anúncios, playlists e seus pontos de exibição em um só lugar.</p></div><div class="line"><span class="pill warn" id="dbModeBadge">VERIFICANDO SUPABASE...</span></div></header>
 <section id="overview"><div class="live-summary"><span class="device-status" id="connectionSummary"><span class="led"></span><span>Aguardando conexão com o servidor</span></span><span class="note" id="lastStatusRefresh">Sem monitoramento em tempo real nesta versão</span></div><div class="stats" id="stats"></div><div class="section"><h2>Seus pontos de divulgação</h2><div class="grid" id="overviewDevices"></div></div></section>
@@ -62,45 +65,26 @@ body{background:radial-gradient(ellipse 700px 500px at 75% -15%,#182a50 0%,trans
 const KEY='divulgamaisaqui_local_v2';
 const seed={devices:[],media:[]};
 let data;
-try{data=JSON.parse(localStorage.getItem(KEY))||structuredClone(seed)}catch{data=structuredClone(seed)}
+data=structuredClone(seed);
 if(!data||!Array.isArray(data.devices)||!Array.isArray(data.media))data=structuredClone(seed);
 // Integração futura: nunca cole chaves de serviço, tokens privados ou senhas no GitHub Pages.
 // Ao escolhermos o provedor, adicionaremos o SDK público e regras seguras no banco.
 
 let currentTab='overview',editingDevice=null,previewTimer=null,previewQueue=[],previewIndex=0;
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch{alert('Não foi possível salvar neste navegador. Exporte um backup.')}render()}
+function save(){render();queueRemoteSave()}
 function activateTab(t){currentTab=t;document.querySelectorAll('main>section').forEach(s=>s.classList.toggle('hidden',s.id!==t));document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.tab===t));document.getElementById('pageTitle').textContent=({overview:'Visão geral',devices:'TV Boxes',media:'Anúncios',playlists:'Programação',apk:'Aplicativo Android (APK)',settings:'Configurações'})[t];render()}
 document.querySelectorAll('.nav').forEach(n=>n.addEventListener('click',()=>activateTab(n.dataset.tab)));
 // Preparado para o banco futuro: status não é simulado. O backend retornará
 // { devices: [{ id: "TV-001", state: "playing", lastSeen: "2026-..." }] }.
 // Ative o endpoint somente após configurar autenticação e permissões no servidor.
-const STATUS_ENDPOINT = window.DIVULGAMAISAQUI_STATUS_ENDPOINT || '';
+const STATUS_ENDPOINT = 'supabase';
 const OFFLINE_AFTER_MS = 60000;
 let deviceStatuses = new Map();
 let statusLastCheck = null;
-function currentStatus(id){
-  if(!STATUS_ENDPOINT)return {kind:'unknown',label:'Aguardando integração com o APK'};
-  const raw=deviceStatuses.get(id);
-  if(!raw)return {kind:'offline',label:'Offline · sem sinal'};
-  const ts=Date.parse(raw.lastSeen||'');
-  if(!Number.isFinite(ts)||Date.now()-ts>OFFLINE_AFTER_MS)return {kind:'offline',label:'Offline · sem sinal recente'};
-  if(raw.state==='playing')return {kind:'online',label:'Ligada e reproduzindo'};
-  return {kind:'offline',label:'Ligada, mas sem reprodução confirmada'};
-}
+function currentStatus(id){const raw=deviceStatuses.get(id);if(!raw)return {kind:'offline',label:'Offline'};const ts=Date.parse(raw.lastSeen||'');if(!Number.isFinite(ts)||Date.now()-ts>60000||!raw.playing)return {kind:'offline',label:'Offline'};return {kind:'online',label:'Online • reproduzindo'};}
 function statusMarkup(d){let x=currentStatus(d.id);return `<span class="device-status ${x.kind}" title="${esc(x.label)}"><span class="led"></span><span>${esc(x.label)}</span></span>`}
-async function refreshDeviceStatuses(){
-  if(!STATUS_ENDPOINT)return;
-  try{
-    const response=await fetch(STATUS_ENDPOINT,{cache:'no-store',credentials:'omit'});
-    if(!response.ok)throw Error('HTTP '+response.status);
-    const payload=await response.json();
-    if(!Array.isArray(payload.devices))throw Error('Formato inválido');
-    deviceStatuses=new Map(payload.devices.filter(d=>typeof d.id==='string').map(d=>[d.id,d]));
-    statusLastCheck=new Date();
-  }catch(e){deviceStatuses.clear();statusLastCheck=null;}
-  render();
-}
+async function refreshDeviceStatuses(){if(!accessToken)return;try{const rows=await rpc('listar_status_tvs',{});deviceStatuses.clear();for(const x of rows||[])deviceStatuses.set(x.codigo,{lastSeen:x.ultimo_sinal,playing:x.reproduzindo});statusLastCheck=new Date();render()}catch(e){console.warn('Status:',e.message)}}
 function tvCard(d,edit){let count=d.mediaIds.filter(id=>data.media.some(m=>m.id===id)).length;return `<div class="card device"><div class="line"><strong>▣ ${esc(d.name)}</strong><span class="pill">${esc(d.id)}</span></div><div class="muted">${count} anúncio(s) na programação</div><div>${statusMarkup(d)}</div><div style="flex:1"></div><div class="rowBtns"><button class="btn small" onclick="pickDevice('${esc(d.id)}')">Ver programação</button>${edit?`<button class="btn secondary small" onclick="openDevice('${esc(d.id)}')">Editar</button><button class="btn danger small" onclick="removeDevice('${esc(d.id)}')">Excluir</button>`:''}</div></div>`}
 function render(){document.getElementById('apkDeviceCount').textContent=data.devices.length;const indicator=document.getElementById('connectionSummary');if(indicator){const online=data.devices.filter(d=>currentStatus(d.id).kind==='online').length;indicator.className='device-status '+(STATUS_ENDPOINT?(online?'online':'offline'):'unknown');indicator.innerHTML='<span class="led"></span><span>'+ (STATUS_ENDPOINT? online+' TV(s) reproduzindo':'Monitoramento aguardando integração')+'</span>';document.getElementById('lastStatusRefresh').textContent=STATUS_ENDPOINT?(statusLastCheck?'Última consulta: '+statusLastCheck.toLocaleTimeString('pt-BR'):'Servidor sem resposta'):'Status real disponível após conectar o banco e o APK';}document.getElementById('stats').innerHTML=[['TV Boxes',data.devices.length],['Anúncios',data.media.length],['Vínculos',data.devices.reduce((a,d)=>a+d.mediaIds.length,0)],['Ligadas e reproduzindo',STATUS_ENDPOINT?data.devices.filter(d=>currentStatus(d.id).kind==='online').length:'—']].map(([t,n])=>`<div class="card"><div class="muted">${t}</div><div class="statnum">${n}</div></div>`).join('');document.getElementById('overviewDevices').innerHTML=data.devices.map(d=>tvCard(d,false)).join('')||'<div class="empty">Nenhuma TV cadastrada.</div>';document.getElementById('devicesList').innerHTML=data.devices.map(d=>tvCard(d,true)).join('')||'<div class="empty">Cadastre sua primeira TV Box.</div>';document.getElementById('mediaList').innerHTML=data.media.map(m=>`<div class="item"><div class="line" style="justify-content:start"><div class="thumb" style="display:grid;place-items:center">${m.type==='image'?'▧':'▶'}</div><div><div class="label">${esc(m.name)}</div><div class="muted">${m.type==='image'?'Imagem • '+m.duration+'s':'Vídeo • até o final'} • ${esc(m.url.slice(0,70))}</div></div></div><button class="btn danger small" onclick="removeMedia('${esc(m.id)}')">Excluir</button></div>`).join('')||'<div class="empty">Nenhum anúncio. Clique em Adicionar anúncio.</div>';let select=document.getElementById('selectDevice'),prior=select.value;select.innerHTML=data.devices.map(d=>`<option value="${esc(d.id)}">${esc(d.name)} (${esc(d.id)})</option>`).join('');if(data.devices.some(d=>d.id===prior))select.value=prior;renderPlaylist()}
 function pickDevice(id){activateTab('playlists');document.getElementById('selectDevice').value=id;renderPlaylist()}
@@ -128,45 +112,39 @@ const apkSavedRepo=localStorage.getItem('divulgamaisaqui_apk_repo');if(apkSavedR
 function exportData(){let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='divulgamaisaqui-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function importData(e){let f=e.target.files?.[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let obj=JSON.parse(r.result);if(!obj||!Array.isArray(obj.devices)||!Array.isArray(obj.media)||!obj.devices.every(d=>typeof d.id==='string'&&typeof d.name==='string'&&Array.isArray(d.mediaIds))||!obj.media.every(m=>typeof m.id==='string'&&typeof m.name==='string'&&['image','video'].includes(m.type)&&typeof m.url==='string'))throw Error();if(confirm('Substituir os dados atuais pelos dados do backup?')){data=obj;save()}}catch{alert('Backup inválido.')}e.target.value=''};r.readAsText(f)}
 render();
-if(STATUS_ENDPOINT){refreshDeviceStatuses();setInterval(refreshDeviceStatuses,15000);setInterval(render,5000)}
+setInterval(render,5000);
 
 const SUPABASE_PROJECT_URL='https://rscdamfwtpvdbidbseqg.supabase.co';
 const SUPABASE_PUBLIC_KEY='sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3';
 let dbTestInProgress=false;
-async function testSupabaseConnection(){
- if(dbTestInProgress)return;
- dbTestInProgress=true;
- const out=document.getElementById('supabaseTestResult');
- const badge=document.getElementById('dbModeBadge');
- const detail=document.getElementById('supabaseApiStatus');
- badge.className='pill warn';
- badge.textContent='VERIFICANDO SUPABASE...';
- detail.textContent='VERIFICANDO...';
- out.textContent='Consultando a API do Supabase (somente leitura)...';
- try{
-  const controller=new AbortController();
-  const timeout=setTimeout(()=>controller.abort(),12000);
-  let res;
-  try {
-   res=await fetch(SUPABASE_PROJECT_URL+'/rest/v1/dispositivos?select=id&limit=1',{
-    headers:{apikey:SUPABASE_PUBLIC_KEY},cache:'no-store',signal:controller.signal});
-  }finally{clearTimeout(timeout)}
-  if(res.ok){
-   badge.className='pill ok';badge.textContent='● API SUPABASE CONECTADA • PAINEL LOCAL';
-   detail.textContent='● API RESPONDENDO';
-   out.textContent='Conexão verificada ('+new Date().toLocaleTimeString('pt-BR')+'). A API aceitou a consulta. Os dados do painel ainda são locais: não há permissão de gravação nem sincronização de TV Boxes nesta etapa.';
-  }else{
-   badge.className='pill warn';badge.textContent='SUPABASE NÃO CONFIRMADO • PAINEL LOCAL';
-   detail.textContent='ACESSO NÃO CONFIRMADO';
-   out.textContent='A API respondeu HTTP '+res.status+'. Confira a chave, tabelas e permissões. Não desative o RLS.';
-  }
- }catch(e){
-  badge.className='pill warn';badge.textContent='SUPABASE INDISPONÍVEL • PAINEL LOCAL';
-  detail.textContent='SEM CONEXÃO';
-  out.textContent='Não foi possível confirmar o acesso: '+(e.name==='AbortError'?'tempo limite excedido':e.message)+'. O painel local continua disponível.';
- }finally{dbTestInProgress=false}
+async function testSupabaseConnection(){try{await loadRemote();alert('Conexão com banco e autorização administrativa confirmadas.')}catch(e){alert('Não foi possível confirmar acesso: '+e.message)}}
+// Integração com autenticação via Supabase Auth + RPC com políticas seguras.
+let accessToken = sessionStorage.getItem('dma_access') || '';
+let refreshToken = sessionStorage.getItem('dma_refresh') || '';
+let saveTimer=null, saving=false;
+const authGate=document.getElementById('authGate');
+const loadingGate=document.getElementById('loadingGate');
+async function callApi(path,body,auth=true){
+ const response=await fetch(SUPABASE_PROJECT_URL+path,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLIC_KEY,...(auth?{'Authorization':'Bearer '+accessToken}:{})},body:JSON.stringify(body)});
+ const raw=await response.text();let parsed;try{parsed=raw?JSON.parse(raw):null}catch{parsed={message:raw}};
+ if(!response.ok)throw Error(parsed?.message||parsed?.error_description||parsed?.error||('HTTP '+response.status));return parsed;
 }
-testSupabaseConnection();
-setInterval(testSupabaseConnection,60000);
+async function rpc(name,body){return callApi('/rest/v1/rpc/'+name,body,true)}
+async function signIn(email,password){const a=await callApi('/auth/v1/token?grant_type=password',{email,password},false);accessToken=a.access_token;refreshToken=a.refresh_token;sessionStorage.setItem('dma_access',accessToken);sessionStorage.setItem('dma_refresh',refreshToken);}
+async function loadRemote(){const remote=await rpc('ler_painel',{});if(!remote || !Array.isArray(remote.devices)||!Array.isArray(remote.media))throw Error('Dados do banco inválidos');data=remote;render();await refreshDeviceStatuses();document.getElementById('dbModeBadge').textContent='● SUPABASE • SINCRONIZADO';document.getElementById('dbModeBadge').className='pill ok';document.getElementById('supabaseApiStatus').textContent='● BANCO CONECTADO';document.getElementById('supabaseTestResult').textContent='Cadastros e playlists são salvos no Supabase. As TV Boxes precisam ser ativadas individualmente.';}
+async function queueRemoteSave(){clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{if(saving)return queueRemoteSave();saving=true;try{await rpc('salvar_painel',{p_conteudo:data});document.getElementById('dbModeBadge').textContent='● SALVO NO SUPABASE';}catch(e){document.getElementById('dbModeBadge').textContent='ERRO AO SALVAR';alert('Não foi possível salvar no Supabase: '+e.message)}finally{saving=false}},250)}
+async function enterPanel(){authGate.style.display='none';loadingGate.style.display='grid';try{await loadRemote();await new Promise(r=>setTimeout(r,700));loadingGate.style.display='none';}catch(e){loadingGate.style.display='none';authGate.style.display='grid';document.getElementById('loginFeedback').textContent='Sem acesso ao painel: '+e.message;accessToken='';sessionStorage.removeItem('dma_access')}}
+document.getElementById('authForm').addEventListener('submit',async e=>{e.preventDefault();const btn=document.getElementById('loginButton');btn.disabled=true;document.getElementById('loginFeedback').textContent='Autenticando...';try{await signIn(document.getElementById('loginEmail').value.trim(),document.getElementById('loginPassword').value);await enterPanel()}catch(err){document.getElementById('loginFeedback').textContent=err.message}finally{btn.disabled=false}});
+async function logoutAdmin(){sessionStorage.removeItem('dma_access');sessionStorage.removeItem('dma_refresh');accessToken='';authGate.style.display='grid';}
+const logoutBtn=document.createElement('button');logoutBtn.className='btn secondary small';logoutBtn.textContent='Sair';logoutBtn.onclick=logoutAdmin;document.querySelector('main header .line').append(logoutBtn);
+// Ao cadastrar uma TV, gere um token de ativação que será digitado apenas nela.
+async function generateActivation(code){if(!accessToken)return alert('Entre primeiro no painel');if(saveTimer){clearTimeout(saveTimer);saveTimer=null;await rpc('salvar_painel',{p_conteudo:data});}const token=[crypto.randomUUID(),crypto.randomUUID(),crypto.randomUUID()].join('-');try{await rpc('ativar_tv',{p_codigo:code,p_token:token});prompt('CÓDIGO SECRETO DA TV '+code+' — copie agora! O servidor só guarda o hash, não é possível recuperar depois. Para reemitir, use o botão novamente.',token)}catch(e){alert('Não foi possível ativar: '+e.message)}}
+const originalTvCard=tvCard;
+tvCard=function(d,edit){let html=originalTvCard(d,edit);if(edit)html=html.replace('>Excluir</button>',`>Excluir</button><button class="btn secondary small" onclick="generateActivation('${esc(d.id)}')">Chave da TV</button>`);return html};
+// Recarregar o estado ao voltar à aba, evitando mostrar dados desatualizados.
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&accessToken&&!saving)loadRemote().catch(console.warn)});
+setInterval(()=>{if(accessToken)refreshDeviceStatuses()},15000);
+if(accessToken)enterPanel();else authGate.style.display='grid';
+
 
 </script></body></html>
