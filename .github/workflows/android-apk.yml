@@ -13,7 +13,7 @@ on:
 
 jobs:
   apk:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Baixar arquivos
@@ -26,12 +26,19 @@ jobs:
           java-version: '17'
 
       - name: Configurar Android SDK
-        uses: android-actions/setup-android@v3
+        shell: bash
+        run: |
+          SDK_MANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
 
-      - name: Instalar Android SDK 35
-        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+          # Aceitar licencas para compilacao automatizada
+          (
+            set +o pipefail
+            yes | "$SDK_MANAGER" --licenses
+          )
 
-      - name: Configurar Gradle 8.9
+          "$SDK_MANAGER" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
