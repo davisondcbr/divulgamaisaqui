@@ -211,9 +211,17 @@ document.getElementById('authForm').addEventListener('submit',async e=>{e.preven
 async function logoutAdmin(){sessionStorage.removeItem('dma_access');sessionStorage.removeItem('dma_refresh');accessToken='';authGate.style.display='grid';}
 const logoutBtn=document.createElement('button');logoutBtn.className='btn secondary small';logoutBtn.textContent='Sair';logoutBtn.onclick=logoutAdmin;document.querySelector('main header .line').append(logoutBtn);
 // Ao cadastrar uma TV, gere um token de ativação que será digitado apenas nela.
-async function generateActivation(code){if(!accessToken)return alert('Entre primeiro no painel');if(saveTimer){clearTimeout(saveTimer);saveTimer=null;await rpc('salvar_painel',{p_conteudo:data});}const token=[crypto.randomUUID(),crypto.randomUUID(),crypto.randomUUID()].join('-');try{await rpc('ativar_tv',{p_codigo:code,p_token:token});prompt('CÓDIGO SECRETO DA TV '+code+' — copie agora! O servidor só guarda o hash, não é possível recuperar depois. Para reemitir, use o botão novamente.',token)}catch(e){alert('Não foi possível ativar: '+e.message)}}
+async function generateActivation(code){
+ if(!accessToken)return alert('Entre primeiro no painel');
+ if(saveTimer){clearTimeout(saveTimer);saveTimer=null;await rpc('salvar_painel',{p_conteudo:data});}
+ const pin=String(crypto.getRandomValues(new Uint32Array(1))[0]%1000000).padStart(6,'0');
+ try{
+  await rpc('ativar_tv',{p_codigo:code,p_token:pin});
+  prompt('PIN DA TV '+code+' — digite este PIN de 6 números no aparelho. O servidor guarda somente o hash; para trocar o PIN, clique em PIN da TV novamente.',pin);
+ }catch(e){alert('Não foi possível gerar o PIN: '+e.message)}
+}
 const originalTvCard=tvCard;
-tvCard=function(d,edit){let html=originalTvCard(d,edit);if(edit)html=html.replace('>Excluir</button>',`>Excluir</button><button class="btn secondary small" onclick="generateActivation('${esc(d.id)}')">Chave da TV</button>`);return html};
+tvCard=function(d,edit){let html=originalTvCard(d,edit);if(edit)html=html.replace('>Excluir</button>',`>Excluir</button><button class="btn secondary small" onclick="generateActivation('${esc(d.id)}')">PIN da TV</button>`);return html};
 // Recarregar o estado ao voltar à aba, evitando mostrar dados desatualizados.
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&accessToken&&!saving)loadRemote().catch(console.warn)});
 setInterval(()=>{if(accessToken)refreshDeviceStatuses()},15000);
