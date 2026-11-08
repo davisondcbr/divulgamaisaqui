@@ -25,13 +25,13 @@ button,input,textarea,select{font:inherit}.hidden{display:none!important}
 </style>
 </head>
 <body>
-<section id="login" class="login">
+<section id="loginScreen" class="login">
  <div class="login-card">
   <div class="logo">DIVULGA<i>+</i>AQUI</div>
   <h1>Painel Administrativo</h1><p>Entre para gerenciar os sites e materiais dos clientes.</p>
   <div class="field"><label>E-mail</label><input id="email" type="email" autocomplete="username" placeholder="seu@email.com"></div>
   <div class="field"><label>Senha</label><input id="pass" type="password" autocomplete="current-password" placeholder="Sua senha"></div>
-  <div id="err" class="err"></div><button class="primary" onclick="login()">Entrar</button>
+  <div id="err" class="err"></div><button class="primary" onclick="doLogin()">Entrar</button>
  </div>
 </section>
 
@@ -95,14 +95,14 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const SITES_BUCKET='sites-media';
 let photosData=[], editing=null, companies=[];
 
-async function login(){
-  err.textContent='Entrando...';
-  const {error}=await sb.auth.signInWithPassword({email:email.value.trim(),password:pass.value});
-  if(error){err.textContent='Não foi possível entrar. Confira e-mail e senha.';return}
-  err.textContent=''; await showApp();
+async function doLogin(){
+  document.getElementById('err').textContent='Entrando...';
+  const emailValue=document.getElementById('email').value.trim(); const passwordValue=document.getElementById('pass').value; const {error}=await sb.auth.signInWithPassword({email:emailValue,password:passwordValue});
+  if(error){document.getElementById('err').textContent='Não foi possível entrar: '+error.message;return}
+  document.getElementById('err').textContent=''; await showApp();
 }
 async function logout(){await sb.auth.signOut();location.reload()}
-async function showApp(){login.classList.add('hidden');app.classList.remove('hidden');await loadCompanies();renderAll()}
+async function showApp(){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('app').classList.remove('hidden');await loadCompanies();renderAll()}
 document.querySelectorAll('.nav button[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
 function showView(id){
  document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));
