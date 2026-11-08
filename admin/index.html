@@ -169,6 +169,12 @@ function nextCode(){
  let m=companies.reduce((a,x)=>Math.max(a,parseInt((x.codigo||'').replace(/\D/g,''))||0),0);
  return 'DA-'+String(m+1).padStart(4,'0')
 }
+async function nextCodeFromDatabase(){
+ const {data,error}=await sb.from('sites_clientes').select('codigo');
+ if(error) throw error;
+ let m=(data||[]).reduce((a,x)=>Math.max(a,parseInt((x.codigo||'').replace(/\D/g,''))||0),0);
+ return 'DA-'+String(m+1).padStart(4,'0');
+}
 function formData(){
  return {codigo:editing||nextCode(),nome:company.value.trim(),whatsapp:whatsapp.value.trim(),endereco:address.value.trim(),instagram:instagram.value.trim(),descricao:description.value.trim(),tema:theme.value,destaque:accent.value,status:'Publicado'}
 }
@@ -199,20 +205,36 @@ async function uploadPhotos(clientId,code){
  }
 }
 async function saveCompany(){
- const o=formData();
  try{
-  let client;
+  let o=formData(), client;
+  if(!o.nome){alert('Informe o nome da empresa.');return}
   if(editing){
+   o.codigo=editing;
    const old=companies.find(x=>x.codigo===editing);
-   const {data,error}=await sb.from('sites_clientes').update(o).eq('codigo',editing).select().single();
-   if(error) throw error; client=data||old;
+   const {data,error}=await sb.from('sites_clientes').update({
+    nome:o.nome,whatsapp:o.whatsapp,endereco:o.endereco,instagram:o.instagram,
+    descricao:o.descricao,tema:o.tema,destaque:o.destaque,status:o.status,updated_at:new Date().toISOString()
+   }).eq('codigo',editing).select().single();
+   if(error) throw error;
+   client=data||old;
   }else{
-   const {data,error}=await sb.from('sites_clientes').insert(o).select().single();
-   if(error) throw error; client=data;
+   // Sempre consulta o banco imediatamente antes de inserir.
+   // Se houver concorrência/registro antigo, tenta automaticamente o próximo código.
+   let attempts=0;
+   while(attempts<20){
+    o.codigo=await nextCodeFromDatabase();
+    const {data,error}=await sb.from('sites_clientes').insert(o).select().single();
+    if(!error){client=data;break}
+    if(error.code==='23505' || String(error.message||'').includes('duplicate key')){
+      attempts++; await loadCompanies(); continue;
+    }
+    throw error;
+   }
+   if(!client) throw new Error('Não foi possível gerar um código livre após várias tentativas.');
   }
   if(photosData.some(x=>x.file)) await uploadPhotos(client.id,o.codigo);
-  alert('Salvo no Supabase! Código: '+o.codigo);
-  editing=null;photosData=[];await loadCompanies();showView('companies');
+  alert('Salvo com sucesso! Código: '+o.codigo);
+  editing=null;photosData=[];await loadCompanies();renderAll();showView('companies');
  }catch(e){
   console.error(e); alert('Não foi possível salvar: '+(e.message||'erro desconhecido'));
  }
@@ -221,9 +243,8 @@ function editCompany(code){
  const o=companies.find(x=>x.codigo===code);if(!o)return;
  editing=code;company.value=o.nome||'';whatsapp.value=o.whatsapp||'';address.value=o.endereco||'';
  instagram.value=o.instagram||'';description.value=o.descricao||'';theme.value=o.tema||'Profissional Azul';accent.value=o.destaque||'Azul';
- photosData=(o.sites_midias||[]).map(x=>({preview:x.url}));
- thumbs.innerHTML='';photosData.forEach(x=>{let i=document.createElement('img');i.src=x.preview;thumbs.appendChild(i)});
- goStep(1);showView('creator')
+ photosData=(o.sites_midias||[]).map(x=>({id:x.id,preview:x.url,url:x.url,caminho:x.caminho,isNew:false}));
+ renderThumbs();goStep(1);showView('creator')
 }
 async function delCompany(code){
  if(!confirm('Excluir '+code+'?'))return;
