@@ -1,1 +1,227 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DIVULGA+AQUI — Painel Admin</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#071a33}.wrap{min-height:100vh;display:grid;place-items:center;padding:24px}.card{width:min(720px,100%);background:#fff;border-radius:24px;padding:36px;box-shadow:0 20px 60px #001a4420}.brand{font-size:34px;font-weight:900;letter-spacing:-2px}.brand b{color:#79d000}h1{margin:28px 0 10px;font-size:26px}.tag{color:#607089;line-height:1.6}.status{margin-top:28px;padding:18px;border-radius:16px;background:#eef8ff;border:1px solid #cceaff}.status strong{display:block;margin-bottom:6px;color:#0067c8}.note{font-size:13px;color:#7b8798;margin-top:24px}</style></head><body><main class="wrap"><section class="card"><div class="brand">DIVULGA<b>+</b>AQUI</div><h1>Painel Administrativo</h1><p class="tag">Área administrativa separada do site público. Esta estrutura está pronta para receber o painel de gerenciamento do DIVULGA+AQUI sem alterar o index principal.</p><div class="status"><strong>✓ Área /admin/ criada</strong>O próximo passo é colocar aqui os recursos do painel administrativo já desenvolvido.</div><p class="note">O site público continua funcionando normalmente na raiz do GitHub Pages.</p></section></main></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DIVULGA+AQUI — Admin</title>
+<style>
+:root{--nav:#061d3a;--nav2:#073f82;--bg:#07182d;--card:#0d2743;--line:#24527c;--blue:#0787ff;--green:#16c85b;--text:#f7fbff;--muted:#9db2c9;--danger:#ff3d43}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#061426,#092849);color:var(--text)}
+button,input,textarea,select{font:inherit}.hidden{display:none!important}
+.login{min-height:100vh;display:grid;place-items:center;padding:24px}.login-card{width:min(430px,100%);background:#fff;color:#07182d;border-radius:26px;padding:36px;box-shadow:0 30px 80px #0007}
+.logo{font-size:34px;font-weight:1000;letter-spacing:-2px}.logo i{font-style:normal;color:#71df00}.login-card h1{margin:25px 0 8px}.login-card p{color:#64748b}
+.field{margin:15px 0}.field label{display:block;font-weight:800;margin-bottom:7px}.field input,.field textarea,.field select{width:100%;padding:13px 14px;border:1px solid #b9c6d5;border-radius:12px;outline:none}.primary{border:0;background:linear-gradient(135deg,#008bff,#005eea);color:#fff;font-weight:900;padding:13px 18px;border-radius:12px;cursor:pointer}.login-card .primary{width:100%;margin-top:8px}
+.err{color:#d71920;font-weight:700;font-size:13px;min-height:18px}
+.app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}.side{background:linear-gradient(180deg,#052c5d,#03182f);padding:26px 16px;position:sticky;top:0;height:100vh}.side .logo{padding:0 15px 25px}.nav button{width:100%;border:0;background:transparent;color:#dcecff;text-align:left;padding:14px 16px;border-radius:11px;margin:3px 0;font-weight:800;cursor:pointer}.nav button.active,.nav button:hover{background:#0878e9}.main{min-width:0}.top{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:#071a31;border-bottom:1px solid #234767}.top h2{margin:0}.content{padding:24px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.stat{border-radius:16px;padding:20px;background:linear-gradient(135deg,#087dea,#0456c5);box-shadow:0 10px 30px #0003}.stat:nth-child(2){background:linear-gradient(135deg,#12b95a,#087c3d)}.stat:nth-child(3){background:linear-gradient(135deg,#ff9618,#d94d0a)}.stat:nth-child(4){background:linear-gradient(135deg,#8a49ef,#5626b9)}.stat small{font-weight:800}.stat b{display:block;font-size:34px;margin-top:5px}
+.panel{margin-top:20px;background:#0b223d;border:1px solid #2b5f8e;border-radius:18px;overflow:hidden}.panel-head{padding:18px 22px;border-bottom:1px solid #315978;display:flex;align-items:center;justify-content:space-between}.panel-head h3{margin:0}.panel-body{padding:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.dark-field label{display:block;font-weight:800;margin-bottom:7px}.dark-field input,.dark-field textarea,.dark-field select{width:100%;background:#102e4d;color:#fff;border:1px solid #456987;border-radius:11px;padding:12px}.dark-field textarea{min-height:100px;resize:vertical}
+.steps{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.step{background:#153654;color:#aac1d7;padding:9px 13px;border-radius:999px;font-weight:800}.step.on{background:#087ff0;color:#fff}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}.secondary{border:1px solid #4d7599;background:#153653;color:#fff;padding:12px 17px;border-radius:11px;font-weight:800;cursor:pointer}
+.upload{border:2px dashed #3b6f9e;border-radius:15px;padding:24px;text-align:center}.upload input{max-width:100%}.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.thumbs img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.codebox{text-align:center;padding:30px}.code{font-size:36px;font-weight:1000;color:#51b8ff;letter-spacing:2px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:700px}th,td{text-align:left;padding:13px;border-bottom:1px solid #294967}th{color:#bcd0e2}.badge{display:inline-block;background:#087a43;padding:5px 12px;border-radius:999px;font-weight:800}.mini{border:0;border-radius:8px;padding:8px 10px;color:#fff;font-weight:800;cursor:pointer;background:#0878e9}.mini.danger{background:#e62f38}.empty{color:#91a9bf;text-align:center;padding:28px}
+.preview{background:#fff;color:#081a2e;border-radius:16px;overflow:hidden}.preview-cover{min-height:190px;background:linear-gradient(135deg,#0a5ca9,#091d37);display:grid;place-items:center;text-align:center;color:#fff;padding:20px}.preview-cover h1{margin:0;font-size:32px}.preview-info{padding:20px}.preview-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.preview-gallery img{width:100%;aspect-ratio:1.2;object-fit:cover;border-radius:8px}
+.notice{background:#0d385a;border:1px solid #2476ae;padding:13px;border-radius:12px;color:#cceaff;margin-bottom:16px}
+@media(max-width:900px){.app{grid-template-columns:1fr}.side{height:auto;position:static}.nav{display:flex;overflow:auto}.nav button{min-width:max-content}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.thumbs{grid-template-columns:repeat(3,1fr)}}@media(max-width:540px){.stats{grid-template-columns:1fr}.content{padding:14px}.top{padding:0 15px}.top h2{font-size:19px}}
+</style>
+</head>
+<body>
+<section id="login" class="login">
+ <div class="login-card">
+  <div class="logo">DIVULGA<i>+</i>AQUI</div>
+  <h1>Painel Administrativo</h1><p>Entre para gerenciar os sites e materiais dos clientes.</p>
+  <div class="field"><label>E-mail</label><input id="email" type="email" autocomplete="username" placeholder="seu@email.com"></div>
+  <div class="field"><label>Senha</label><input id="pass" type="password" autocomplete="current-password" placeholder="Sua senha"></div>
+  <div id="err" class="err"></div><button class="primary" onclick="login()">Entrar</button>
+ </div>
+</section>
+
+<section id="app" class="app hidden">
+ <aside class="side">
+  <div class="logo">DIVULGA<i>+</i><br>AQUI</div>
+  <div class="nav">
+   <button data-view="dashboard" class="active">⌂ Dashboard</button>
+   <button data-view="creator">▣ Criador de Sites</button>
+   <button data-view="companies">▦ Empresas / Sites</button>
+   <button data-view="media">▧ Fotos e Mídia</button>
+   <button data-view="settings">⚙ Configurações</button>
+   <button onclick="logout()">↪ Sair</button>
+  </div>
+ </aside>
+ <main class="main">
+  <header class="top"><h2 id="title">Painel Administrativo</h2><strong>Administrador</strong></header>
+  <div class="content">
+   <section id="dashboard" class="view">
+    <div class="stats">
+     <div class="stat"><small>Sites Criados</small><b id="sSites">0</b></div>
+     <div class="stat"><small>Empresas</small><b id="sCompanies">0</b></div>
+     <div class="stat"><small>Fotos Salvas</small><b id="sPhotos">0</b></div>
+     <div class="stat"><small>Códigos Gerados</small><b id="sCodes">0</b></div>
+    </div>
+    <div class="panel"><div class="panel-head"><h3>Criador de Sites</h3><button class="primary" onclick="openCreator()">+ Novo Site</button></div>
+     <div class="panel-body"><div class="notice">Cadastre uma empresa, adicione fotos e gere um código único. Os dados desta versão ficam salvos neste navegador.</div><div id="dashTable"></div></div>
+    </div>
+   </section>
+
+   <section id="creator" class="view hidden">
+    <div class="panel"><div class="panel-head"><h3>Criador de Sites</h3></div><div class="panel-body">
+     <div class="steps"><span class="step on" id="st1">1 Dados da Empresa</span><span class="step" id="st2">2 Fotos e Mídia</span><span class="step" id="st3">3 Modelo</span><span class="step" id="st4">4 Gerar Código</span></div>
+     <div id="step1">
+      <div class="grid">
+       <div class="dark-field"><label>Nome da Empresa *</label><input id="company" placeholder="Ex.: Casa Amaral"></div>
+       <div class="dark-field"><label>WhatsApp</label><input id="whatsapp" placeholder="(14) 99999-9999"></div>
+       <div class="dark-field"><label>Endereço</label><input id="address" placeholder="Rua, número — cidade/UF"></div>
+       <div class="dark-field"><label>Instagram</label><input id="instagram" placeholder="@suaempresa"></div>
+       <div class="dark-field" style="grid-column:1/-1"><label>Descrição / Sobre a Empresa</label><textarea id="description" placeholder="Descreva os produtos ou serviços..."></textarea></div>
+      </div>
+      <div class="actions"><button class="primary" onclick="goStep(2)">Próximo →</button></div>
+     </div>
+     <div id="step2" class="hidden"><div class="upload"><h3>Fotos e logotipo</h3><p>Selecione imagens do cliente.</p><input id="photos" type="file" accept="image/*" multiple onchange="readPhotos(this.files)"><div id="thumbs" class="thumbs"></div></div><div class="actions"><button class="secondary" onclick="goStep(1)">← Voltar</button><button class="primary" onclick="goStep(3)">Próximo →</button></div></div>
+     <div id="step3" class="hidden"><div class="grid"><div class="dark-field"><label>Modelo</label><select id="theme"><option>Profissional Azul</option><option>Clean Claro</option><option>Escuro Premium</option></select></div><div class="dark-field"><label>Cor de destaque</label><select id="accent"><option>Azul</option><option>Verde</option><option>Laranja</option></select></div></div><div class="actions"><button class="secondary" onclick="goStep(2)">← Voltar</button><button class="primary" onclick="goStep(4)">Visualizar →</button></div></div>
+     <div id="step4" class="hidden"><div id="preview"></div><div class="codebox"><div>O código será criado ao salvar:</div><div class="code" id="newCode">DA-0001</div></div><div class="actions"><button class="secondary" onclick="goStep(3)">← Voltar</button><button class="primary" onclick="saveCompany()">Salvar e gerar código</button></div></div>
+    </div></div>
+   </section>
+
+   <section id="companies" class="view hidden"><div class="panel"><div class="panel-head"><h3>Empresas / Sites cadastrados</h3><button class="primary" onclick="openCreator()">+ Novo Site</button></div><div class="panel-body" id="companiesTable"></div></div></section>
+   <section id="media" class="view hidden"><div class="panel"><div class="panel-head"><h3>Fotos e Mídia</h3></div><div class="panel-body"><div id="mediaGrid" class="thumbs"></div></div></section>
+   <section id="settings" class="view hidden"><div class="panel"><div class="panel-head"><h3>Configurações</h3></div><div class="panel-body"><div class="notice">Painel conectado ao Supabase Auth, Database e Storage. Os cadastros e imagens ficam disponíveis em qualquer dispositivo autorizado.</div></div></div></section>
+  </div>
+ </main>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://rscdamfwtpvdbidbseqg.supabase.co';
+const SUPABASE_KEY='sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3-kk';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const SITES_BUCKET='sites-media';
+let photosData=[], editing=null, companies=[];
+
+async function login(){
+  err.textContent='Entrando...';
+  const {error}=await sb.auth.signInWithPassword({email:email.value.trim(),password:pass.value});
+  if(error){err.textContent='Não foi possível entrar. Confira e-mail e senha.';return}
+  err.textContent=''; await showApp();
+}
+async function logout(){await sb.auth.signOut();location.reload()}
+async function showApp(){login.classList.add('hidden');app.classList.remove('hidden');await loadCompanies();renderAll()}
+document.querySelectorAll('.nav button[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
+function showView(id){
+ document.querySelectorAll('.view').forEach(v=>v.classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ document.querySelector(`[data-view="${id}"]`)?.classList.add('active');
+ title.textContent=id==='creator'?'Criador de Sites':id==='companies'?'Empresas / Sites':id==='media'?'Fotos e Mídia':id==='settings'?'Configurações':'Painel Administrativo';
+ renderAll()
+}
+function openCreator(){
+ editing=null;photosData=[];
+ ['company','whatsapp','address','instagram','description'].forEach(x=>document.getElementById(x).value='');
+ thumbs.innerHTML='';goStep(1);showView('creator')
+}
+function goStep(n){
+ if(n>1&&!company.value.trim()){alert('Informe o nome da empresa.');return}
+ for(let i=1;i<=4;i++){
+  document.getElementById('step'+i).classList.toggle('hidden',i!==n);
+  document.getElementById('st'+i).classList.toggle('on',i===n)
+ }
+ if(n===4){newCode.textContent=editing||nextCode();renderPreview()}
+}
+function readPhotos(files){
+ photosData=[];thumbs.innerHTML='';
+ [...files].slice(0,8).forEach(f=>{
+  const r=new FileReader();
+  r.onload=e=>{photosData.push({file:f,preview:e.target.result});const im=document.createElement('img');im.src=e.target.result;thumbs.appendChild(im)};
+  r.readAsDataURL(f)
+ })
+}
+function nextCode(){
+ let m=companies.reduce((a,x)=>Math.max(a,parseInt((x.codigo||'').replace(/\D/g,''))||0),0);
+ return 'DA-'+String(m+1).padStart(4,'0')
+}
+function formData(){
+ return {codigo:editing||nextCode(),nome:company.value.trim(),whatsapp:whatsapp.value.trim(),endereco:address.value.trim(),instagram:instagram.value.trim(),descricao:description.value.trim(),tema:theme.value,destaque:accent.value,status:'Publicado'}
+}
+async function ensureSchema(){
+ const {error}=await sb.from('sites_clientes').select('id').limit(1);
+ return !error;
+}
+async function loadCompanies(){
+ const {data,error}=await sb.from('sites_clientes').select('*, sites_midias(*)').order('created_at',{ascending:false});
+ if(error){
+  companies=[];
+  console.error(error);
+  document.querySelectorAll('.notice').forEach(n=>n.innerHTML='O painel conectou ao Supabase, mas as tabelas do Criador de Sites ainda precisam ser criadas. Use o arquivo <b>supabase_sites.sql</b> incluído no pacote.');
+  return;
+ }
+ companies=data||[];
+}
+async function uploadPhotos(clientId,code){
+ for(const item of photosData){
+  if(!item.file) continue;
+  const ext=(item.file.name.split('.').pop()||'jpg').toLowerCase();
+  const path=`${code}/${crypto.randomUUID()}.${ext}`;
+  const {error}=await sb.storage.from(SITES_BUCKET).upload(path,item.file,{upsert:false,contentType:item.file.type});
+  if(error) throw error;
+  const {data:u}=sb.storage.from(SITES_BUCKET).getPublicUrl(path);
+  const {error:dbErr}=await sb.from('sites_midias').insert({cliente_id:clientId,url:u.publicUrl,caminho:path,tipo:'foto'});
+  if(dbErr) throw dbErr;
+ }
+}
+async function saveCompany(){
+ const o=formData();
+ try{
+  let client;
+  if(editing){
+   const old=companies.find(x=>x.codigo===editing);
+   const {data,error}=await sb.from('sites_clientes').update(o).eq('codigo',editing).select().single();
+   if(error) throw error; client=data||old;
+  }else{
+   const {data,error}=await sb.from('sites_clientes').insert(o).select().single();
+   if(error) throw error; client=data;
+  }
+  if(photosData.some(x=>x.file)) await uploadPhotos(client.id,o.codigo);
+  alert('Salvo no Supabase! Código: '+o.codigo);
+  editing=null;photosData=[];await loadCompanies();showView('companies');
+ }catch(e){
+  console.error(e); alert('Não foi possível salvar. Verifique se executou o arquivo supabase_sites.sql no Supabase.');
+ }
+}
+function editCompany(code){
+ const o=companies.find(x=>x.codigo===code);if(!o)return;
+ editing=code;company.value=o.nome||'';whatsapp.value=o.whatsapp||'';address.value=o.endereco||'';
+ instagram.value=o.instagram||'';description.value=o.descricao||'';theme.value=o.tema||'Profissional Azul';accent.value=o.destaque||'Azul';
+ photosData=(o.sites_midias||[]).map(x=>({preview:x.url}));
+ thumbs.innerHTML='';photosData.forEach(x=>{let i=document.createElement('img');i.src=x.preview;thumbs.appendChild(i)});
+ goStep(1);showView('creator')
+}
+async function delCompany(code){
+ if(!confirm('Excluir '+code+'?'))return;
+ const o=companies.find(x=>x.codigo===code);
+ if(o?.sites_midias?.length){
+  const paths=o.sites_midias.map(x=>x.caminho).filter(Boolean);
+  if(paths.length) await sb.storage.from(SITES_BUCKET).remove(paths);
+ }
+ const {error}=await sb.from('sites_clientes').delete().eq('codigo',code);
+ if(error){alert('Não foi possível excluir.');return}
+ await loadCompanies();renderAll()
+}
+function renderPreview(){
+ const o=formData();
+ const pics=photosData.map(x=>x.preview).filter(Boolean);
+ preview.innerHTML=`<div class="preview"><div class="preview-cover"><div><h1>${esc(o.nome)}</h1><p>${esc(o.descricao||'Produtos e serviços')}</p></div></div><div class="preview-info"><b>${esc(o.whatsapp)}</b><p>${esc(o.endereco)}</p><div class="preview-gallery">${pics.slice(0,3).map(x=>`<img src="${x}">`).join('')}</div></div></div>`
+}
+function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function tableHTML(d){
+ if(!d.length)return '<div class="empty">Nenhuma empresa cadastrada ainda.</div>';
+ return `<div class="table-wrap"><table><thead><tr><th>Código</th><th>Empresa</th><th>Status</th><th>Data</th><th>Ações</th></tr></thead><tbody>${d.map(o=>`<tr><td><b>${o.codigo}</b></td><td>${esc(o.nome)}</td><td><span class="badge">${esc(o.status||'Publicado')}</span></td><td>${o.created_at?new Date(o.created_at).toLocaleDateString('pt-BR'):'-'}</td><td><button class="mini" onclick="editCompany('${o.codigo}')">Editar</button> <button class="mini danger" onclick="delCompany('${o.codigo}')">Excluir</button></td></tr>`).join('')}</tbody></table></div>`
+}
+function renderAll(){
+ sSites.textContent=companies.length;sCompanies.textContent=companies.length;
+ const medias=companies.flatMap(x=>x.sites_midias||[]);
+ sPhotos.textContent=medias.length;sCodes.textContent=companies.length;
+ dashTable.innerHTML=tableHTML(companies.slice(0,5));companiesTable.innerHTML=tableHTML(companies);
+ mediaGrid.innerHTML=medias.length?medias.map(x=>`<img src="${x.url}" alt="">`).join(''):'<div class="empty">Nenhuma foto salva.</div>'
+}
+async function clearData(){alert('Para segurança, a exclusão geral foi desativada. Exclua cada empresa individualmente.')}
+(async()=>{const {data}=await sb.auth.getSession();if(data.session)await showApp()})();
+</script>
+</body></html>
