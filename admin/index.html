@@ -253,6 +253,13 @@ async function uploadPhotos(clientId,code){
 async function saveCompany(downloadAfter=false){
  try{
   let o=formData(), client;
+  const editorPics=photosData.map(x=>x.preview).filter(Boolean);
+  const editorButtons=customButtons.map((b,i)=>({
+    nome:String(b.nome||'').trim(),
+    link:safeUrl(b.link),
+    ordem:i
+  })).filter(b=>b.nome&&b.link);
+  const editorHtml=downloadAfter?buildStandaloneHtml(o,editorPics,editorButtons):null;
   if(!o.nome){alert('Informe o nome da empresa.');return}
   if(editing){
    o.codigo=editing;
@@ -281,8 +288,14 @@ async function saveCompany(downloadAfter=false){
   if(photosData.some(x=>x.file)) await uploadPhotos(client.id,o.codigo);
   await saveCustomButtons(client.id);
   await loadCompanies();renderAll();
-  if(downloadAfter) downloadSiteIndex(o.codigo,customButtons.map((b,i)=>({nome:String(b.nome||'').trim(),link:safeUrl(b.link),ordem:i})).filter(b=>b.nome&&b.link));
-  alert('Salvo com sucesso! Código: '+o.codigo+(downloadAfter?' — o INDEX foi preparado para download.':''));
+  if(downloadAfter){
+   const blob=new Blob([editorHtml],{type:'text/html;charset=utf-8'});
+   const url=URL.createObjectURL(blob);
+   const a=document.createElement('a');
+   a.href=url;a.download='index.html';document.body.appendChild(a);a.click();a.remove();
+   setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }
+  alert('Salvo com sucesso! Código: '+o.codigo+(downloadAfter?' — o INDEX foi baixado com a mesma pré-visualização.':''));
   editing=null;photosData=[];showView('companies');
  }catch(e){
   console.error(e); alert('Não foi possível salvar: '+(e.message||'erro desconhecido'));
