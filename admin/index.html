@@ -29,6 +29,14 @@ button,input,textarea,select{font:inherit}.hidden{display:none!important}
 .preview{background:#fff;color:#081a2e;border-radius:16px;overflow:hidden}.preview-cover{min-height:190px;background:linear-gradient(135deg,#0a5ca9,#091d37);display:grid;place-items:center;text-align:center;color:#fff;padding:20px}.preview-cover h1{margin:0;font-size:32px}.preview-info{padding:20px}.preview-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.preview-gallery img{width:100%;aspect-ratio:1.2;object-fit:cover;border-radius:8px}
 .notice{background:#0d385a;border:1px solid #2476ae;padding:13px;border-radius:12px;color:#cceaff;margin-bottom:16px}
 @media(max-width:900px){.app{grid-template-columns:1fr}.side{height:auto;position:static}.nav{display:flex;overflow:auto}.nav button{min-width:max-content}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.thumbs{grid-template-columns:repeat(3,1fr)}}@media(max-width:540px){.stats{grid-template-columns:1fr}.content{padding:14px}.top{padding:0 15px}.top h2{font-size:19px}}
+
+.link-editor{margin:24px 0;padding:20px;border:1px solid #dce5ef;border-radius:18px;background:#f8fbff}
+.link-editor h4{margin:0 0 6px}.link-editor p{margin:0 0 15px;color:#64748b;font-size:13px}
+.link-row{display:grid;grid-template-columns:1fr 1.6fr auto;gap:10px;align-items:end;margin:10px 0}
+.link-row label{font-size:12px;font-weight:800;color:#475569;display:block;margin-bottom:5px}
+.link-row input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px;background:#fff}
+.link-remove{height:43px;padding:0 14px;border:0;border-radius:11px;background:#fee2e2;color:#991b1b;font-weight:900;cursor:pointer}
+@media(max-width:700px){.link-row{grid-template-columns:1fr}.link-remove{width:100%}}
 </style>
 </head>
 <body>
@@ -83,7 +91,14 @@ button,input,textarea,select{font:inherit}.hidden{display:none!important}
       <div class="actions"><button class="primary" onclick="goStep(2)">Próximo →</button></div>
      </div>
      <div id="step2" class="hidden"><div class="upload"><h3>Editor de Fotos e Mídia</h3><p>Adicione novas fotos quando quiser. Para excluir uma foto, use o botão × sobre ela.</p><input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple onchange="readPhotos(this.files)"><span class="media-add">As fotos existentes são mantidas. Novas imagens são acrescentadas ao site.</span><div id="thumbs" class="thumbs"></div></div><div class="actions"><button class="secondary" onclick="goStep(1)">← Voltar</button><button class="primary" onclick="goStep(3)">Próximo →</button></div></div>
-     <div id="step3" class="hidden"><div class="grid"><div class="dark-field"><label>Modelo</label><select id="theme"><option>Profissional Azul</option><option>Clean Claro</option><option>Escuro Premium</option></select></div><div class="dark-field"><label>Cor de destaque</label><select id="accent"><option>Azul</option><option>Verde</option><option>Laranja</option></select></div></div><div class="actions"><button class="secondary" onclick="goStep(2)">← Voltar</button><button class="primary" onclick="goStep(4)">Visualizar →</button></div></div>
+     <div id="step3" class="hidden">
+<div class="link-editor">
+ <h4>Botões e Links do Site</h4>
+ <p>Crie quantos botões quiser. Ex.: Cardápio, Catálogo, Instagram, Localização, Comprar agora.</p>
+ <div id="linksEditor"></div>
+ <button type="button" class="secondary" onclick="addCustomButton()">+ Adicionar botão</button>
+</div>
+<div class="grid"><div class="dark-field"><label>Modelo</label><select id="theme"><option>Profissional Azul</option><option>Clean Claro</option><option>Escuro Premium</option></select></div><div class="dark-field"><label>Cor de destaque</label><select id="accent"><option>Azul</option><option>Verde</option><option>Laranja</option></select></div></div><div class="actions"><button class="secondary" onclick="goStep(2)">← Voltar</button><button class="primary" onclick="goStep(4)">Visualizar →</button></div></div>
      <div id="step4" class="hidden">
 <div class="preview-toolbar"><b>Pré-visualização do site</b><button id="openPublished" class="success-btn hidden" onclick="openSite(editing)">↗ Abrir site publicado</button></div>
 <iframe id="sitePreview" class="site-frame" title="Pré-visualização do site"></iframe>
@@ -104,7 +119,7 @@ const SUPABASE_URL='https://rscdamfwtpvdbidbseqg.supabase.co';
 const SUPABASE_KEY='sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3-kk';
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const SITES_BUCKET='sites-media';
-let photosData=[], editing=null, companies=[];
+let photosData=[], customButtons=[], editing=null, companies=[];
 
 async function doLogin(){
   document.getElementById('err').textContent='Entrando...';
@@ -124,7 +139,7 @@ function showView(id){
  renderAll()
 }
 function openCreator(){
- editing=null;photosData=[];
+ editing=null;photosData=[];customButtons=[];renderCustomButtons();
  ['company','whatsapp','address','instagram','description'].forEach(x=>document.getElementById(x).value='');
  renderThumbs();goStep(1);showView('creator')
 }
@@ -175,6 +190,37 @@ async function nextCodeFromDatabase(){
  let m=(data||[]).reduce((a,x)=>Math.max(a,parseInt((x.codigo||'').replace(/\D/g,''))||0),0);
  return 'DA-'+String(m+1).padStart(4,'0');
 }
+
+function safeUrl(v){
+ let u=String(v||'').trim();
+ if(!u)return '';
+ if(/^https?:\/\//i.test(u))return u;
+ if(/^www\./i.test(u))return 'https://'+u;
+ return u;
+}
+function addCustomButton(nome='',link=''){
+ customButtons.push({nome,link});
+ renderCustomButtons();
+}
+function renderCustomButtons(){
+ const box=document.getElementById('linksEditor');if(!box)return;
+ box.innerHTML=customButtons.map((b,i)=>`<div class="link-row">
+  <div><label>Nome do botão</label><input value="${esc(b.nome||'')}" placeholder="Ex.: Ver catálogo" oninput="customButtons[${i}].nome=this.value"></div>
+  <div><label>Link</label><input value="${esc(b.link||'')}" placeholder="https://..." oninput="customButtons[${i}].link=this.value"></div>
+  <button type="button" class="link-remove" onclick="removeCustomButton(${i})">Excluir</button>
+ </div>`).join('');
+}
+function removeCustomButton(i){customButtons.splice(i,1);renderCustomButtons()}
+async function saveCustomButtons(clientId){
+ const {error:delErr}=await sb.from('sites_botoes').delete().eq('cliente_id',clientId);
+ if(delErr) throw delErr;
+ const rows=customButtons.map((b,i)=>({cliente_id:clientId,nome:String(b.nome||'').trim(),link:safeUrl(b.link),ordem:i}))
+   .filter(x=>x.nome&&x.link);
+ if(rows.length){
+   const {error}=await sb.from('sites_botoes').insert(rows);
+   if(error) throw error;
+ }
+}
 function formData(){
  return {codigo:editing||nextCode(),nome:company.value.trim(),whatsapp:whatsapp.value.trim(),endereco:address.value.trim(),instagram:instagram.value.trim(),descricao:description.value.trim(),tema:theme.value,destaque:accent.value,status:'Publicado'}
 }
@@ -183,7 +229,7 @@ async function ensureSchema(){
  return !error;
 }
 async function loadCompanies(){
- const {data,error}=await sb.from('sites_clientes').select('*, sites_midias(*)').order('created_at',{ascending:false});
+ const {data,error}=await sb.from('sites_clientes').select('*, sites_midias(*), sites_botoes(*)').order('created_at',{ascending:false});
  if(error){
   companies=[];
   console.error(error);
@@ -233,6 +279,7 @@ async function saveCompany(downloadAfter=false){
    if(!client) throw new Error('Não foi possível gerar um código livre após várias tentativas.');
   }
   if(photosData.some(x=>x.file)) await uploadPhotos(client.id,o.codigo);
+  await saveCustomButtons(client.id);
   await loadCompanies();renderAll();
   if(downloadAfter) downloadSiteIndex(o.codigo);
   alert('Salvo com sucesso! Código: '+o.codigo+(downloadAfter?' — o INDEX foi preparado para download.':''));
@@ -246,7 +293,8 @@ function editCompany(code){
  editing=code;company.value=o.nome||'';whatsapp.value=o.whatsapp||'';address.value=o.endereco||'';
  instagram.value=o.instagram||'';description.value=o.descricao||'';theme.value=o.tema||'Profissional Azul';accent.value=o.destaque||'Azul';
  photosData=(o.sites_midias||[]).map(x=>({id:x.id,preview:x.url,url:x.url,caminho:x.caminho,isNew:false}));
- renderThumbs();goStep(1);showView('creator')
+ customButtons=(o.sites_botoes||[]).sort((a,b)=>(a.ordem||0)-(b.ordem||0)).map(x=>({nome:x.nome||'',link:x.link||''}));
+ renderThumbs();renderCustomButtons();goStep(1);showView('creator')
 }
 async function delCompany(code){
  if(!confirm('Excluir '+code+'?'))return;
@@ -263,6 +311,9 @@ function buildStandaloneHtml(o,pics){
  const hero=pics[0]||'';
  const gallery=pics.map((x,i)=>`<button class="photo" type="button" data-src="${x}" aria-label="Ampliar foto ${i+1}"><img src="${x}" alt="Foto ${i+1}" loading="lazy"><span>Ampliar</span></button>`).join('');
  const phone=esc(o.whatsapp||'WhatsApp');
+ const btns=(o.sites_botoes||customButtons||[]).slice().sort((a,b)=>(a.ordem||0)-(b.ordem||0))
+  .filter(b=>b.nome&&b.link)
+  .map(b=>`<a class="custom-link" href="${safeUrl(b.link)}" target="_blank" rel="noopener">${esc(b.nome)}</a>`).join('');
  const accent=o.destaque==='Verde'?'#62d000':o.destaque==='Laranja'?'#ff8b19':'#168cff';
  const dark=o.tema==='Escuro Premium';
  const bg=dark?'#06111f':'#f4f7fb', fg=dark?'#f7fbff':'#071b34', card=dark?'#0b2037':'#fff';
@@ -276,6 +327,7 @@ function buildStandaloneHtml(o,pics){
  .hero{min-height:610px;display:grid;place-items:center;text-align:center;padding:90px 7%;color:#fff;position:relative;background:linear-gradient(180deg,#04142682,#041426e8),url("${hero}");background-size:cover;background-position:center}.hero:after{content:"";position:absolute;inset:auto 0 0;height:160px;background:linear-gradient(transparent,${bg})}.hero-content{position:relative;z-index:2;max-width:980px}.eyebrow{display:inline-block;padding:8px 13px;border:1px solid #ffffff38;border-radius:999px;background:#ffffff12;backdrop-filter:blur(8px);font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.hero h1{font-size:clamp(44px,8vw,88px);line-height:.98;margin:20px 0;letter-spacing:-4px;text-wrap:balance}.hero p{max-width:760px;margin:0 auto;font-size:clamp(17px,2vw,21px);line-height:1.7;color:#eef6ff}.hero .btn{margin-top:28px}
  section{padding:88px 7%}.section-head{max-width:760px;margin-bottom:30px}.section-head small{font-weight:900;color:${accent};letter-spacing:.13em;text-transform:uppercase}.section-head h2,h2{font-size:clamp(32px,5vw,48px);letter-spacing:-1.5px;margin:8px 0 14px}.about{background:${card};border-radius:30px;margin:0 4%;padding:64px 5%;box-shadow:0 25px 70px #00152c12}.about p{max-width:900px;line-height:1.9;opacity:.78;font-size:17px}.info{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.pill{padding:11px 15px;border-radius:14px;background:${bg};font-weight:750;font-size:14px}
  .gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.photo{position:relative;padding:0;border:0;background:none;border-radius:22px;overflow:hidden;cursor:zoom-in;min-height:220px}.photo img{display:block;width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .45s ease,filter .45s ease}.photo span{position:absolute;right:14px;bottom:14px;background:#06182fdd;color:#fff;border:1px solid #ffffff30;padding:9px 12px;border-radius:999px;font-size:12px;font-weight:900;opacity:0;transform:translateY(6px);transition:.25s}.photo:hover img{transform:scale(1.045);filter:brightness(.82)}.photo:hover span{opacity:1;transform:none}
+ .custom-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}.custom-link{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 20px;border-radius:14px;background:${card};color:${fg};font-weight:900;border:1px solid #8aa0b52a;box-shadow:0 10px 30px #00152c0d;transition:.25s}.custom-link:hover{transform:translateY(-2px);border-color:${accent}}
  .contact{text-align:center;margin:0 4% 55px;border-radius:30px;background:#06182f;color:#fff;position:relative;overflow:hidden}.contact:before{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:${accent}30;filter:blur(20px);right:-160px;top:-210px}.contact>*{position:relative}.contact p{font-size:19px;color:#dceaff}.contact .btn{margin-top:10px}footer{padding:28px 6% 42px;text-align:center;opacity:.58;font-size:13px}
  .lightbox{position:fixed;inset:0;z-index:9998;background:#020914f2;display:none;align-items:center;justify-content:center;padding:24px}.lightbox.open{display:flex}.lightbox img{max-width:min(1200px,92vw);max-height:86vh;object-fit:contain;border-radius:12px;box-shadow:0 25px 80px #000}.lb-btn{position:absolute;border:1px solid #ffffff35;background:#071b34c9;color:#fff;width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:24px;display:grid;place-items:center;backdrop-filter:blur(8px)}.lb-close{right:22px;top:22px}.lb-prev{left:22px;top:50%;transform:translateY(-50%)}.lb-next{right:22px;top:50%;transform:translateY(-50%)}.lb-count{position:absolute;bottom:20px;color:#fff;background:#071b34c9;padding:8px 12px;border-radius:999px;font-size:13px}
  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}.reveal.show{opacity:1;transform:none}
@@ -288,6 +340,7 @@ function buildStandaloneHtml(o,pics){
  <main><section class="hero"><div class="hero-content"><span class="eyebrow">Bem-vindo</span><h1>${esc(o.nome)}</h1><p>${esc(o.descricao||'Produtos, serviços e atendimento para você.')}</p><a class="btn" href="${wa}" target="_blank" rel="noopener">Falar no WhatsApp</a></div></section>
  <section class="about reveal"><div class="section-head"><small>Conheça</small><h2>Sobre nós</h2></div><p>${esc(o.descricao||'Conheça nossa empresa e entre em contato para saber mais.')}</p><div class="info">${o.endereco?`<div class="pill">📍 ${esc(o.endereco)}</div>`:''}${o.instagram?`<div class="pill">◎ ${esc(o.instagram)}</div>`:''}${o.whatsapp?`<div class="pill">☎ ${phone}</div>`:''}</div></section>
  ${gallery?`<section class="reveal"><div class="section-head"><small>Imagens</small><h2>Nossa galeria</h2><p>Toque em qualquer foto para ampliar.</p></div><div class="gallery">${gallery}</div></section>`:''}
+ ${btns?`<section class="reveal"><div class="section-head"><small>Acesso rápido</small><h2>Links úteis</h2><p>Escolha uma opção.</p></div><div class="custom-links">${btns}</div></section>`:''}
  <section class="contact reveal"><small>Contato</small><h2>Vamos conversar?</h2><p>Entre em contato e saiba mais sobre nossos produtos e serviços.</p><a class="btn" href="${wa}" target="_blank" rel="noopener">Chamar no WhatsApp</a></section></main>
  <footer>Desenvolvido com DIVULGA+AQUI</footer></div>
  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualizador de fotos"><button class="lb-btn lb-close" type="button" aria-label="Fechar">×</button><button class="lb-btn lb-prev" type="button" aria-label="Foto anterior">‹</button><img id="lbImg" alt="Foto ampliada"><button class="lb-btn lb-next" type="button" aria-label="Próxima foto">›</button><div class="lb-count" id="lbCount"></div></div>
