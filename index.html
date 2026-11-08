@@ -80,55 +80,36 @@
         }
 
         /* =========================
-           ENTRADA CINEMATOGRÁFICA — VOO FPV
+           ENTRADA CINEMATOGRÁFICA — VÍDEO FPV
         ========================== */
         .intro {
-            position: fixed; inset: 0; z-index: 9999; overflow: hidden;
-            background: #07131f; transition: opacity .85s ease, visibility .85s ease;
-            perspective: 1100px;
+            position:fixed; inset:0; z-index:9999; overflow:hidden; background:#07131f;
+            transition:opacity .45s ease, visibility .45s ease;
         }
         .intro.is-leaving { opacity:0; visibility:hidden; pointer-events:none; }
-        .fpv-world { position:absolute; inset:-10%; transform-style:preserve-3d; animation:fpvFlight 7.2s cubic-bezier(.18,.72,.18,1) forwards; }
-        .fpv-city {
-            position:absolute; inset:0; background-image:
-              linear-gradient(180deg, rgba(6,22,32,.02), rgba(6,22,32,.12)),
-              url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2200&q=90');
-            background-size:cover; background-position:center 46%; filter:saturate(1.08) contrast(1.04);
-            transform:scale(1.08); animation:cityRush 7.2s cubic-bezier(.18,.72,.18,1) forwards;
+        .intro-video {
+            position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+            object-position:center center; transform:scale(1.025);
+            filter:saturate(1.08) contrast(1.04);
         }
-        .fpv-city::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(112,207,255,.05) 0 45%,rgba(14,65,36,.12) 72%,rgba(7,19,31,.35)); }
-        .fpv-grass {
-            position:absolute; left:-12%; right:-12%; bottom:-48%; height:66%; opacity:0;
-            background:radial-gradient(ellipse at 50% 12%,rgba(180,255,120,.38),transparent 28%),
-                       repeating-linear-gradient(96deg,rgba(255,255,255,.025) 0 2px,transparent 2px 10px),
-                       linear-gradient(180deg,#4f9d43,#286f32 50%,#153e25);
-            filter:blur(.15px) saturate(1.2); transform:rotateX(63deg) scale(1.35); transform-origin:center top;
-            animation:grassLanding 7.2s ease forwards;
+        .intro::after {
+            content:""; position:absolute; inset:0; z-index:3; pointer-events:none;
+            background:linear-gradient(180deg,rgba(3,12,19,.04),rgba(3,12,19,.02) 48%,rgba(3,12,19,.34));
         }
-        .fpv-shadow { position:absolute; left:50%; bottom:7%; width:240px; height:50px; translate:-50% 0; border-radius:50%; background:rgba(0,0,0,.34); filter:blur(20px); opacity:0; animation:groundShadow 7.2s ease forwards; }
-        .fpv-vignette { position:absolute; inset:0; z-index:5; pointer-events:none; background:radial-gradient(circle at center,transparent 48%,rgba(1,8,13,.2) 82%,rgba(1,8,13,.55) 120%); }
-        .fpv-glare { position:absolute; z-index:4; width:55vw; height:55vw; right:-16vw; top:-24vw; border-radius:50%; background:radial-gradient(circle,rgba(255,245,188,.3),rgba(255,245,188,.07) 30%,transparent 68%); mix-blend-mode:screen; animation:glareMove 7.2s ease forwards; }
-        .fpv-hud { position:absolute; z-index:8; inset:24px; color:rgba(255,255,255,.8); font:700 11px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.12em; text-shadow:0 2px 8px rgba(0,0,0,.55); opacity:.82; animation:hudFade 7.2s ease forwards; }
-        .fpv-hud .tl,.fpv-hud .tr,.fpv-hud .bl,.fpv-hud .br { position:absolute; }
-        .fpv-hud .tl{left:0;top:0}.fpv-hud .tr{right:0;top:0}.fpv-hud .bl{left:0;bottom:0}.fpv-hud .br{right:0;bottom:0}
-        .fpv-reticle { position:absolute; z-index:8; left:50%; top:50%; width:64px; height:64px; translate:-50% -50%; opacity:.55; animation:reticleLand 7.2s ease forwards; }
-        .fpv-reticle::before,.fpv-reticle::after{content:"";position:absolute;background:rgba(255,255,255,.75)}
-        .fpv-reticle::before{left:0;right:0;top:50%;height:1px}.fpv-reticle::after{top:0;bottom:0;left:50%;width:1px}
-        .intro-brand { position:absolute; z-index:12; left:50%; top:50%; width:min(850px,calc(100% - 42px)); translate:-50% -50%; text-align:center; color:white; opacity:0; transform:scale(.94) translateY(16px); animation:brandLanding 7.2s ease forwards; text-shadow:0 6px 30px rgba(0,0,0,.38); }
+        .fpv-vignette { position:absolute; inset:0; z-index:4; pointer-events:none; background:radial-gradient(circle at center,transparent 55%,rgba(1,8,13,.18) 88%,rgba(1,8,13,.5) 125%); }
+        .intro-brand {
+            position:absolute; z-index:12; left:50%; top:50%; width:min(850px,calc(100% - 42px));
+            translate:-50% -50%; text-align:center; color:white; opacity:0;
+            transform:scale(.96) translateY(10px); animation:videoBrand 4.6s ease forwards;
+            text-shadow:0 6px 30px rgba(0,0,0,.55);
+        }
         .intro-brand small{display:block;margin-bottom:12px;font-size:clamp(11px,1.25vw,15px);font-weight:850;letter-spacing:.22em;text-transform:uppercase}
         .intro-brand strong{display:block;font-size:clamp(48px,9vw,112px);font-weight:950;letter-spacing:-.075em;line-height:.86}.intro-brand strong span{color:#d9ff43}
-        .intro-brand em{display:block;margin-top:18px;font-style:normal;font-size:clamp(14px,1.8vw,20px);font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.86)}
-        .intro-progress { position:absolute;z-index:14;left:50%;bottom:24px;width:min(420px,calc(100% - 120px));height:3px;translate:-50% 0;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.25) }
-        .intro-progress::after{content:"";display:block;width:100%;height:100%;transform-origin:left;background:#d9ff43;animation:introProgress 7.2s linear forwards}
-        .skip-intro{position:absolute;z-index:20;top:22px;right:22px;padding:10px 16px;border:1px solid rgba(255,255,255,.3);border-radius:999px;color:white;background:rgba(7,19,31,.38);backdrop-filter:blur(12px);cursor:pointer;font-size:13px;font-weight:800}
-        @keyframes fpvFlight{0%{transform:rotateZ(-1.8deg) rotateX(1deg)}28%{transform:rotateZ(.8deg) rotateX(-1deg)}55%{transform:rotateZ(-.5deg) rotateX(4deg)}78%{transform:rotateZ(.25deg) rotateX(10deg)}100%{transform:rotateZ(0) rotateX(0)}}
-        @keyframes cityRush{0%{transform:scale(1.08) translate3d(-1.5%,0,0)}38%{transform:scale(1.34) translate3d(1%,-2%,0)}68%{transform:scale(1.72) translate3d(-1%,-7%,0);filter:saturate(1.1) contrast(1.05) blur(0)}86%{transform:scale(2.35) translate3d(0,-15%,0);filter:saturate(1.12) contrast(1.05) blur(.5px)}100%{transform:scale(2.75) translate3d(0,-20%,0);filter:saturate(1.05) contrast(1.03) blur(2px)}}
-        @keyframes grassLanding{0%,55%{opacity:0;bottom:-60%}70%{opacity:.2;bottom:-50%}86%{opacity:.9;bottom:-34%}100%{opacity:1;bottom:-22%;transform:rotateX(68deg) scale(1.6)}}
-        @keyframes groundShadow{0%,76%{opacity:0;transform:scale(.2)}92%{opacity:.22;transform:scale(.7)}100%{opacity:.38;transform:scale(1)}}
-        @keyframes glareMove{0%{transform:translate(0,0)}70%{transform:translate(-12vw,9vh)}100%{transform:translate(-18vw,16vh);opacity:.35}}
-        @keyframes hudFade{0%,72%{opacity:.78}90%,100%{opacity:0}}
-        @keyframes reticleLand{0%{transform:scale(.8) rotate(2deg)}65%{transform:scale(1.08) rotate(-1deg)}88%,100%{transform:scale(.55);opacity:0}}
-        @keyframes brandLanding{0%,78%{opacity:0;transform:scale(.94) translateY(16px)}88%{opacity:1;transform:scale(1.015) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
+        .intro-brand em{display:block;margin-top:18px;font-style:normal;font-size:clamp(14px,1.8vw,20px);font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.9)}
+        .intro-progress { position:absolute;z-index:14;left:50%;bottom:24px;width:min(360px,calc(100% - 120px));height:3px;translate:-50% 0;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.28) }
+        .intro-progress::after{content:"";display:block;width:100%;height:100%;transform-origin:left;background:#d9ff43;animation:introProgress 4.8s linear forwards}
+        .skip-intro{position:absolute;z-index:20;top:22px;right:22px;padding:9px 15px;border:1px solid rgba(255,255,255,.3);border-radius:999px;color:white;background:rgba(7,19,31,.38);backdrop-filter:blur(12px);cursor:pointer;font-size:12px;font-weight:800}
+        @keyframes videoBrand{0%,70%{opacity:0;transform:scale(.96) translateY(10px)}82%{opacity:1;transform:scale(1.01) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
         @keyframes introProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 
         /* =========================
@@ -1178,19 +1159,11 @@
 
 <body class="intro-playing">
     <div class="intro" id="intro" role="dialog" aria-label="Voo cinematográfico DIVULGA+AQUI">
+        <video class="intro-video" id="introVideo" autoplay muted playsinline preload="auto" aria-hidden="true">
+            <source src="intro.mp4" type="video/mp4">
+        </video>
         <button class="skip-intro" type="button" id="skipIntro">Pular entrada</button>
-        <div class="fpv-world" aria-hidden="true">
-            <div class="fpv-city"></div>
-            <div class="fpv-grass"></div>
-            <div class="fpv-shadow"></div>
-        </div>
-        <div class="fpv-glare" aria-hidden="true"></div>
         <div class="fpv-vignette" aria-hidden="true"></div>
-        <div class="fpv-reticle" aria-hidden="true"></div>
-        <div class="fpv-hud" aria-hidden="true">
-            <span class="tl">FPV • DIVULGA+AQUI</span><span class="tr">REC ●</span>
-            <span class="bl">VOO URBANO</span><span class="br">POUSO 00:07</span>
-        </div>
         <div class="intro-brand">
             <small>Pousamos onde seu cliente está</small>
             <strong>DIVULGA<span>+</span>AQUI</strong>
@@ -1430,6 +1403,7 @@
 
         const intro = document.getElementById("intro");
         const skipIntro = document.getElementById("skipIntro");
+        const introVideo = document.getElementById("introVideo");
         const replayIntro = document.getElementById("replayIntro");
         let introTimer;
 
@@ -1437,7 +1411,8 @@
             clearTimeout(introTimer);
             intro.classList.add("is-leaving");
             document.body.classList.remove("intro-playing");
-            window.setTimeout(() => intro.setAttribute("aria-hidden", "true"), 780);
+            window.setTimeout(() => intro.setAttribute("aria-hidden", "true"), 480);
+            if (introVideo) introVideo.pause();
         }
 
         function iniciarIntro() {
@@ -1446,12 +1421,16 @@
             intro.removeAttribute("aria-hidden");
             document.body.classList.add("intro-playing");
 
-            /* Reinicia as animações sem recarregar a página. */
+            /* Reinicia vídeo e animações sem recarregar a página. */
             intro.style.display = "none";
             void intro.offsetHeight;
-            intro.style.display = "grid";
-
-            introTimer = window.setTimeout(finalizarIntro, 7400);
+            intro.style.display = "block";
+            if (introVideo) {
+                introVideo.currentTime = 0;
+                introVideo.playbackRate = 1.25;
+                introVideo.play().catch(() => {});
+            }
+            introTimer = window.setTimeout(finalizarIntro, 4800);
         }
 
         function abrirWhatsApp() {
@@ -1461,6 +1440,10 @@
         }
 
         skipIntro.addEventListener("click", finalizarIntro);
+        if (introVideo) {
+            introVideo.playbackRate = 1.25;
+            introVideo.addEventListener("ended", finalizarIntro);
+        }
         replayIntro.addEventListener("click", iniciarIntro);
         document.querySelectorAll("[data-whatsapp]").forEach(botao => botao.addEventListener("click", abrirWhatsApp));
 
@@ -1482,7 +1465,7 @@
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             window.setTimeout(finalizarIntro, 120);
         } else {
-            introTimer = window.setTimeout(finalizarIntro, 7400);
+            introTimer = window.setTimeout(finalizarIntro, 4800);
         }
     </script>
 </body>
