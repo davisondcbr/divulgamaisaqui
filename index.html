@@ -1,277 +1,1802 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
-<title>DIVULGAMAISAQUI | Painel</title>
-<style>
-:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#e9eef8;background:#0a1020}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.app{display:flex;min-height:100vh}.side{width:255px;background:#0f192c;border-right:1px solid #26364f;padding:25px 17px;flex-shrink:0}.brand{font-weight:850;font-size:22px;letter-spacing:-.7px;color:#fff}.brand span{color:#4dc4fd}.sub{font-size:12px;color:#8b9db8;margin:5px 0 32px}.nav{display:block;width:100%;border:0;background:transparent;color:#a9b8ce;padding:14px 15px;text-align:left;border-radius:10px;margin:5px 0}.nav.active,.nav:hover{background:#1b2b44;color:#fff}.main{flex:1;min-width:0;padding:30px;max-width:1450px;margin:0 auto;width:100%}header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px}h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 14px}p{color:#9fb0c9}.muted{color:#93a5c1;font-size:13px}.btn{border:0;background:#248fe3;color:white;padding:11px 16px;border-radius:9px;font-weight:700}.btn:hover{filter:brightness(1.1)}.btn.secondary{background:#20334e}.btn.danger{background:#5b2939;color:#ffb9c6}.btn.small{padding:7px 10px;font-size:12px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.card{background:#131f34;border:1px solid #26364f;border-radius:14px;padding:19px}.statnum{font-size:30px;font-weight:800;margin-top:12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.device{display:flex;flex-direction:column;gap:10px;min-height:225px}.line{display:flex;justify-content:space-between;gap:15px;align-items:center;flex-wrap:wrap}.pill{border-radius:99px;padding:5px 9px;font-size:11px;background:#293b57;color:#bdd1ea}.pill.warn{background:#544127;color:#ffdca0}.item{padding:13px 0;border-bottom:1px solid #2b3a54;display:flex;justify-content:space-between;align-items:center;gap:12px}.item:last-child{border-bottom:0}.thumb{background:#233650;border-radius:8px;width:66px;height:48px;object-fit:cover}.label{font-weight:700}.section{margin-top:24px}.hidden{display:none!important}input,select{background:#0a162a;border:1px solid #3a4e69;border-radius:9px;color:#edf4ff;padding:11px;width:100%;outline:none}input:focus,select:focus{border-color:#4aa9fb}.field{display:flex;flex-direction:column;gap:7px;margin:13px 0}.field label{font-size:13px;color:#c6d5e7}dialog{background:#142139;color:#f0f4fb;border:1px solid #354866;border-radius:15px;width:min(95vw,520px);padding:24px}dialog::backdrop{background:#020713c9}.checks{max-height:170px;overflow:auto;display:grid;gap:7px}.checks label{display:flex;gap:9px;align-items:center;padding:8px;border-radius:7px;background:#101b30}.checks input{width:auto}.help{padding:15px;border:1px dashed #526886;background:#13243c;border-radius:10px;font-size:13px;line-height:1.5;color:#bacce2}.player{position:fixed;inset:0;background:#000;display:none;z-index:1000}.player.open{display:flex;align-items:center;justify-content:center}.player img,.player video{height:100%;width:100%;object-fit:contain}.player .exit{position:absolute;top:14px;right:14px;background:#1d2b3ce0;color:white;border:0;border-radius:9px;padding:9px 14px;z-index:3}.player .info{position:absolute;bottom:18px;left:18px;background:#0009;color:white;padding:8px 12px;border-radius:8px;font-size:12px}.empty{padding:22px;text-align:center;border:1px dashed #38516e;border-radius:10px;color:#93a6c4}.rowBtns{display:flex;gap:8px;flex-wrap:wrap}.mt{margin-top:14px}@media(max-width:960px){.side{width:190px}.main{padding:20px}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.app{display:block}.side{width:100%;padding:16px}.side .sub{margin:3px 0 12px}.navs{display:flex;gap:4px;overflow:auto}.nav{white-space:nowrap;width:auto}.main{padding:15px}header{align-items:flex-start}.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:22px}}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07131f">
+    <meta name="description" content="DIVULGA+AQUI — presença digital e divulgação física para negócios locais: Stories diários, site, comercial mensal, tráfego pago e displays A4 em comércios.">
+    <title>DIVULGA+AQUI — Sua marca por toda a cidade</title>
 
-/* DIVULGAMAISAQUI • interface premium 2.0 */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap');
-:root{font-family:'DM Sans',system-ui,sans-serif;color:#eaf0ff;background:#080d17;--line:#25314a;--muted:#94a4bf;--accent:#6a8cff}
-body{background:radial-gradient(ellipse 700px 500px at 75% -15%,#182a50 0%,transparent 75%),#090e19;color:#eaf0ff}
-.app{min-height:100vh}.side{width:280px;background:linear-gradient(175deg,#111a2c 0%,#0b1220 100%);border-right:1px solid #23304a;padding:33px 19px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;box-shadow:8px 0 40px #0002}
-.brand{font-family:Manrope,sans-serif;font-size:21px;letter-spacing:-1px;padding:6px 12px;line-height:1.4}.brand span{color:#79a9ff}.sub{padding:0 12px;margin:2px 0 42px;line-height:1.5;color:#7488a8;font-size:11px;letter-spacing:.35px}.navs{display:grid;gap:6px}.nav{transition:all .18s ease;border:1px solid transparent;padding:14px 15px;border-radius:12px;font-weight:650;color:#93a3be;margin:0}.nav:hover{background:#1b2941;color:#e5efff;transform:translateX(2px)}.nav.active{background:linear-gradient(95deg,#253b70,#1b2b4a);border-color:#405a8b;color:#f6f9ff;box-shadow:inset 3px 0 #7c9eff,0 6px 18px #0002}
-.main{padding:42px clamp(22px,4vw,65px);max-width:1600px}.main>header{margin-bottom:35px;padding-bottom:25px;border-bottom:1px solid #23304a}h1,h2,.statnum{font-family:Manrope,system-ui,sans-serif;letter-spacing:-.65px}h1{font-size:34px;font-weight:800}h2{font-size:20px;font-weight:800;margin-bottom:19px}p{line-height:1.65}.main>header p{margin:7px 0 0}.muted{color:#97a8c1;line-height:1.5}.pill{background:#21304a;border:1px solid #354866;color:#b8cef4;letter-spacing:.3px;font-weight:700;padding:7px 12px}.pill.warn{background:#332918;color:#ffd189;border-color:#69502b}
-.card{background:linear-gradient(145deg,#172339,#121c2d);border:1px solid #293a53;border-radius:19px;padding:23px;box-shadow:0 12px 35px #00000018;transition:border .2s,transform .2s}.card:hover{border-color:#3d5375}.stats{gap:19px}.stats .card{min-height:137px;position:relative;overflow:hidden}.stats .card:after{content:'';position:absolute;width:94px;height:94px;border-radius:50%;background:#7b9bff0e;right:-25px;top:-27px;border:1px solid #8faffb18}.stats .muted{text-transform:uppercase;font-size:11px;letter-spacing:1.1px;font-weight:800}.statnum{font-size:39px;margin-top:15px;color:#f6f9ff;line-height:1}.grid{gap:19px}.section{margin-top:35px}.device{min-height:225px;gap:17px}.device>.line strong{font-family:Manrope,sans-serif;font-size:18px}.device .muted{font-size:12px}.device .rowBtns{margin-top:auto}.btn{background:linear-gradient(110deg,#5580f0,#6a9cf8);border:1px solid #80a5fa55;color:#fff;border-radius:11px;padding:11px 17px;box-shadow:0 5px 17px #2a56cc30;transition:filter .2s,transform .2s}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn.secondary{background:#24344d;border-color:#354a69;box-shadow:none}.btn.danger{background:#482638;color:#ffc4d2;border-color:#704053;box-shadow:none}.btn.small{border-radius:9px;padding:9px 11px}.rowBtns{gap:9px}.item{padding:18px 0;border-bottom:1px solid #2a3950}.thumb{border:1px solid #3d5471;background:#253753;border-radius:11px;width:70px;height:55px;color:#a6c5ff}.label{font-size:14px}input,select{background:#0e1829;border-color:#34465f;border-radius:11px;padding:13px;color:#f0f5ff;transition:border .15s,box-shadow .15s}input:focus,select:focus{border-color:#7b9cff;box-shadow:0 0 0 3px #7b9cff22}.field{gap:9px}.field label{font-weight:700;font-size:12px}dialog{background:linear-gradient(155deg,#18263c,#101a2b);border:1px solid #415571;border-radius:20px;padding:29px;box-shadow:0 28px 90px #0008}dialog::backdrop{backdrop-filter:blur(5px);background:#030814b5}.checks label{background:#0e192a;border:1px solid #293b55;border-radius:10px}.help{border-radius:14px;background:#182942;border-color:#405c84}.empty{padding:34px;border-radius:15px;border-color:#3c506d;background:#101b2a80}.player .exit{background:#222b3fe8;border:1px solid #7184a4}.player .info{background:#101826d9}
-#overview>.section>h2:before{content:'◉';font-size:15px;color:#8dabff;margin-right:11px}
-@media(max-width:960px){.side{width:220px}.main{padding:28px 23px}}
-@media(max-width:680px){.app{display:block}.side{height:auto;width:100%;padding:17px;position:relative}.brand{padding:0}.sub{margin:3px 0 17px;padding:0}.navs{display:flex;gap:6px;overflow-x:auto}.nav{font-size:12px;padding:11px 13px}.main{padding:22px 15px}h1{font-size:27px}.main>header{align-items:flex-start;gap:14px;flex-wrap:wrap}.stats{gap:10px}.stats .card{padding:16px;min-height:112px}.statnum{font-size:32px}.grid{gap:12px}.card{padding:18px}.device{min-height:200px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+    <style>
+        :root {
+            --ink: #07131f;
+            --ink-soft: #102436;
+            --ink-lighter: #18384e;
+            --paper: #f7faf8;
+            --white: #ffffff;
+            --lime: #d9ff43;
+            --lime-dark: #aacf16;
+            --mint: #67efba;
+            --cyan: #66d9ff;
+            --orange: #ff8a3d;
+            --muted: #617181;
+            --line: rgba(7, 19, 31, .11);
+            --shadow: 0 28px 80px rgba(7, 19, 31, .14);
+            --radius: 28px;
+        }
 
-/* Status de reprodução: desconhecido até integrar o servidor */
-.device-status{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:750;color:#bccae0}
-.device-status .led{width:10px;height:10px;border-radius:50%;background:#8796aa;box-shadow:0 0 0 4px #8796aa20;flex-shrink:0}
-.device-status.online .led{background:#2cda91;box-shadow:0 0 0 4px #2cda9122,0 0 12px #2cda9150}
-.device-status.offline .led{background:#ff6278;box-shadow:0 0 0 4px #ff627825}
-.device-status.online{color:#83ecc0}.device-status.offline{color:#ffa0ae}
-.live-summary{margin-bottom:17px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.live-summary .note{font-size:12px;color:#94a4bf}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 96px;
+        }
 
-.storage-meter{height:11px;background:#0c1727;border-radius:20px;overflow:hidden;border:1px solid #35465f;margin:13px 0}.storage-meter>div{height:100%;width:0%;background:linear-gradient(90deg,#42bde9,#728af9);border-radius:20px;transition:width .5s}.storage-meter>div.warning{background:linear-gradient(90deg,#f5b353,#f57055)}.storage-row{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}.storage-row strong{font-size:23px}
-/* Ajustes de responsividade do painel e animações discretas */
-#sites .card{animation:siteEnter .42s ease both}
-@keyframes siteEnter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-#siteEditor textarea{width:100%;max-width:100%;min-width:0;resize:vertical}
-#sites .rowBtns .btn{min-height:43px}
-@media(max-width:700px){#sites .line{align-items:stretch}#sites .line>.btn{width:100%}#sites .rowBtns{display:grid;grid-template-columns:1fr 1fr}#sites .rowBtns>.btn{width:100%;white-space:normal}#siteEditor{padding:17px}#siteEditor .field input,#siteEditor textarea{font-size:16px}}
-@media(max-width:420px){#sites .rowBtns{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){#sites .card{animation:none}}
-</style></head>
-<body><div id="authGate" style="position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:radial-gradient(circle at top,#1c3869,#080f20 75%);padding:20px"><form id="authForm" style="max-width:420px;width:100%;background:#15233a;border:1px solid #3b567d;padding:32px;border-radius:22px;box-shadow:0 35px 100px #0008"><h1 style="margin:0;color:white">DIVULGA<span style="color:#68a8ff">MAISAQUI</span></h1><p style="color:#aabbcf">Acesso seguro ao painel • Supabase</p><label for="loginEmail">E-mail do administrador</label><input required type="email" id="loginEmail" autocomplete="username" style="width:100%;margin:8px 0 17px;padding:14px;background:#0b1426;color:white;border:1px solid #405574;border-radius:10px"><label for="loginPassword">Senha</label><input required type="password" id="loginPassword" autocomplete="current-password" style="width:100%;margin:8px 0 19px;padding:14px;background:#0b1426;color:white;border:1px solid #405574;border-radius:10px"><button class="btn" style="width:100%;padding:14px" type="submit" id="loginButton">Entrar no painel</button><p id="loginFeedback" role="status" style="color:#ffa8ad"></p></form></div>
-<div id="loadingGate" style="position:fixed;inset:0;z-index:99998;display:none;place-items:center;background:#0b1220;color:white;text-align:center"><div><h1>DIVULGAMAISAQUI</h1><div style="width:170px;height:5px;background:#1a2f55;border-radius:4px;overflow:hidden;margin:auto"><div style="height:100%;width:55%;background:#6ea8fe;animation:loadingBar 1s ease-in-out infinite alternate"></div></div><p>Sincronizando seu painel...</p></div></div>
-<style>@keyframes loadingBar{from{transform:translateX(-100%)}to{transform:translateX(200%)}}</style>
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
 
-<div class="app"><aside class="side"><div class="brand">DIVULGA<span>MAISAQUI</span></div><div class="sub">Plataforma de mídia digital • Painel de gestão</div><div class="navs"><button class="nav active" data-tab="overview">◈  Visão geral</button><button class="nav" data-tab="devices">▣  TV Boxes</button><button class="nav" data-tab="media">▧  Anúncios</button><button class="nav" data-tab="playlists">▷  Programação</button><button class="nav" data-tab="sites">◉  Meus Sites</button><button class="nav" data-tab="apk">⬡  Aplicativo Android (APK)</button><button class="nav" data-tab="settings">⚙  Configurações</button></div></aside>
-<main class="main"><header><div><h1 id="pageTitle">Visão geral</h1><p class="muted">Controle anúncios, playlists e seus pontos de exibição em um só lugar.</p></div><div class="line"><span class="pill warn" id="dbModeBadge">VERIFICANDO SUPABASE...</span></div></header>
-<section id="overview"><div class="live-summary"><span class="device-status" id="connectionSummary"><span class="led"></span><span>Aguardando conexão com o servidor</span></span><span class="note" id="lastStatusRefresh">Sem monitoramento em tempo real nesta versão</span></div><div class="stats" id="stats"></div><div class="section"><h2>Seus pontos de divulgação</h2><div class="grid" id="overviewDevices"></div></div></section>
-<section id="devices" class="hidden"><div class="line"><h2>TV Boxes cadastradas</h2><button class="btn" onclick="openDevice()">+ Nova TV Box</button></div><p class="muted">Cadastre as TV Boxes reais. Cada aparelho receberá sua programação quando conectarmos o banco e o APK Android.</p><div class="grid mt" id="devicesList"></div></section>
-<section id="media" class="hidden"><div class="line"><h2>Biblioteca de anúncios</h2><button class="btn" onclick="openMedia()">+ Adicionar anúncio</button></div><p class="muted">Cadastre links públicos HTTPS diretos para vídeos MP4 ou imagens JPG/PNG/WebP. O armazenamento de arquivos será implementado com o banco e serviço de mídia.</p><div class="card mt" id="mediaList"></div></section>
-<section id="playlists" class="hidden"><h2>Programação individual</h2><div class="card"><div class="field"><label for="selectDevice">Selecione a TV Box</label><select id="selectDevice" onchange="renderPlaylist()"></select></div><div id="playlistList"></div><div class="rowBtns mt"><button class="btn" onclick="openAssign()">+ Vincular anúncios</button><button class="btn secondary" onclick="previewSelected()">▶ Testar reprodução</button></div></div></section>
-<section id="sites" class="hidden"><div class="line"><div><h2>Meus Sites</h2><p class="muted">Crie sites com modelos prontos, personalize fotos, vídeos e links, visualize o resultado e baixe o index.html para enviar ao GitHub manualmente.</p></div><button class="btn" onclick="siteNew()">+ Criar site</button></div><div class="grid mt" id="siteCards"></div><div class="card section hidden" id="siteEditor"><div class="line"><h2 id="siteEditTitle">Editar site</h2><button class="btn secondary small" onclick="siteClose()">Fechar</button></div><div class="help mt"><strong>Publicação manual pelo GitHub</strong><p>Crie a pasta <code>sites/nome-da-empresa/</code> em seu repositório e envie o <code>index.html</code> baixado aqui. Não precisa de token nem da função publicar-site.</p><a target="_blank" rel="noopener noreferrer" href="https://github.com/davisondcbr/divulgamaisaqui">Abrir repositório ↗</a></div><div class="field"><label>Nome da empresa</label><input id="siteCompany" maxlength="100"></div><div class="field"><label>Descrição / chamada principal</label><input id="siteHeadline" maxlength="220" placeholder="Qualidade e atendimento especial"></div><div class="field"><label>Texto de apresentação</label><input id="siteDescription" maxlength="800"></div><div class="field"><label>Cor principal</label><input id="siteColor" type="color" value="#2563eb" style="width:100px;height:48px;padding:5px"></div><div class="field"><label>Links de imagens (HTTPS), um por linha</label><textarea id="sitePhotos" rows="4" placeholder="https://.../foto1.jpg" style="width:100%;background:#0a162a;color:white;border:1px solid #3a4e69;border-radius:9px;padding:12px"></textarea></div><div class="field"><label>Links de vídeos MP4 (HTTPS), um por linha</label><textarea id="siteVideos" rows="3" placeholder="https://.../comercial.mp4" style="width:100%;background:#0a162a;color:white;border:1px solid #3a4e69;border-radius:9px;padding:12px"></textarea></div><div class="field"><label>WhatsApp (número com DDD)</label><input id="siteWhatsapp" placeholder="5514999999999"></div><div class="field"><label>Instagram (link HTTPS)</label><input id="siteInstagram" placeholder="https://instagram.com/..."></div><div class="field"><label>Facebook (link HTTPS)</label><input id="siteFacebook" placeholder="https://facebook.com/..."></div><div class="field"><label>Outros botões: um por linha no formato Nome | https://link</label><textarea id="siteExtra" rows="3" style="width:100%;background:#0a162a;color:white;border:1px solid #3a4e69;border-radius:9px;padding:12px" placeholder="Ver cardápio | https://exemplo.com/cardapio"></textarea></div><div class="rowBtns mt"><button class="btn" onclick="siteSave()">Salvar rascunho</button><button class="btn secondary" onclick="sitePreview()">◉ Visualizar site</button><button class="btn" onclick="siteDownload()">↓ Baixar index.html</button><button class="btn secondary" onclick="siteCopyUrl()">Copiar link previsto</button></div><div class="help mt">1. Salve o rascunho. 2. Visualize o site. 3. Baixe o <code>index.html</code>. 4. No GitHub, crie <code>sites/<span id="sitePathSlug">nome-da-empresa</span>/index.html</code> e envie o arquivo. Ao editar, substitua o mesmo index.html. Os rascunhos ficam somente neste navegador.</div></div></div></section>
-<section id="apk" class="hidden"><div class="line"><div><h2>Aplicativo Android • DIVULGAMAISAQUI</h2><p class="muted">Um único APK para todas as TV Boxes, com ativação individual por código.</p></div><span class="pill warn">COMPILAÇÃO NÃO CONFIGURADA</span></div>
-<div class="stats mt"><div class="card"><div class="muted">Nome do aplicativo</div><div class="label mt">DIVULGAMAISAQUI</div></div><div class="card"><div class="muted">Plataforma</div><div class="label mt">Android TV Box</div></div><div class="card"><div class="muted">APK disponível</div><div class="label mt">Ainda não</div></div><div class="card"><div class="muted">TV Boxes cadastradas</div><div class="statnum" id="apkDeviceCount">4</div></div></div>
-<div class="grid section"><div class="card"><h2>Preparar geração no GitHub</h2><p>Quando o projeto Android e o fluxo GitHub Actions forem adicionados ao repositório, você poderá abrir a área de compilação por aqui.</p><div class="field"><label for="apkRepo">Endereço do repositório GitHub</label><input id="apkRepo" type="url" placeholder="https://github.com/usuario/DIVULGAMAISAQUI" autocomplete="off"></div><div class="rowBtns"><button class="btn" type="button" onclick="saveApkRepo()">Salvar repositório</button><button class="btn secondary" type="button" onclick="openApkActions()">Abrir GitHub Actions ↗</button></div><p class="muted" id="apkRepoMessage" role="status">Nenhum APK será criado somente por salvar este endereço.</p></div>
-<div class="card"><h2>Como o APK vai funcionar</h2><div class="item">① Instalar o mesmo APK em qualquer TV Box compatível</div><div class="item">② Ativar cada aparelho com um código individual</div><div class="item">③ Receber a programação correspondente ao aparelho</div><div class="item">④ Informar conexão e reprodução ao servidor</div><div class="help mt">O player Android, o serviço de sincronização e a compilação do APK ainda precisam ser desenvolvidos. O GitHub Pages hospeda este painel, mas não transforma HTML em APK automaticamente.</div></div></div></section>
-<section id="settings" class="hidden"><h2>Configurações do projeto</h2>
-<div class="card" style="margin-bottom:20px">
-<div class="line"><h2 style="margin:0">Capacidade do Supabase</h2><button class="btn secondary small" type="button" onclick="refreshStorageMetrics()">↻ Atualizar consumo</button></div>
-<p class="muted">Arquivos do bucket <code>anuncios</code> e referência de 1 GB do plano gratuito.</p>
-<div class="storage-row"><div><div class="muted">Anúncios armazenados</div><strong id="storageUsed">—</strong></div><div style="text-align:right"><div class="muted">Restante estimado</div><strong id="storageRemaining">—</strong></div></div>
-<div class="storage-meter"><div id="storageBar"></div></div>
-<div class="storage-row muted"><span id="storagePercent">Aguardando consulta</span><span id="storageFiles">— arquivos</span></div>
-<p class="muted" id="storageStatus" role="status">Aguardando carregamento.</p>
-<div style="margin-top:16px;padding-top:13px;border-top:1px solid #293a53"><div class="storage-row"><span>Banco PostgreSQL (estimativa interna)</span><b id="databaseUsed">—</b></div><p class="muted" style="margin:7px 0">Referência Free: 500 MB. O consumo interno pode diferir da medição oficial.</p></div>
-<div class="help mt">A medição de arquivos inclui somente o bucket <b>anuncios</b> deste projeto. Não mede tráfego de vídeo, banda mensal, nem arquivos de outros projetos. Para consumo oficial e limites compartilhados da organização, consulte <a href="https://supabase.com/dashboard/project/rscdamfwtpvdbidbseqg/settings/usage" target="_blank" rel="noopener" style="color:#9cc9ff">Supabase Usage</a>.</div>
-</div>
-<div class="card"><h2>Conexão Supabase</h2><p>Chave pública configurada no código. A conexão com a API é verificada automaticamente; escrita e sincronização ainda dependem de autenticação e políticas RLS.</p>
-<div class="field"><label for="supabaseUrl">Project URL</label><input id="supabaseUrl" readonly value="https://rscdamfwtpvdbidbseqg.supabase.co"></div>
-<div class="field"><label for="supabasePublicKey">Publishable Key pública</label><input id="supabasePublicKey" type="text" readonly autocomplete="off" spellcheck="false" value="sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3-kk"></div>
-<div class="rowBtns"><button class="btn" type="button" onclick="testSupabaseConnection()">Verificar conexão</button><span class="pill" id="supabaseApiStatus">VERIFICANDO...</span></div>
-<p id="supabaseTestResult" class="muted" role="status">Verificando automaticamente a resposta da API...</p>
-<div class="help mt">O painel continuará no modo local até configurarmos autenticação, políticas de acesso (RLS) e sincronização. A chave pública configurada neste HTML ficará visível no código hospedado no GitHub (isto é esperado para a Publishable Key). A URL <code>/rest/v1/</code> é um endpoint e <strong>não</strong> é uma Publishable Key.</div></div>
-<div class="card section"><p><strong>Painel integrado ao Supabase.</strong></p><p>Após login, os cadastros são sincronizados com o Supabase. Os arquivos enviados são armazenados no bucket público <code>anuncios</code>. O acesso aos arquivos é público para permitir reprodução nas TVs.</p><div class="rowBtns"><button class="btn secondary" onclick="exportData()">↓ Exportar backup JSON</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">↑ Importar backup JSON</button><input id="importFile" class="hidden" type="file" accept="application/json,.json" onchange="importData(event)"></div><div class="help mt">Próximas etapas: autenticação, banco de dados, armazenamento de mídia, ativação segura dos dispositivos, status online real, histórico de exibições e APK Android com modo quiosque. Nunca coloque senhas de administrador ou chaves privadas neste HTML público.</div></div></section>
-</main></div>
-<dialog id="deviceDialog"><h2 id="deviceDlgTitle">Nova TV Box</h2><div class="field"><label>Nome do local</label><input id="deviceName" maxlength="60" placeholder="Ex.: Recepção da loja"></div><div class="field"><label>Código de referência</label><input id="deviceCode" maxlength="25" placeholder="Ex.: TV-001"></div><div class="rowBtns"><button class="btn" onclick="saveDevice()">Salvar</button><button class="btn secondary" onclick="document.getElementById('deviceDialog').close()">Cancelar</button></div></dialog>
-<dialog id="mediaDialog"><h2>Novo anúncio</h2><div class="field"><label>Nome do anúncio</label><input id="mediaName" maxlength="90" placeholder="Ex.: Promoção de outubro"></div><div class="field"><label>Tipo</label><select id="mediaType"><option value="image">Imagem</option><option value="video">Vídeo MP4</option></select></div><div class="field"><label>Enviar imagem ou vídeo do dispositivo</label><input id="mediaFile" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" onchange="checkMediaFile()"><small class="muted">JPG, PNG, WebP, MP4 ou WebM. Máximo de 40 MB por arquivo. O vídeo toca até o final.</small></div><div class="field"><label>URL HTTPS (preenchida após o envio ou informada manualmente)</label><input id="mediaUrl" type="url" placeholder="https://..."></div><p id="mediaUploadStatus" class="muted" role="status"></p><div class="field" id="imageDurationField"><label>Duração da imagem (segundos)</label><input id="mediaDuration" type="number" min="2" max="300" value="10"></div><p class="muted" id="videoDurationHint" style="display:none">O vídeo será exibido até terminar, sem limite de tempo definido pelo painel.</p><div class="rowBtns"><button class="btn" id="mediaSaveBtn" onclick="saveMedia()">Enviar arquivo e salvar anúncio</button><button class="btn secondary" onclick="document.getElementById('mediaDialog').close()">Cancelar</button></div></dialog>
-<dialog id="assignDialog"><h2>Vincular anúncios</h2><p class="muted">Selecione os anúncios que esta TV deve exibir. A ordem seguirá a biblioteca.</p><div id="assignChecks" class="checks"></div><div class="rowBtns mt"><button class="btn" onclick="saveAssign()">Salvar programação</button><button class="btn secondary" onclick="document.getElementById('assignDialog').close()">Cancelar</button></div></dialog>
-<div class="player" id="player"><button class="exit" onclick="stopPreview()">✕ Sair do teste</button><div id="playerContent" style="width:100%;height:100%;display:flex;justify-content:center;align-items:center"></div><div class="info" id="playerInfo"></div></div>
-<script>
-'use strict';
+        body.intro-playing {
+            overflow: hidden;
+        }
 
-// Versão 2 começa SEM nenhuma TV Box. Dados da versão anterior não são carregados
-// automaticamente para evitar que os aparelhos demonstrativos reapareçam.
-const KEY='divulgamaisaqui_local_v2';
-const seed={devices:[],media:[]};
-let data;
-data=structuredClone(seed);
-if(!data||!Array.isArray(data.devices)||!Array.isArray(data.media))data=structuredClone(seed);
-// Integração futura: nunca cole chaves de serviço, tokens privados ou senhas no GitHub Pages.
-// Ao escolhermos o provedor, adicionaremos o SDK público e regras seguras no banco.
+        button,
+        a {
+            font: inherit;
+        }
 
-let currentTab='overview',editingDevice=null,previewTimer=null,previewQueue=[],previewIndex=0;
-function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function save(){render();queueRemoteSave()}
-function activateTab(t){if(t==='sites')siteRender();currentTab=t;document.querySelectorAll('main>section').forEach(s=>s.classList.toggle('hidden',s.id!==t));document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.tab===t));document.getElementById('pageTitle').textContent=({overview:'Visão geral',devices:'TV Boxes',media:'Anúncios',playlists:'Programação',sites:'Meus Sites',apk:'Aplicativo Android (APK)',settings:'Configurações'})[t];render()}
-document.querySelectorAll('.nav').forEach(n=>n.addEventListener('click',()=>activateTab(n.dataset.tab)));
-// Preparado para o banco futuro: status não é simulado. O backend retornará
-// { devices: [{ id: "TV-001", state: "playing", lastSeen: "2026-..." }] }.
-// Ative o endpoint somente após configurar autenticação e permissões no servidor.
-const STATUS_ENDPOINT = 'supabase';
-const OFFLINE_AFTER_MS = 60000;
-let deviceStatuses = new Map();
-let statusLastCheck = null;
-function currentStatus(id){const raw=deviceStatuses.get(id);if(!raw)return {kind:'offline',label:'Offline'};const ts=Date.parse(raw.lastSeen||'');if(!Number.isFinite(ts)||Date.now()-ts>60000||!raw.playing)return {kind:'offline',label:'Offline'};return {kind:'online',label:'Online • reproduzindo'};}
-function statusMarkup(d){let x=currentStatus(d.id);return `<span class="device-status ${x.kind}" title="${esc(x.label)}"><span class="led"></span><span>${esc(x.label)}</span></span>`}
-async function refreshDeviceStatuses(){if(!accessToken)return;try{const rows=await rpc('listar_status_tvs',{});deviceStatuses.clear();for(const x of rows||[])deviceStatuses.set(x.codigo,{lastSeen:x.ultimo_sinal,playing:x.reproduzindo});statusLastCheck=new Date();render()}catch(e){console.warn('Status:',e.message)}}
-function tvCard(d,edit){let count=d.mediaIds.filter(id=>data.media.some(m=>m.id===id)).length;return `<div class="card device"><div class="line"><strong>▣ ${esc(d.name)}</strong><span class="pill">${esc(d.id)}</span></div><div class="muted">${count} anúncio(s) na programação</div><div>${statusMarkup(d)}</div><div style="flex:1"></div><div class="rowBtns"><button class="btn small" onclick="pickDevice('${esc(d.id)}')">Ver programação</button>${edit?`<button class="btn secondary small" onclick="openDevice('${esc(d.id)}')">Editar</button><button class="btn danger small" onclick="removeDevice('${esc(d.id)}')">Excluir</button>`:''}</div></div>`}
-function render(){document.getElementById('apkDeviceCount').textContent=data.devices.length;const indicator=document.getElementById('connectionSummary');if(indicator){const online=data.devices.filter(d=>currentStatus(d.id).kind==='online').length;indicator.className='device-status '+(STATUS_ENDPOINT?(online?'online':'offline'):'unknown');indicator.innerHTML='<span class="led"></span><span>'+ (STATUS_ENDPOINT? online+' TV(s) reproduzindo':'Monitoramento aguardando integração')+'</span>';document.getElementById('lastStatusRefresh').textContent=STATUS_ENDPOINT?(statusLastCheck?'Última consulta: '+statusLastCheck.toLocaleTimeString('pt-BR'):'Servidor sem resposta'):'Status real disponível após conectar o banco e o APK';}document.getElementById('stats').innerHTML=[['TV Boxes',data.devices.length],['Anúncios',data.media.length],['Vínculos',data.devices.reduce((a,d)=>a+d.mediaIds.length,0)],['Ligadas e reproduzindo',STATUS_ENDPOINT?data.devices.filter(d=>currentStatus(d.id).kind==='online').length:'—']].map(([t,n])=>`<div class="card"><div class="muted">${t}</div><div class="statnum">${n}</div></div>`).join('');document.getElementById('overviewDevices').innerHTML=data.devices.map(d=>tvCard(d,false)).join('')||'<div class="empty">Nenhuma TV cadastrada.</div>';document.getElementById('devicesList').innerHTML=data.devices.map(d=>tvCard(d,true)).join('')||'<div class="empty">Cadastre sua primeira TV Box.</div>';document.getElementById('mediaList').innerHTML=data.media.map(m=>`<div class="item"><div class="line" style="justify-content:start"><div class="thumb" style="display:grid;place-items:center">${m.type==='image'?'▧':'▶'}</div><div><div class="label">${esc(m.name)}</div><div class="muted">${m.type==='image'?'Imagem • '+m.duration+'s':'Vídeo • até o final'} • ${esc(m.url.slice(0,70))}</div></div></div><button class="btn danger small" onclick="removeMedia('${esc(m.id)}')">Excluir</button></div>`).join('')||'<div class="empty">Nenhum anúncio. Clique em Adicionar anúncio.</div>';let select=document.getElementById('selectDevice'),prior=select.value;select.innerHTML=data.devices.map(d=>`<option value="${esc(d.id)}">${esc(d.name)} (${esc(d.id)})</option>`).join('');if(data.devices.some(d=>d.id===prior))select.value=prior;renderPlaylist()}
-function pickDevice(id){activateTab('playlists');document.getElementById('selectDevice').value=id;renderPlaylist()}
-function renderPlaylist(){let id=document.getElementById('selectDevice').value,d=data.devices.find(x=>x.id===id),target=document.getElementById('playlistList');if(!d){target.innerHTML='<div class="empty">Cadastre uma TV Box.</div>';return}let list=d.mediaIds.map(mid=>data.media.find(m=>m.id===mid)).filter(Boolean);target.innerHTML=list.map((m,i)=>`<div class="item"><span><strong>${i+1}. ${esc(m.name)}</strong><div class="muted">${m.type==='image'?'Imagem • '+m.duration+'s':'Vídeo • até o final'}</div></span><div class="rowBtns"><button class="btn secondary small" onclick="moveMedia('${esc(id)}',${i},-1)">↑</button><button class="btn secondary small" onclick="moveMedia('${esc(id)}',${i},1)">↓</button><button class="btn danger small" onclick="unlinkMedia('${esc(id)}','${esc(m.id)}')">Remover</button></div></div>`).join('')||'<div class="empty">Nenhum anúncio vinculado a esta TV.</div>'}
-function openDevice(id){editingDevice=id||null;let d=data.devices.find(x=>x.id===id);document.getElementById('deviceDlgTitle').textContent=d?'Editar TV Box':'Nova TV Box';document.getElementById('deviceName').value=d?.name||'';document.getElementById('deviceCode').value=d?.id||`TV-${String(data.devices.length+1).padStart(3,'0')}`;document.getElementById('deviceCode').disabled=!!d;document.getElementById('deviceDialog').showModal()}
-function saveDevice(){let name=document.getElementById('deviceName').value.trim(),id=document.getElementById('deviceCode').value.trim().toUpperCase();if(!name||!/^[A-Z0-9_-]{3,25}$/.test(id))return alert('Informe o nome e um código com 3 a 25 caracteres (letras, números, _ ou -).');if(editingDevice){data.devices.find(x=>x.id===editingDevice).name=name}else{if(data.devices.some(d=>d.id===id))return alert('Código já cadastrado.');data.devices.push({id,name,mediaIds:[]})}document.getElementById('deviceDialog').close();save()}
-function removeDevice(id){if(confirm('Excluir esta TV Box e seus vínculos?')){data.devices=data.devices.filter(d=>d.id!==id);save()}}
-function toggleMediaDuration(){const video=document.getElementById('mediaType').value==='video';document.getElementById('imageDurationField').style.display=video?'none':'';document.getElementById('videoDurationHint').style.display=video?'':'none';document.getElementById('mediaDuration').disabled=video}
-document.getElementById('mediaType').addEventListener('change',toggleMediaDuration);
-function openMedia(){document.getElementById('mediaFile').value='';document.getElementById('mediaUploadStatus').textContent='';['mediaName','mediaUrl'].forEach(id=>document.getElementById(id).value='');document.getElementById('mediaType').value='image';document.getElementById('mediaDuration').value=10;toggleMediaDuration();document.getElementById('mediaDialog').showModal()}
-function checkMediaFile(){
- const f=document.getElementById('mediaFile').files?.[0];
- if(!f)return;
- const isVideo=f.type.startsWith('video/');
- document.getElementById('mediaType').value=isVideo?'video':'image';
- toggleMediaDuration();
- document.getElementById('mediaUploadStatus').textContent=`Selecionado: ${f.name} (${(f.size/1048576).toFixed(1)} MB)`;
-}
-async function uploadMediaFile(file){
- if(!accessToken)throw Error('Faça login como administrador para enviar arquivos.');
- const mimeTypes={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','video/mp4':'mp4','video/webm':'webm'};
- const ext=mimeTypes[file.type];
- if(!ext)throw Error('Tipo de arquivo inválido. Use JPG, PNG, WebP, MP4 ou WebM.');
- if(file.size>40*1024*1024)throw Error('Arquivo maior que 40 MB. Reduza o tamanho antes do envio.');
- const filename=`${crypto.randomUUID()}.${ext}`;
- const res=await fetch(`${SUPABASE_PROJECT_URL}/storage/v1/object/anuncios/${filename}`,{
-  method:'POST',headers:{'apikey':SUPABASE_PUBLIC_KEY,'Authorization':`Bearer ${accessToken}`,'Content-Type':file.type,'cache-control':'3600','x-upsert':'false'},body:file
- });
- const raw=await res.text();let obj={};try{obj=JSON.parse(raw)}catch{}
- if(!res.ok)throw Error(obj.message||obj.error||`Falha no upload: HTTP ${res.status}. Configure o bucket e as políticas SQL.`);
- return `${SUPABASE_PROJECT_URL}/storage/v1/object/public/anuncios/${filename}`;
-}
-async function saveMedia(){
- const button=document.getElementById('mediaSaveBtn'),status=document.getElementById('mediaUploadStatus');
- let name=document.getElementById('mediaName').value.trim(),type=document.getElementById('mediaType').value,url=document.getElementById('mediaUrl').value.trim(),duration=Number(document.getElementById('mediaDuration').value);
- const file=document.getElementById('mediaFile').files?.[0];
- if(!name)return alert('Informe o nome do anúncio.');
- if(type==='image'&&(!Number.isFinite(duration)||duration<2||duration>300))return alert('Informe a duração da imagem entre 2 e 300 segundos.');
- if(!file){try{let u=new URL(url);if(u.protocol!=='https:')throw Error()}catch{return alert('Selecione um arquivo ou informe uma URL HTTPS válida.')}}
- button.disabled=true;
- try{
-  if(file){status.textContent='Enviando arquivo ao Supabase Storage...';url=await uploadMediaFile(file);document.getElementById('mediaUrl').value=url;status.textContent='Arquivo enviado. Salvando cadastro...';}
-  data.media.push({id:'M-'+crypto.randomUUID(),name,type,url,duration:type==='image'?duration:null});
-  document.getElementById('mediaDialog').close();save();
- }catch(e){status.textContent='Erro: '+e.message;alert('Não foi possível enviar: '+e.message)}finally{button.disabled=false}
-}
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-function removeMedia(id){if(confirm('Excluir este anúncio de todas as programações?')){data.media=data.media.filter(m=>m.id!==id);data.devices.forEach(d=>d.mediaIds=d.mediaIds.filter(x=>x!==id));save()}}
-function openAssign(){let id=document.getElementById('selectDevice').value,d=data.devices.find(x=>x.id===id);if(!d)return alert('Cadastre uma TV Box.');document.getElementById('assignChecks').innerHTML=data.media.map(m=>`<label><input type="checkbox" value="${esc(m.id)}" ${d.mediaIds.includes(m.id)?'checked':''}>${esc(m.name)}</label>`).join('')||'<div class="empty">Cadastre anúncios primeiro.</div>';document.getElementById('assignDialog').showModal()}
-function saveAssign(){let d=data.devices.find(x=>x.id===document.getElementById('selectDevice').value);if(!d)return;const selected=[...document.querySelectorAll('#assignChecks input:checked')].map(x=>x.value);d.mediaIds=[...d.mediaIds.filter(id=>selected.includes(id)),...selected.filter(id=>!d.mediaIds.includes(id))];document.getElementById('assignDialog').close();save()}
-function unlinkMedia(tv,mid){let d=data.devices.find(x=>x.id===tv);d.mediaIds=d.mediaIds.filter(x=>x!==mid);save()}
-function moveMedia(tv,i,delta){let a=data.devices.find(x=>x.id===tv).mediaIds,j=i+delta;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];save()}
-function previewSelected(){let d=data.devices.find(x=>x.id===document.getElementById('selectDevice').value);if(!d)return;previewQueue=d.mediaIds.map(id=>data.media.find(m=>m.id===id)).filter(Boolean);if(!previewQueue.length)return alert('Vincule anúncios antes de testar.');previewIndex=0;document.getElementById('player').classList.add('open');showNext()}
-function showNext(){clearTimeout(previewTimer);let m=previewQueue[previewIndex%previewQueue.length];if(!m)return stopPreview();let area=document.getElementById('playerContent');area.replaceChildren();let el=document.createElement(m.type==='video'?'video':'img');el.src=m.url;if(m.type==='video'){el.autoplay=true;el.muted=true;el.playsInline=true;el.onended=advance;el.onerror=()=>previewTimer=setTimeout(advance,3000);el.play().catch(()=>{document.getElementById('playerInfo').textContent='Falha ao reproduzir vídeo. Confira o link.';previewTimer=setTimeout(advance,5000)})}else{el.onerror=()=>previewTimer=setTimeout(advance,3000);previewTimer=setTimeout(advance,m.duration*1000)}area.append(el);document.getElementById('playerInfo').textContent=`Teste local • ${m.name} • ${previewIndex%previewQueue.length+1}/${previewQueue.length}`}
-function advance(){previewIndex++;showNext()}
-function stopPreview(){clearTimeout(previewTimer);document.getElementById('player').classList.remove('open');document.getElementById('playerContent').replaceChildren()}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')stopPreview()});
-function saveApkRepo(){const el=document.getElementById('apkRepo'),v=el.value.trim().replace(/\/$/,'');if(!/^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(v)){document.getElementById('apkRepoMessage').textContent='Digite um endereço de repositório GitHub válido.';return}localStorage.setItem('divulgamaisaqui_apk_repo',v);document.getElementById('apkRepoMessage').textContent='Endereço salvo neste navegador. A compilação ainda não foi configurada.'}
-function openApkActions(){const repo=(document.getElementById('apkRepo').value.trim()||localStorage.getItem('divulgamaisaqui_apk_repo')||'').replace(/\/$/,'');if(!/^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo))return alert('Primeiro informe e salve o endereço do seu repositório GitHub.');window.open(repo+'/actions','_blank','noopener,noreferrer')}
-const apkSavedRepo=localStorage.getItem('divulgamaisaqui_apk_repo');if(apkSavedRepo)document.getElementById('apkRepo').value=apkSavedRepo;
-function exportData(){let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='divulgamaisaqui-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function importData(e){let f=e.target.files?.[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let obj=JSON.parse(r.result);if(!obj||!Array.isArray(obj.devices)||!Array.isArray(obj.media)||!obj.devices.every(d=>typeof d.id==='string'&&typeof d.name==='string'&&Array.isArray(d.mediaIds))||!obj.media.every(m=>typeof m.id==='string'&&typeof m.name==='string'&&['image','video'].includes(m.type)&&typeof m.url==='string'))throw Error();if(confirm('Substituir os dados atuais pelos dados do backup?')){data=obj;save()}}catch{alert('Backup inválido.')}e.target.value=''};r.readAsText(f)}
-render();
-setInterval(render,5000);
+        button {
+            border: 0;
+        }
 
-const SUPABASE_PROJECT_URL='https://rscdamfwtpvdbidbseqg.supabase.co';
-const SUPABASE_PUBLIC_KEY='sb_publishable_DvVDdR4CrGzuJToa6gYh3A_vV1m3-kk';
-let dbTestInProgress=false;
-async function testSupabaseConnection(){try{await loadRemote();alert('Conexão com banco e autorização administrativa confirmadas.')}catch(e){alert('Não foi possível confirmar acesso: '+e.message)}}
-// Integração com autenticação via Supabase Auth + RPC com políticas seguras.
-let accessToken = sessionStorage.getItem('dma_access') || '';
-let refreshToken = sessionStorage.getItem('dma_refresh') || '';
-let saveTimer=null, saving=false;
-const authGate=document.getElementById('authGate');
-const loadingGate=document.getElementById('loadingGate');
-async function callApi(path,body,auth=true){
- const response=await fetch(SUPABASE_PROJECT_URL+path,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLIC_KEY,...(auth?{'Authorization':'Bearer '+accessToken}:{})},body:JSON.stringify(body)});
- const raw=await response.text();let parsed;try{parsed=raw?JSON.parse(raw):null}catch{parsed={message:raw}};
- if(!response.ok)throw Error(parsed?.message||parsed?.error_description||parsed?.error||('HTTP '+response.status));return parsed;
-}
-async function rpc(name,body){return callApi('/rest/v1/rpc/'+name,body,true)}
-async function signIn(email,password){const a=await callApi('/auth/v1/token?grant_type=password',{email,password},false);accessToken=a.access_token;refreshToken=a.refresh_token;sessionStorage.setItem('dma_access',accessToken);sessionStorage.setItem('dma_refresh',refreshToken);}
-function formatBytes(n){if(!Number.isFinite(n)||n<0)return '—';if(n<1024)return n+' B';const units=['KB','MB','GB','TB'];let i=-1;do{n/=1024;i++}while(n>=1024&&i<3);return n.toLocaleString('pt-BR',{maximumFractionDigits:2})+' '+units[i]}
-async function refreshStorageMetrics(){
- const status=document.getElementById('storageStatus');status.textContent='Consultando o Supabase...';
- try{
- const r=await rpc('estatisticas_armazenamento',{});
- const size=Math.max(0,Number(r.anuncios_bytes||0)),count=Math.max(0,Number(r.anuncios_arquivos||0));
- const cap=1024**3,percent=Math.max(0,100*size/cap);
- document.getElementById('storageUsed').textContent=formatBytes(size);
- document.getElementById('storageRemaining').textContent=formatBytes(Math.max(0,cap-size));
- document.getElementById('storagePercent').textContent=percent.toLocaleString('pt-BR',{maximumFractionDigits:1})+'% da referência de 1 GB';
- document.getElementById('storageFiles').textContent=count+' arquivo(s)';
- document.getElementById('storageBar').style.width=Math.min(100,percent)+'%';
- document.getElementById('storageBar').classList.toggle('warning',percent>=80);
- document.getElementById('databaseUsed').textContent=formatBytes(Number(r.banco_bytes));
- status.textContent='Leitura concluída: '+new Date().toLocaleString('pt-BR')+'.';
- }catch(e){status.textContent='Não foi possível consultar: '+e.message+'. Execute o SQL de métricas no Supabase.'}
-}
-async function loadRemote(){const remote=await rpc('ler_painel',{});if(!remote || !Array.isArray(remote.devices)||!Array.isArray(remote.media))throw Error('Dados do banco inválidos');data=remote;render();await refreshDeviceStatuses();refreshStorageMetrics();document.getElementById('dbModeBadge').textContent='● SUPABASE • SINCRONIZADO';document.getElementById('dbModeBadge').className='pill ok';document.getElementById('supabaseApiStatus').textContent='● BANCO CONECTADO';document.getElementById('supabaseTestResult').textContent='Cadastros e playlists são salvos no Supabase. As TV Boxes precisam ser ativadas individualmente.';}
-async function queueRemoteSave(){clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{if(saving)return queueRemoteSave();saving=true;try{await rpc('salvar_painel',{p_conteudo:data});document.getElementById('dbModeBadge').textContent='● SALVO NO SUPABASE';}catch(e){document.getElementById('dbModeBadge').textContent='ERRO AO SALVAR';alert('Não foi possível salvar no Supabase: '+e.message)}finally{saving=false}},250)}
-async function enterPanel(){authGate.style.display='none';loadingGate.style.display='grid';try{await loadRemote();await new Promise(r=>setTimeout(r,700));loadingGate.style.display='none';}catch(e){loadingGate.style.display='none';authGate.style.display='grid';document.getElementById('loginFeedback').textContent='Sem acesso ao painel: '+e.message;accessToken='';sessionStorage.removeItem('dma_access')}}
-document.getElementById('authForm').addEventListener('submit',async e=>{e.preventDefault();const btn=document.getElementById('loginButton');btn.disabled=true;document.getElementById('loginFeedback').textContent='Autenticando...';try{await signIn(document.getElementById('loginEmail').value.trim(),document.getElementById('loginPassword').value);await enterPanel()}catch(err){document.getElementById('loginFeedback').textContent=err.message}finally{btn.disabled=false}});
-async function logoutAdmin(){sessionStorage.removeItem('dma_access');sessionStorage.removeItem('dma_refresh');accessToken='';authGate.style.display='grid';}
-const logoutBtn=document.createElement('button');logoutBtn.className='btn secondary small';logoutBtn.textContent='Sair';logoutBtn.onclick=logoutAdmin;document.querySelector('main header .line').append(logoutBtn);
-// Ao cadastrar uma TV, gere um token de ativação que será digitado apenas nela.
-async function generateActivation(code){
- if(!accessToken)return alert('Entre primeiro no painel');
- if(saveTimer){clearTimeout(saveTimer);saveTimer=null;await rpc('salvar_painel',{p_conteudo:data});}
- const pin=String(crypto.getRandomValues(new Uint32Array(1))[0]%1000000).padStart(6,'0');
- try{
-  await rpc('ativar_tv',{p_codigo:code,p_token:pin});
-  prompt('PIN DA TV '+code+' — digite este PIN de 6 números no aparelho. O servidor guarda somente o hash; para trocar o PIN, clique em PIN da TV novamente.',pin);
- }catch(e){alert('Não foi possível gerar o PIN: '+e.message)}
-}
-const originalTvCard=tvCard;
-tvCard=function(d,edit){let html=originalTvCard(d,edit);if(edit)html=html.replace('>Excluir</button>',`>Excluir</button><button class="btn secondary small" onclick="generateActivation('${esc(d.id)}')">PIN da TV</button>`);return html};
-// Recarregar o estado ao voltar à aba, evitando mostrar dados desatualizados.
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&accessToken&&!saving)loadRemote().catch(console.warn)});
-setInterval(()=>{if(accessToken)refreshDeviceStatuses()},15000);
-if(accessToken)enterPanel();else authGate.style.display='grid';
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
 
+        .container {
+            width: min(1180px, calc(100% - 40px));
+            margin-inline: auto;
+        }
 
+        /* =========================
+           ENTRADA CINEMATOGRÁFICA
+        ========================== */
 
-// LANDING PAGES: módulo isolado; não altera banco, anúncios ou TV Boxes existentes.
-const SITE_STORAGE='dma_landing_sites_v1';let siteCurrent=null;
-function siteList(){try{return JSON.parse(localStorage.getItem(SITE_STORAGE))||[]}catch{return []}}
-function siteSlug(t){return String(t||'site').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'site'}
-function siteFields(){return ['Company','Headline','Description','Color','Photos','Videos','Whatsapp','Instagram','Facebook','Extra']}
-function siteNew(){siteCurrent=null;siteFields().forEach(k=>document.getElementById('site'+k).value='');document.getElementById('siteColor').value='#2563eb';document.getElementById('siteEditTitle').textContent='Criar novo site';document.getElementById('siteEditor').classList.remove('hidden');document.getElementById('siteCompany').focus()}
-function siteEdit(id){let x=siteList().find(y=>y.id===id);if(!x)return;siteCurrent=x.id;siteFields().forEach(k=>document.getElementById('site'+k).value=x[k.toLowerCase()]||'');document.getElementById('siteEditTitle').textContent='Editar: '+x.company;document.getElementById('siteEditor').classList.remove('hidden')}
-function siteClose(){document.getElementById('siteEditor').classList.add('hidden')}
-function siteSave(){let obj={};siteFields().forEach(k=>obj[k.toLowerCase()]=document.getElementById('site'+k).value.trim());if(!obj.company)return alert('Digite o nome da empresa.');obj.id=siteCurrent||'site_'+Date.now();let items=siteList(),idx=items.findIndex(x=>x.id===obj.id);if(idx>=0){obj.publishedSlug=items[idx].publishedSlug||'';obj.publishedUrl=items[idx].publishedUrl||'';}if(idx<0)items.push(obj);else items[idx]=obj;try{localStorage.setItem(SITE_STORAGE,JSON.stringify(items))}catch(e){return alert('Sem espaço no navegador para salvar: '+e.message)}siteCurrent=obj.id;siteRender();document.getElementById('siteEditTitle').textContent='Editar: '+obj.company;alert('Rascunho salvo neste navegador. Clique em Visualizar ou Baixar index.html para enviar manualmente ao GitHub.')}
-function siteDelete(id){if(!confirm('Excluir este site salvo neste navegador?'))return;localStorage.setItem(SITE_STORAGE,JSON.stringify(siteList().filter(x=>x.id!==id)));if(siteCurrent===id)siteClose();siteRender()}
-function siteRender(){let e=document.getElementById('siteCards');if(!e)return;e.innerHTML=siteList().map(x=>{let slug=x.publishedSlug||siteSlug(x.company),url='https://davisondcbr.github.io/divulgamaisaqui/sites/'+slug+'/';return `<div class="card"><h2>${esc(x.company)}</h2><p class="muted">Pasta: sites/${esc(slug)}/index.html</p><p class="muted" style="overflow-wrap:anywhere">Link previsto: ${esc(url)}</p><div class="rowBtns"><button class="btn small" onclick="siteEdit('${esc(x.id)}')">Editar</button><button class="btn secondary small" onclick="siteOpenId('${esc(x.id)}')">Visualizar</button><a class="btn secondary small" style="text-decoration:none" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Abrir link</a><button class="btn danger small" onclick="siteDelete('${esc(x.id)}')">Excluir rascunho</button></div></div>`}).join('')||'<div class="empty">Nenhum site cadastrado. Clique em + Criar site.</div>'}
-function siteDraft(){let obj={};siteFields().forEach(k=>obj[k.toLowerCase()]=document.getElementById('site'+k).value.trim());return obj}
-function siteSafeLink(url){try{let x=new URL(url);return ['https:','http:'].includes(x.protocol)?x.href:''}catch{return ''}}
-function siteHtml(obj){let enc=t=>String(t||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let urls=(t)=>String(t||'').split(/\r?\n/).map(s=>siteSafeLink(s.trim())).filter(Boolean);let color=/^#[0-9a-fA-F]{6}$/.test(obj.color)?obj.color:'#2563eb';let pics=urls(obj.photos),vids=urls(obj.videos);let buttons=[];if(obj.whatsapp){let n=obj.whatsapp.replace(/\D/g,'');if(n.length>=10&&n.length<=15)buttons.push(['WhatsApp','https://wa.me/'+n])}if(siteSafeLink(obj.instagram))buttons.push(['Instagram',siteSafeLink(obj.instagram)]);if(siteSafeLink(obj.facebook))buttons.push(['Facebook',siteSafeLink(obj.facebook)]);String(obj.extra||'').split(/\r?\n/).forEach(line=>{let i=line.indexOf('|');if(i>0){let label=line.slice(0,i).trim(),url=siteSafeLink(line.slice(i+1).trim());if(label&&url)buttons.push([label,url])}});return `<!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0a101b"><meta name="description" content="${enc(obj.description||obj.headline)}"><title>${enc(obj.company)}</title>
-<style>
-:root{--accent:${color};color-scheme:dark;--bg:#080e19;--panel:#101a2c;--muted:#aebcd0}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#f7f9ff;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;overflow-x:hidden}body.modal-open{overflow:hidden}a{color:inherit;text-decoration:none}button{font:inherit}.wrap{max-width:1180px;margin:auto;padding:0 28px}nav{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:24px 0}.brand{font-weight:900;letter-spacing:-.04em;font-size:clamp(18px,2.6vw,24px)}nav a{font-size:14px;font-weight:700;color:#d4deed;border:1px solid #39465a;padding:11px 17px;border-radius:24px}.hero{position:relative;min-height:68vh;display:flex;align-items:center;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 85% 35%,${color}45,transparent 52%),linear-gradient(115deg,#0a1323,#111b2b 65%,#07111e)}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#080e19,transparent 18%);z-index:-1}.hero .wrap{width:100%;padding-top:90px;padding-bottom:95px}.eyebrow{color:#9ebfff;letter-spacing:.22em;text-transform:uppercase;font-size:12px;font-weight:850}.hero h1{font-size:clamp(47px,8vw,104px);line-height:1.02;letter-spacing:-.065em;margin:20px 0 20px;max-width:1000px;overflow-wrap:anywhere}.hero p{font-size:clamp(17px,2.4vw,23px);line-height:1.6;max-width:690px;color:#c4d0e0}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 23px;border-radius:13px;background:var(--accent);color:white;font-weight:750;transition:transform .22s,filter .22s,box-shadow .22s;box-shadow:0 9px 25px #0002}.btn:hover{transform:translateY(-3px);filter:brightness(1.12);box-shadow:0 14px 30px #0005}section{padding:74px 0}section h2{font-size:clamp(30px,4.6vw,50px);line-height:1.1;letter-spacing:-.04em;margin:0 0 15px}.section-sub{color:var(--muted);margin:0 0 32px;font-size:16px}.desc{max-width:860px;line-height:1.9;color:#c3d0e3;font-size:17px}.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}.media-card{position:relative;overflow:hidden;border:1px solid #293d55;background:#101d2e;border-radius:19px;cursor:pointer;padding:0;text-align:left;width:100%;display:block;aspect-ratio:4/3;transition:border-color .25s,transform .25s,box-shadow .25s}.media-card img,.media-card video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}.media-card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 16px 45px #0007}.media-card:hover img,.media-card:hover video{transform:scale(1.05)}.media-card:focus-visible,.viewer button:focus-visible{outline:3px solid #fff;outline-offset:3px}.media-card .overlay{position:absolute;inset:auto 0 0;background:linear-gradient(transparent,#08111fe8);padding:35px 17px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;color:#fff;font-weight:650}.media-card .round{background:#ffffff2c;border:1px solid #ffffff40;padding:8px 12px;border-radius:30px;backdrop-filter:blur(10px)}.divider-line{border-top:1px solid #24364b}.contact{padding:85px 0;background:radial-gradient(ellipse at 90% 80%,${color}22,transparent 50%)}footer{padding:27px 0;color:#a3b4cd;border-top:1px solid #283b53;font-size:14px}.loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(circle at center,${color}25,#080e19 62%);transition:opacity .5s ease,visibility .5s}.loader.off{opacity:0;visibility:hidden;pointer-events:none}.load-inner{text-align:center;padding:25px}.loadmark{width:74px;height:74px;border:3px solid #ffffff25;border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 27px}.loadtext{font-weight:900;font-size:clamp(23px,5vw,38px);letter-spacing:-.05em}.loadbar{width:min(230px,62vw);height:3px;background:#ffffff25;margin:25px auto 0;border-radius:20px;overflow:hidden}.loadbar:after{content:"";display:block;background:var(--accent);height:100%;width:40%;animation:loading 1.3s ease-in-out infinite}.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}@keyframes spin{to{transform:rotate(360deg)}}@keyframes loading{from{transform:translateX(-120%)}to{transform:translateX(340%)}}
-/* Visualizador de fotos e vídeos em tela cheia */
-.viewer{position:fixed;inset:0;background:rgba(2,6,14,.97);z-index:11000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:75px 75px 74px;backdrop-filter:blur(18px)}.viewer.open{display:flex;animation:fade-in .2s ease}.viewer-body{width:100%;height:100%;display:flex;justify-content:center;align-items:center;min-height:0}.viewer-body img,.viewer-body video{max-width:100%;max-height:100%;object-fit:contain;border-radius:10px;box-shadow:0 20px 90px #0008}.viewer-close,.viewer-arrow{position:absolute;border:1px solid #ffffff35;background:#ffffff1c;color:white;display:grid;place-items:center;border-radius:50%;cursor:pointer;transition:background .2s,transform .2s;z-index:2}.viewer-close:hover,.viewer-arrow:hover{background:#ffffff38;transform:scale(1.07)}.viewer-close{top:19px;right:22px;width:48px;height:48px;font-size:31px}.viewer-arrow{top:50%;transform:translateY(-50%);width:46px;height:46px;font-size:32px}.viewer-arrow:hover{transform:translateY(-50%) scale(1.07)}.viewer-prev{left:18px}.viewer-next{right:18px}.viewer-counter{position:absolute;bottom:25px;color:#cbd5e5;font-size:13px;letter-spacing:.05em}.viewer-title{position:absolute;top:28px;left:26px;font-weight:750;color:white;font-size:15px}.viewer-hint{position:absolute;bottom:22px;right:26px;color:#91a1ba;font-size:12px}@keyframes fade-in{from{opacity:0}to{opacity:1}}@media(max-width:800px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.viewer{padding:67px 14px 65px}.viewer-arrow{top:auto;bottom:17px;transform:none;width:42px;height:42px}.viewer-arrow:hover{transform:scale(1.07)}.viewer-prev{left:18px}.viewer-next{right:18px}.viewer-counter{bottom:31px}.viewer-hint{display:none}}@media(max-width:560px){.wrap{padding:0 18px}nav{padding:17px 0}.hero{min-height:62svh}.hero .wrap{padding-top:62px;padding-bottom:62px}section{padding:50px 0}.gallery{grid-template-columns:1fr;gap:15px}.media-card{aspect-ratio:4/3}.actions{flex-direction:column}.btn{width:100%}.viewer-title{left:15px;top:30px;max-width:75%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.viewer-close{right:13px;top:18px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}.reveal{opacity:1;transform:none}}
-</style></head>
-<body><div class="loader" id="loader"><div class="load-inner"><div class="loadmark"></div><div class="loadtext">${enc(obj.company)}</div><div class="loadbar"></div></div></div><div class="wrap"><nav><strong class="brand">${enc(obj.company)}</strong><a href="#contato">Fale conosco ↗</a></nav></div>
-<main><header class="hero"><div class="wrap reveal"><div class="eyebrow">Bem-vindo · Conheça nosso trabalho</div><h1>${enc(obj.company)}</h1><p>${enc(obj.headline||'Excelência e cuidado em cada detalhe.')}</p><div class="actions">${buttons.map(([t,u])=>`<a class="btn" href="${enc(u)}" target="_blank" rel="noopener noreferrer">${enc(t)} ↗</a>`).join('')}</div></div></header>
-${obj.description?`<section class="wrap reveal"><h2>Sobre nós</h2><p class="desc">${enc(obj.description)}</p></section>`:''}
-${pics.length?`<section class="wrap reveal divider-line" id="fotos"><h2>Nosso trabalho em imagens</h2><p class="section-sub">Toque ou clique em uma foto para ampliar e navegar pela galeria.</p><div class="gallery">${pics.map((u,i)=>`<button type="button" class="media-card" data-kind="image" data-url="${enc(u)}" aria-label="Ampliar foto ${i+1}"><img src="${enc(u)}" alt="Foto ${i+1} de ${enc(obj.company)}" loading="lazy"><span class="overlay"><span>Foto ${String(i+1).padStart(2,'0')}</span><span class="round">Ampliar ↗</span></span></button>`).join('')}</div></section>`:''}
-${vids.length?`<section class="wrap reveal divider-line" id="videos"><h2>Vídeos e novidades</h2><p class="section-sub">Assista aos nossos vídeos em destaque, em tela cheia.</p><div class="gallery">${vids.map((u,i)=>`<button type="button" class="media-card" data-kind="video" data-url="${enc(u)}" aria-label="Abrir vídeo ${i+1}"><video src="${enc(u)}" muted playsinline preload="metadata" tabindex="-1" aria-hidden="true"></video><span class="overlay"><span>Vídeo ${String(i+1).padStart(2,'0')}</span><span class="round">▶ Assistir</span></span></button>`).join('')}</div></section>`:''}
-<section class="contact" id="contato"><div class="wrap reveal"><div class="eyebrow">Vamos conversar?</div><h2>Entre em contato</h2><p class="desc">Estamos à disposição para atender você. Entre em contato ou acompanhe nossas novidades.</p><div class="actions">${buttons.map(([t,u])=>`<a class="btn" href="${enc(u)}" target="_blank" rel="noopener noreferrer">${enc(t)} ↗</a>`).join('')}</div></div></section></main><footer><div class="wrap">© ${new Date().getFullYear()} ${enc(obj.company)} · Todos os direitos reservados.</div></footer>
-<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Galeria de fotos e vídeos" tabindex="-1"><div class="viewer-title">${enc(obj.company)} · Galeria</div><button type="button" class="viewer-close" id="viewerClose" aria-label="Fechar e voltar ao site">×</button><button type="button" class="viewer-arrow viewer-prev" id="viewerPrev" aria-label="Anterior">‹</button><div class="viewer-body" id="viewerBody"></div><button type="button" class="viewer-arrow viewer-next" id="viewerNext" aria-label="Próximo">›</button><div class="viewer-counter" id="viewerCounter"></div><div class="viewer-hint">Use as setas para navegar · Esc para fechar</div></div>
-<script>
-(function(){'use strict';
-var loader=document.getElementById('loader');function ready(){loader.classList.add('off');document.querySelectorAll('.reveal').forEach(function(el){if(!('IntersectionObserver' in window)){el.classList.add('visible');return;}observer.observe(el);});}var observer=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});},{threshold:.1});if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){setTimeout(ready,500);});}else{setTimeout(ready,500);}setTimeout(function(){loader.classList.add('off');},2200);
-var cards=Array.from(document.querySelectorAll('.media-card'));var modal=document.getElementById('viewer');var body=document.getElementById('viewerBody');var counter=document.getElementById('viewerCounter');var index=0;var lastFocus=null;
-function show(i){if(!cards.length)return;index=(i+cards.length)%cards.length;var card=cards[index];var url=card.getAttribute('data-url');var kind=card.getAttribute('data-kind');body.replaceChildren();var node=document.createElement(kind==='video'?'video':'img');node.src=url;if(kind==='video'){node.controls=true;node.autoplay=true;node.playsInline=true;node.preload='auto';}else{node.alt=card.querySelector('img')?.alt||'Foto ampliada';}body.appendChild(node);counter.textContent=(index+1)+' de '+cards.length;}
-function open(i){lastFocus=document.activeElement;modal.classList.add('open');document.body.classList.add('modal-open');show(i);document.getElementById('viewerClose').focus();}
-function close(){modal.classList.remove('open');document.body.classList.remove('modal-open');body.replaceChildren();if(lastFocus&&lastFocus.focus)lastFocus.focus();}
-cards.forEach(function(card,i){card.addEventListener('click',function(){open(i);});});document.getElementById('viewerClose').addEventListener('click',close);document.getElementById('viewerPrev').addEventListener('click',function(){show(index-1);});document.getElementById('viewerNext').addEventListener('click',function(){show(index+1);});modal.addEventListener('click',function(e){if(e.target===modal)close();});document.addEventListener('keydown',function(e){if(!modal.classList.contains('open'))return;if(e.key==='Escape')close();else if(e.key==='ArrowLeft')show(index-1);else if(e.key==='ArrowRight')show(index+1);else if(e.key==='Tab'){var closeBtn=document.getElementById('viewerClose');if(e.shiftKey&&document.activeElement===closeBtn){e.preventDefault();document.getElementById('viewerNext').focus();}}});
-var startX=null;body.addEventListener('touchstart',function(e){startX=e.touches[0].clientX;},{passive:true});body.addEventListener('touchend',function(e){if(startX===null)return;var d=e.changedTouches[0].clientX-startX;if(Math.abs(d)>65)show(index+(d<0?1:-1));startX=null;},{passive:true});
-})();
-<\/script></body></html>`}
+        .intro {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 73% 16%, rgba(255,255,255,.94) 0 4%, transparent 18%),
+                linear-gradient(180deg, #8bdcff 0%, #c8f2ff 47%, #f6feff 65%);
+            transition: opacity .75s ease, visibility .75s ease;
+        }
 
-function siteCopyUrl(){const o=siteDraft();if(!o.company)return alert('Digite o nome da empresa.');const prev=siteList().find(x=>x.id===siteCurrent);const slug=prev?.publishedSlug||siteSlug(o.company);const url='https://davisondcbr.github.io/divulgamaisaqui/sites/'+slug+'/';navigator.clipboard?.writeText(url).then(()=>alert('Link previsto copiado. Ele só funcionará após enviar o index.html ao GitHub:\n'+url)).catch(()=>prompt('Copie o link previsto:',url));}
-function siteDownload(){let o=siteDraft();if(!o.company)return alert('Digite o nome da empresa.');let blob=new Blob([siteHtml(o)],{type:'text/html;charset=utf-8'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='index.html';a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
-function sitePreview(){let o=siteDraft();if(!o.company)return alert('Digite o nome da empresa.');let u=URL.createObjectURL(new Blob([siteHtml(o)],{type:'text/html;charset=utf-8'}));window.open(u,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(u),30000)}
-function siteOpenId(id){let x=siteList().find(y=>y.id===id);if(!x)return;let u=URL.createObjectURL(new Blob([siteHtml(x)],{type:'text/html;charset=utf-8'}));window.open(u,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(u),30000)}
+        .intro.is-leaving {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
-</script></body></html>
+        .intro-sun {
+            position: absolute;
+            top: 8%;
+            right: 12%;
+            width: min(150px, 18vw);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: rgba(255, 247, 183, .96);
+            box-shadow: 0 0 80px 26px rgba(255, 247, 183, .62);
+        }
+
+        .cloud {
+            position: absolute;
+            width: 150px;
+            height: 36px;
+            border-radius: 100px;
+            background: rgba(255,255,255,.82);
+            filter: drop-shadow(0 12px 18px rgba(56,123,152,.1));
+            animation: cloudMove 12s linear infinite;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: "";
+            position: absolute;
+            bottom: 4px;
+            border-radius: 50%;
+            background: inherit;
+        }
+
+        .cloud::before { width: 62px; height: 62px; left: 24px; }
+        .cloud::after { width: 78px; height: 78px; right: 18px; }
+        .cloud.c1 { top: 17%; left: 8%; animation-duration: 16s; transform: scale(.75); }
+        .cloud.c2 { top: 28%; left: 62%; animation-duration: 21s; animation-delay: -8s; transform: scale(.5); }
+
+        @keyframes cloudMove {
+            from { translate: -25vw 0; }
+            to { translate: 115vw 0; }
+        }
+
+        .intro-city {
+            position: absolute;
+            inset: auto 0 20%;
+            width: 100%;
+            height: 54%;
+        }
+
+        .intro-city svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .grass {
+            position: absolute;
+            inset: auto 0 0;
+            height: 25%;
+            background:
+                radial-gradient(ellipse at 50% 0, rgba(217,255,67,.32), transparent 44%),
+                repeating-linear-gradient(93deg, transparent 0 9px, rgba(255,255,255,.05) 10px 11px),
+                linear-gradient(180deg, #50bb59, #208b45 72%, #126637);
+            border-top: 8px solid rgba(217,255,67,.55);
+        }
+
+        .grass::before {
+            content: "";
+            position: absolute;
+            inset: 22% 12% auto;
+            height: 18%;
+            border-radius: 50%;
+            background: rgba(7,19,31,.14);
+            filter: blur(16px);
+            animation: landingShadow 4.4s ease forwards;
+        }
+
+        .landing-pad {
+            position: absolute;
+            z-index: 3;
+            left: 50%;
+            bottom: 7%;
+            width: min(320px, 62vw);
+            height: min(90px, 13vw);
+            translate: -50% 0;
+            border: 3px solid rgba(217,255,67,.9);
+            border-radius: 50%;
+            background: rgba(7,19,31,.78);
+            box-shadow: 0 0 0 12px rgba(7,19,31,.14), 0 20px 40px rgba(7,19,31,.25);
+        }
+
+        .landing-pad::before,
+        .landing-pad::after {
+            content: "";
+            position: absolute;
+            inset: 50% auto auto 50%;
+            background: var(--lime);
+            transform: translate(-50%, -50%);
+        }
+
+        .landing-pad::before { width: 42%; height: 5px; }
+        .landing-pad::after { width: 5px; height: 58%; }
+
+        .drone-flight {
+            position: absolute;
+            z-index: 8;
+            left: 50%;
+            top: 48%;
+            width: clamp(180px, 24vw, 310px);
+            animation: droneApproach 4.35s cubic-bezier(.2,.75,.22,1) forwards;
+            filter: drop-shadow(0 24px 18px rgba(7,19,31,.24));
+        }
+
+        .drone {
+            position: relative;
+            height: 112px;
+            animation: hover .52s ease-in-out infinite alternate;
+        }
+
+        .drone-core {
+            position: absolute;
+            left: 50%;
+            top: 35px;
+            width: 84px;
+            height: 40px;
+            translate: -50% 0;
+            border-radius: 22px 22px 28px 28px;
+            background: linear-gradient(145deg, #20394b, #07131f 72%);
+            box-shadow: inset 0 4px 0 rgba(255,255,255,.12);
+        }
+
+        .drone-core::before {
+            content: "D+A";
+            position: absolute;
+            inset: 8px 17px;
+            display: grid;
+            place-items: center;
+            border-radius: 7px;
+            background: var(--lime);
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 950;
+            letter-spacing: -.04em;
+        }
+
+        .camera {
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            width: 24px;
+            height: 24px;
+            translate: -50% 0;
+            border: 5px solid #1e3546;
+            border-radius: 50%;
+            background: radial-gradient(circle at 38% 34%, #b6f2ff 0 13%, #20749b 15% 36%, #06141e 40%);
+        }
+
+        .drone-arm {
+            position: absolute;
+            top: 48px;
+            width: 42%;
+            height: 8px;
+            border-radius: 10px;
+            background: #132b3c;
+        }
+
+        .drone-arm.left { left: 8%; rotate: -8deg; }
+        .drone-arm.right { right: 8%; rotate: 8deg; }
+
+        .rotor {
+            position: absolute;
+            top: 25px;
+            width: 38%;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(7,19,31,.74);
+            animation: rotorSpin .09s linear infinite;
+            box-shadow: 0 0 18px rgba(102,217,255,.36);
+        }
+
+        .rotor::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: -4px;
+            width: 10px;
+            height: 16px;
+            translate: -50% 0;
+            border-radius: 4px;
+            background: #20394b;
+        }
+
+        .rotor.left { left: -4%; }
+        .rotor.right { right: -4%; }
+
+        .drone-leg {
+            position: absolute;
+            top: 70px;
+            width: 32px;
+            height: 25px;
+            border: 4px solid #132b3c;
+            border-top: 0;
+            border-radius: 0 0 14px 14px;
+        }
+
+        .drone-leg.left { left: calc(50% - 44px); }
+        .drone-leg.right { right: calc(50% - 44px); }
+
+        @keyframes rotorSpin {
+            50% { transform: scaleX(.18); opacity: .5; }
+        }
+
+        @keyframes hover {
+            to { translate: 0 -5px; rotate: .7deg; }
+        }
+
+        @keyframes droneApproach {
+            0% { transform: translate(-145vw, -56vh) scale(.55) rotate(-8deg); }
+            42% { transform: translate(-54vw, -31vh) scale(.76) rotate(4deg); }
+            72% { transform: translate(-16vw, -15vh) scale(.9) rotate(-2deg); }
+            88% { transform: translate(-50%, 8vh) scale(.93) rotate(0); }
+            100% { transform: translate(-50%, 17vh) scale(.9) rotate(0); }
+        }
+
+        @keyframes landingShadow {
+            0%, 35% { transform: scale(.15); opacity: 0; }
+            82% { transform: scale(.65); opacity: .3; }
+            100% { transform: scale(.38); opacity: .2; }
+        }
+
+        .intro-brand {
+            position: absolute;
+            z-index: 10;
+            left: 50%;
+            top: 8%;
+            width: min(680px, calc(100% - 44px));
+            translate: -50% 0;
+            text-align: center;
+            color: var(--ink);
+            opacity: 0;
+            transform: translateY(18px);
+            animation: brandReveal .75s 3.55s ease forwards;
+        }
+
+        .intro-brand small {
+            display: block;
+            margin-bottom: 8px;
+            font-size: clamp(11px, 1.25vw, 15px);
+            font-weight: 850;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+        }
+
+        .intro-brand strong {
+            display: block;
+            font-size: clamp(42px, 8vw, 96px);
+            font-weight: 950;
+            letter-spacing: -.075em;
+            line-height: .88;
+        }
+
+        .intro-brand strong span { color: #4c7500; }
+
+        @keyframes brandReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro-progress {
+            position: absolute;
+            z-index: 12;
+            left: 50%;
+            bottom: 22px;
+            width: min(380px, calc(100% - 120px));
+            height: 4px;
+            translate: -50% 0;
+            overflow: hidden;
+            border-radius: 99px;
+            background: rgba(255,255,255,.42);
+        }
+
+        .intro-progress::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            transform-origin: left;
+            background: var(--ink);
+            animation: introProgress 4.9s linear forwards;
+        }
+
+        @keyframes introProgress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+        .skip-intro {
+            position: absolute;
+            z-index: 20;
+            top: 22px;
+            right: 22px;
+            padding: 10px 16px;
+            border: 1px solid rgba(7,19,31,.18);
+            border-radius: 999px;
+            color: var(--ink);
+            background: rgba(255,255,255,.68);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        /* =========================
+           NAVEGAÇÃO
+        ========================== */
+
+        .site-header {
+            position: fixed;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 17px 0;
+            transition: background .25s ease, box-shadow .25s ease, padding .25s ease;
+        }
+
+        .site-header.scrolled {
+            padding: 10px 0;
+            background: rgba(247,250,248,.9);
+            box-shadow: 0 10px 35px rgba(7,19,31,.08);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 21px;
+            font-weight: 950;
+            letter-spacing: -.06em;
+        }
+
+        .brand-symbol {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            color: var(--ink);
+            background: var(--lime);
+            box-shadow: 0 8px 22px rgba(170,207,22,.28);
+            font-size: 13px;
+            letter-spacing: -.05em;
+        }
+
+        .brand span span { color: #6e9400; }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+            color: #2e4657;
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .nav-links a { transition: color .2s ease; }
+        .nav-links a:hover { color: #648700; }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .replay-button {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: rgba(255,255,255,.7);
+            cursor: pointer;
+            transition: transform .2s ease, border-color .2s ease;
+        }
+
+        .replay-button:hover { transform: rotate(-20deg); border-color: var(--lime-dark); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 48px;
+            padding: 0 22px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 850;
+            transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn-primary {
+            color: var(--ink);
+            background: var(--lime);
+            box-shadow: 0 14px 30px rgba(170,207,22,.28);
+        }
+
+        .btn-primary:hover { background: #e5ff79; box-shadow: 0 18px 38px rgba(170,207,22,.36); }
+
+        .btn-dark {
+            color: var(--white);
+            background: var(--ink);
+            box-shadow: 0 14px 30px rgba(7,19,31,.2);
+        }
+
+        .btn-dark:hover { background: var(--ink-lighter); }
+
+        .btn-outline {
+            border: 1px solid var(--line);
+            color: var(--ink);
+            background: rgba(255,255,255,.54);
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 900px;
+            padding: 150px 0 90px;
+            overflow: hidden;
+            background:
+                linear-gradient(rgba(7,19,31,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(7,19,31,.035) 1px, transparent 1px),
+                radial-gradient(circle at 78% 31%, rgba(102,217,255,.19), transparent 25%),
+                radial-gradient(circle at 16% 72%, rgba(217,255,67,.2), transparent 28%);
+            background-size: 42px 42px, 42px 42px, auto, auto;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            right: -15vw;
+            bottom: -18vw;
+            width: 62vw;
+            height: 62vw;
+            border: 1px solid rgba(7,19,31,.07);
+            border-radius: 50%;
+            box-shadow: 0 0 0 80px rgba(7,19,31,.025), 0 0 0 160px rgba(7,19,31,.018);
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.06fr .94fr;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 23px;
+            padding: 8px 13px;
+            border: 1px solid rgba(106,145,0,.22);
+            border-radius: 999px;
+            color: #577700;
+            background: rgba(217,255,67,.18);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: .11em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--lime-dark);
+            box-shadow: 0 0 0 5px rgba(170,207,22,.14);
+        }
+
+        .hero h1 {
+            max-width: 730px;
+            font-size: clamp(54px, 7.2vw, 104px);
+            line-height: .92;
+            letter-spacing: -.078em;
+            font-weight: 950;
+        }
+
+        .hero h1 .highlight {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .hero h1 .highlight::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            left: -.02em;
+            right: -.05em;
+            bottom: .04em;
+            height: .24em;
+            border-radius: 8px;
+            background: var(--lime);
+            transform: rotate(-1.3deg);
+        }
+
+        .hero-copy > p {
+            max-width: 610px;
+            margin: 28px 0 32px;
+            color: #425868;
+            font-size: clamp(18px, 2vw, 22px);
+            line-height: 1.6;
+        }
+
+        .hero-copy > p strong { color: var(--ink); }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .micro-proof {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 30px;
+            color: #496070;
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        .micro-proof span::before {
+            content: "✓";
+            display: inline-grid;
+            place-items: center;
+            width: 19px;
+            height: 19px;
+            margin-right: 7px;
+            border-radius: 50%;
+            color: var(--ink);
+            background: var(--lime);
+            font-size: 11px;
+            font-weight: 950;
+        }
+
+        .hero-visual {
+            position: relative;
+            min-height: 620px;
+        }
+
+        .visual-orbit {
+            position: absolute;
+            inset: 5% 0 0;
+            border: 1px dashed rgba(7,19,31,.16);
+            border-radius: 50%;
+            animation: orbitSpin 38s linear infinite;
+        }
+
+        .visual-orbit::before,
+        .visual-orbit::after {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--lime);
+            box-shadow: 0 0 0 8px rgba(217,255,67,.2);
+        }
+
+        .visual-orbit::before { top: 15%; left: 9%; }
+        .visual-orbit::after { right: 12%; bottom: 13%; background: var(--cyan); box-shadow: 0 0 0 8px rgba(102,217,255,.16); }
+
+        @keyframes orbitSpin { to { rotate: 360deg; } }
+
+        .paper-stack {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: min(370px, 70vw);
+            aspect-ratio: 210 / 297;
+            translate: -50% -49%;
+            transform: rotate(4deg);
+        }
+
+        .paper-sheet {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            border: 1px solid rgba(7,19,31,.08);
+            border-radius: 11px;
+            background: var(--white);
+            box-shadow: 0 35px 80px rgba(7,19,31,.2);
+        }
+
+        .paper-sheet.back-one { transform: rotate(-10deg) translate(-29px, 14px); background: #d9ff43; }
+        .paper-sheet.back-two { transform: rotate(9deg) translate(28px, 7px); background: #66d9ff; }
+
+        .a4-design {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 25px;
+            color: var(--white);
+            background:
+                radial-gradient(circle at 80% 19%, rgba(217,255,67,.95) 0 13%, transparent 13.5%),
+                radial-gradient(circle at 90% 80%, rgba(102,217,255,.36), transparent 24%),
+                var(--ink);
+        }
+
+        .a4-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 850;
+            letter-spacing: .08em;
+        }
+
+        .a4-plus {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            color: var(--ink);
+            background: var(--lime);
+            font-size: 13px;
+            letter-spacing: -.06em;
+        }
+
+        .a4-design h3 {
+            margin-top: auto;
+            max-width: 92%;
+            font-size: clamp(38px, 5vw, 58px);
+            line-height: .92;
+            letter-spacing: -.07em;
+            font-weight: 950;
+        }
+
+        .a4-design h3 span { color: var(--lime); }
+
+        .a4-design p {
+            margin-top: 16px;
+            color: rgba(255,255,255,.72);
+            font-size: 13px;
+        }
+
+        .a4-footer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,.16);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .floating-chip {
+            position: absolute;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 1px solid rgba(7,19,31,.07);
+            border-radius: 16px;
+            background: rgba(255,255,255,.88);
+            box-shadow: 0 18px 40px rgba(7,19,31,.13);
+            backdrop-filter: blur(12px);
+            color: #263e4f;
+            font-size: 12px;
+            font-weight: 850;
+            animation: chipFloat 3.4s ease-in-out infinite alternate;
+        }
+
+        .floating-chip b {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
+            color: var(--ink);
+            background: var(--lime);
+            font-size: 17px;
+        }
+
+        .floating-chip.one { top: 9%; right: -4%; }
+        .floating-chip.two { left: -8%; bottom: 24%; animation-delay: -.8s; }
+        .floating-chip.three { right: -7%; bottom: 9%; animation-delay: -1.7s; }
+
+        @keyframes chipFloat { to { transform: translateY(-10px) rotate(1deg); } }
+
+        /* =========================
+           NÚMEROS E SEÇÕES
+        ========================== */
+
+        .impact-strip {
+            position: relative;
+            z-index: 5;
+            margin-top: -44px;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 24px;
+            color: var(--white);
+            background: var(--ink);
+            box-shadow: 0 25px 70px rgba(7,19,31,.2);
+        }
+
+        .impact-item {
+            padding: 28px 26px;
+            border-right: 1px solid rgba(255,255,255,.1);
+        }
+
+        .impact-item:last-child { border-right: 0; }
+        .impact-item strong { display: block; color: var(--lime); font-size: 35px; line-height: 1; letter-spacing: -.06em; }
+        .impact-item span { display: block; margin-top: 7px; color: rgba(255,255,255,.65); font-size: 12px; font-weight: 750; }
+
+        section.content-section { padding: 120px 0; }
+
+        .section-kicker {
+            margin-bottom: 13px;
+            color: #6a8f00;
+            font-size: 12px;
+            font-weight: 950;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            max-width: 790px;
+            font-size: clamp(39px, 5vw, 70px);
+            line-height: 1;
+            letter-spacing: -.065em;
+            font-weight: 950;
+        }
+
+        .section-lead {
+            max-width: 650px;
+            margin-top: 20px;
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .offer-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 18px;
+            margin-top: 52px;
+        }
+
+        .offer-card {
+            position: relative;
+            min-height: 305px;
+            padding: 30px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: rgba(255,255,255,.72);
+            transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+        }
+
+        .offer-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(170,207,22,.45);
+            box-shadow: var(--shadow);
+        }
+
+        .offer-card.large { grid-column: span 7; }
+        .offer-card.medium { grid-column: span 5; }
+        .offer-card.third { grid-column: span 4; }
+
+        .offer-card.dark {
+            color: var(--white);
+            border-color: rgba(255,255,255,.08);
+            background: var(--ink);
+        }
+
+        .offer-card.lime { background: var(--lime); }
+
+        .offer-number {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #83919b;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: .1em;
+        }
+
+        .dark .offer-number { color: rgba(255,255,255,.5); }
+
+        .offer-icon {
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 17px;
+            color: var(--ink);
+            background: var(--lime);
+            font-size: 24px;
+        }
+
+        .lime .offer-icon { background: var(--ink); color: var(--lime); }
+
+        .offer-card h3 {
+            max-width: 430px;
+            margin-top: 48px;
+            font-size: clamp(27px, 3vw, 39px);
+            line-height: 1.02;
+            letter-spacing: -.05em;
+        }
+
+        .offer-card p {
+            max-width: 490px;
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+
+        .dark p { color: rgba(255,255,255,.63); }
+        .lime p { color: #334300; }
+
+        .story-dots {
+            position: absolute;
+            right: 25px;
+            bottom: 24px;
+            display: flex;
+            gap: 7px;
+        }
+
+        .story-dots i {
+            display: block;
+            width: 9px;
+            height: 45px;
+            border-radius: 9px;
+            background: var(--cyan);
+            transform: rotate(8deg);
+        }
+
+        .story-dots i:nth-child(2) { height: 68px; background: var(--lime); }
+        .story-dots i:nth-child(3) { height: 54px; background: var(--orange); }
+        .story-dots i:nth-child(4) { height: 78px; background: #9f8cff; }
+
+        /* =========================
+           30 DIAS
+        ========================== */
+
+        .stories-section {
+            color: var(--white);
+            background:
+                radial-gradient(circle at 80% 25%, rgba(102,217,255,.16), transparent 24%),
+                radial-gradient(circle at 14% 80%, rgba(217,255,67,.13), transparent 28%),
+                var(--ink);
+        }
+
+        .stories-section .section-kicker { color: var(--lime); }
+        .stories-section .section-lead { color: rgba(255,255,255,.63); }
+
+        .stories-layout {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            align-items: center;
+            gap: 80px;
+            margin-top: 58px;
+        }
+
+        .stories-copy h3 {
+            font-size: clamp(34px, 4vw, 58px);
+            line-height: 1;
+            letter-spacing: -.06em;
+        }
+
+        .stories-copy p {
+            margin-top: 20px;
+            color: rgba(255,255,255,.62);
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        .days-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+            padding: 14px 18px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 16px;
+            background: rgba(255,255,255,.06);
+            font-weight: 850;
+        }
+
+        .days-pill strong {
+            color: var(--lime);
+            font-size: 30px;
+            line-height: 1;
+        }
+
+        .story-carousel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 520px;
+            perspective: 1200px;
+        }
+
+        .story-card {
+            position: absolute;
+            left: 50%;
+            width: 230px;
+            aspect-ratio: 9 / 16;
+            overflow: hidden;
+            border: 7px solid rgba(255,255,255,.08);
+            border-radius: 30px;
+            box-shadow: 0 35px 80px rgba(0,0,0,.35);
+            transform-origin: center bottom;
+        }
+
+        .story-card:nth-child(1) { transform: translateX(-155%) rotateY(20deg) rotate(-9deg) scale(.76); opacity: .56; background: linear-gradient(150deg,#ff8a3d,#ff4370); }
+        .story-card:nth-child(2) { transform: translateX(-96%) rotateY(12deg) rotate(-4deg) scale(.9); opacity: .82; background: linear-gradient(145deg,#66d9ff,#3b5cff); }
+        .story-card:nth-child(3) { z-index: 3; transform: translateX(-50%) scale(1.04); background: var(--lime); }
+        .story-card:nth-child(4) { transform: translateX(-4%) rotateY(-12deg) rotate(4deg) scale(.9); opacity: .82; background: linear-gradient(145deg,#9f8cff,#ff5ac8); }
+        .story-card:nth-child(5) { transform: translateX(55%) rotateY(-20deg) rotate(9deg) scale(.76); opacity: .56; background: linear-gradient(145deg,#67efba,#0b9e74); }
+
+        .story-ui {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 20px 17px;
+            color: var(--ink);
+        }
+
+        .story-card:not(:nth-child(3)) .story-ui { color: var(--white); }
+
+        .story-progress-line {
+            width: 100%;
+            height: 3px;
+            border-radius: 8px;
+            background: currentColor;
+            opacity: .45;
+        }
+
+        .story-label {
+            margin-top: auto;
+            font-size: 11px;
+            font-weight: 950;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .story-ui strong {
+            display: block;
+            margin: 7px 0 14px;
+            font-size: 33px;
+            line-height: .94;
+            letter-spacing: -.06em;
+        }
+
+        .story-ui small { font-size: 10px; font-weight: 750; opacity: .7; }
+
+        /* =========================
+           CIDADE / 6 PONTOS
+        ========================== */
+
+        .city-layout {
+            display: grid;
+            grid-template-columns: .88fr 1.12fr;
+            align-items: center;
+            gap: 70px;
+            margin-top: 55px;
+        }
+
+        .city-map {
+            position: relative;
+            min-height: 560px;
+            overflow: hidden;
+            border-radius: 36px;
+            background:
+                linear-gradient(32deg, transparent 47%, rgba(255,255,255,.75) 48% 52%, transparent 53%),
+                linear-gradient(-48deg, transparent 47%, rgba(255,255,255,.72) 48% 52%, transparent 53%),
+                radial-gradient(circle at 15% 20%, #c9ed9f 0 8%, transparent 8.5%),
+                radial-gradient(circle at 82% 72%, #aee48d 0 12%, transparent 12.5%),
+                #dceecf;
+            box-shadow: inset 0 0 0 1px rgba(7,19,31,.05), var(--shadow);
+        }
+
+        .map-road {
+            position: absolute;
+            left: -10%;
+            top: 45%;
+            width: 120%;
+            height: 34px;
+            rotate: -9deg;
+            border: 6px solid #fff;
+            border-left: 0;
+            border-right: 0;
+            background: #b9c5c7;
+        }
+
+        .map-road::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            border-top: 2px dashed rgba(255,255,255,.92);
+        }
+
+        .map-center {
+            position: absolute;
+            z-index: 4;
+            left: 50%;
+            top: 48%;
+            display: grid;
+            place-items: center;
+            width: 112px;
+            height: 112px;
+            translate: -50% -50%;
+            border: 8px solid rgba(255,255,255,.9);
+            border-radius: 50%;
+            color: var(--white);
+            background: var(--ink);
+            box-shadow: 0 20px 35px rgba(7,19,31,.28), 0 0 0 12px rgba(217,255,67,.38);
+            font-size: 18px;
+            font-weight: 950;
+            letter-spacing: -.06em;
+        }
+
+        .map-point {
+            position: absolute;
+            z-index: 5;
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            border: 5px solid var(--white);
+            border-radius: 17px 17px 17px 4px;
+            color: var(--ink);
+            background: var(--lime);
+            box-shadow: 0 14px 25px rgba(7,19,31,.16);
+            font-weight: 950;
+            transform: rotate(-45deg);
+        }
+
+        .map-point span { transform: rotate(45deg); }
+        .map-point.p1 { left: 14%; top: 14%; }
+        .map-point.p2 { right: 17%; top: 12%; }
+        .map-point.p3 { left: 8%; top: 57%; }
+        .map-point.p4 { right: 9%; top: 56%; }
+        .map-point.p5 { left: 27%; bottom: 8%; }
+        .map-point.p6 { right: 24%; bottom: 7%; }
+
+        .city-copy .section-title { font-size: clamp(42px, 5vw, 72px); }
+
+        .feature-list {
+            display: grid;
+            gap: 14px;
+            margin-top: 32px;
+        }
+
+        .feature-row {
+            display: flex;
+            gap: 15px;
+            padding: 17px;
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            background: rgba(255,255,255,.56);
+        }
+
+        .feature-row b {
+            flex: 0 0 auto;
+            display: grid;
+            place-items: center;
+            width: 39px;
+            height: 39px;
+            border-radius: 12px;
+            color: var(--ink);
+            background: var(--lime);
+        }
+
+        .feature-row strong { display: block; font-size: 15px; }
+        .feature-row p { margin-top: 3px; color: var(--muted); font-size: 13px; }
+
+        /* =========================
+           COMO FUNCIONA
+        ========================== */
+
+        .process-section { background: #edf3ef; }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-top: 50px;
+        }
+
+        .process-card {
+            position: relative;
+            min-height: 250px;
+            padding: 26px;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            background: var(--white);
+        }
+
+        .process-card::after {
+            content: "→";
+            position: absolute;
+            top: 30px;
+            right: -17px;
+            z-index: 3;
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            color: #6c8e08;
+            background: var(--paper);
+            font-weight: 950;
+        }
+
+        .process-card:last-child::after { display: none; }
+
+        .process-card > span {
+            color: #7b8d99;
+            font-size: 12px;
+            font-weight: 950;
+            letter-spacing: .11em;
+        }
+
+        .process-card h3 {
+            margin-top: 38px;
+            font-size: 25px;
+            line-height: 1.05;
+            letter-spacing: -.045em;
+        }
+
+        .process-card p {
+            margin-top: 13px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        /* =========================
+           CTA E RODAPÉ
+        ========================== */
+
+        .cta-wrap { padding: 100px 0 30px; }
+
+        .cta-box {
+            position: relative;
+            min-height: 500px;
+            display: grid;
+            place-items: center;
+            padding: 70px 30px;
+            overflow: hidden;
+            border-radius: 42px;
+            text-align: center;
+            color: var(--white);
+            background:
+                radial-gradient(circle at 11% 18%, rgba(217,255,67,.2), transparent 25%),
+                radial-gradient(circle at 88% 84%, rgba(102,217,255,.2), transparent 24%),
+                var(--ink);
+            box-shadow: 0 38px 90px rgba(7,19,31,.23);
+        }
+
+        .cta-box::before,
+        .cta-box::after {
+            content: "";
+            position: absolute;
+            width: 310px;
+            aspect-ratio: 210 / 297;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 18px;
+            background: rgba(255,255,255,.04);
+        }
+
+        .cta-box::before { left: -120px; top: -75px; rotate: -22deg; }
+        .cta-box::after { right: -115px; bottom: -95px; rotate: 19deg; }
+
+        .cta-content { position: relative; z-index: 2; max-width: 820px; }
+        .cta-content .section-kicker { color: var(--lime); }
+        .cta-content h2 { font-size: clamp(46px, 6.5vw, 86px); line-height: .94; letter-spacing: -.075em; }
+        .cta-content p { max-width: 610px; margin: 23px auto 31px; color: rgba(255,255,255,.65); font-size: 18px; line-height: 1.65; }
+
+        .footer {
+            padding: 60px 0 28px;
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 30px;
+            padding-bottom: 35px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .footer-note { max-width: 430px; margin-top: 14px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            color: #425868;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 24px;
+            color: #7a8993;
+            font-size: 12px;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            z-index: 80;
+            right: 22px;
+            bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 56px;
+            padding: 0 18px;
+            border-radius: 999px;
+            color: #072b1d;
+            background: #69f0ae;
+            box-shadow: 0 18px 40px rgba(20,145,89,.3);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 900;
+            transition: transform .2s ease;
+        }
+
+        .whatsapp-float:hover { transform: translateY(-3px) scale(1.02); }
+
+        [data-reveal] {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity .75s ease, transform .75s cubic-bezier(.2,.75,.22,1);
+        }
+
+        [data-reveal].visible { opacity: 1; transform: translateY(0); }
+
+        /* =========================
+           RESPONSIVO
+        ========================== */
+
+        @media (max-width: 1050px) {
+            .nav-links { display: none; }
+            .hero { min-height: auto; }
+            .hero-grid { grid-template-columns: 1fr; }
+            .hero-copy { text-align: center; }
+            .hero-copy > p { margin-inline: auto; }
+            .hero-buttons, .micro-proof { justify-content: center; }
+            .hero-visual { min-height: 680px; max-width: 670px; width: 100%; margin-inline: auto; }
+            .floating-chip.one { right: 1%; }
+            .floating-chip.two { left: 0; }
+            .floating-chip.three { right: 0; }
+            .stories-layout, .city-layout { grid-template-columns: 1fr; }
+            .stories-copy { max-width: 700px; }
+            .city-copy { order: -1; }
+            .city-map { max-width: 760px; width: 100%; margin-inline: auto; }
+            .process-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-card:nth-child(2)::after { display: none; }
+        }
+
+        @media (max-width: 760px) {
+            .container { width: min(100% - 28px, 1180px); }
+            .site-header { padding: 12px 0; }
+            .nav-actions .btn { display: none; }
+            .brand { font-size: 19px; }
+            .hero { padding: 125px 0 88px; }
+            .hero h1 { font-size: clamp(49px, 15vw, 70px); }
+            .hero-copy > p { font-size: 17px; }
+            .hero-visual { min-height: 570px; }
+            .paper-stack { width: min(315px, 67vw); }
+            .floating-chip { padding: 9px 11px; font-size: 10px; }
+            .floating-chip b { width: 29px; height: 29px; font-size: 14px; }
+            .floating-chip.one { right: -3%; }
+            .floating-chip.two { left: -2%; bottom: 17%; }
+            .floating-chip.three { right: -3%; bottom: 3%; }
+            .impact-grid { grid-template-columns: repeat(2, 1fr); }
+            .impact-item:nth-child(2) { border-right: 0; }
+            .impact-item:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.1); }
+            .impact-item { padding: 22px 20px; }
+            .impact-item strong { font-size: 29px; }
+            section.content-section { padding: 85px 0; }
+            .section-title { font-size: 43px; }
+            .offer-grid { grid-template-columns: 1fr; }
+            .offer-card.large, .offer-card.medium, .offer-card.third { grid-column: auto; }
+            .offer-card { min-height: 270px; padding: 24px; }
+            .offer-card h3 { margin-top: 34px; }
+            .stories-layout { gap: 35px; }
+            .story-carousel { min-height: 430px; transform: scale(.82); margin-inline: -30px; }
+            .city-map { min-height: 430px; }
+            .map-center { width: 90px; height: 90px; font-size: 15px; }
+            .map-point { width: 43px; height: 43px; border-width: 4px; }
+            .process-grid { grid-template-columns: 1fr; }
+            .process-card { min-height: 220px; }
+            .process-card::after { display: none; }
+            .cta-box { min-height: 470px; padding-inline: 20px; border-radius: 30px; }
+            .footer-top, .footer-bottom { flex-direction: column; }
+            .whatsapp-float { width: 56px; padding: 0; justify-content: center; }
+            .whatsapp-float span { display: none; }
+            .intro-city { height: 48%; }
+            .intro-brand { top: 12%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+            [data-reveal] { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+
+<body class="intro-playing">
+    <div class="intro" id="intro" role="dialog" aria-label="Entrada animada DIVULGA+AQUI">
+        <button class="skip-intro" type="button" id="skipIntro">Pular entrada</button>
+        <div class="intro-sun"></div>
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+
+        <div class="intro-brand">
+            <small>Pousando novas oportunidades</small>
+            <strong>DIVULGA<span>+</span>AQUI</strong>
+        </div>
+
+        <div class="intro-city" aria-hidden="true">
+            <svg viewBox="0 0 1600 610" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 375L120 300L220 360L355 225L455 320L570 205L665 305L805 176L924 284L1038 210L1185 310L1320 200L1425 290L1600 220V610H0Z" fill="#8ccf92" opacity=".6"/>
+                <path d="M0 432L100 350L206 405L350 292L474 398L610 274L720 395L850 260L1000 386L1160 264L1278 388L1420 288L1600 360V610H0Z" fill="#56ad72"/>
+                <g fill="#f6fbfc">
+                    <rect x="50" y="315" width="95" height="195" rx="4"/><rect x="155" y="365" width="78" height="145" rx="4"/>
+                    <rect x="258" y="276" width="112" height="234" rx="4"/><rect x="385" y="340" width="76" height="170" rx="4"/>
+                    <rect x="486" y="305" width="132" height="205" rx="4"/><rect x="640" y="242" width="92" height="268" rx="4"/>
+                    <rect x="754" y="328" width="78" height="182" rx="4"/><rect x="852" y="208" width="126" height="302" rx="4"/>
+                    <rect x="1000" y="298" width="84" height="212" rx="4"/><rect x="1102" y="250" width="118" height="260" rx="4"/>
+                    <rect x="1240" y="338" width="84" height="172" rx="4"/><rect x="1344" y="280" width="106" height="230" rx="4"/>
+                    <rect x="1470" y="344" width="82" height="166" rx="4"/>
+                </g>
+                <g fill="#9ed4df" opacity=".82">
+                    <rect x="72" y="342" width="20" height="27"/><rect x="104" y="342" width="20" height="27"/><rect x="72" y="387" width="20" height="27"/><rect x="104" y="387" width="20" height="27"/>
+                    <rect x="282" y="305" width="23" height="30"/><rect x="322" y="305" width="23" height="30"/><rect x="282" y="352" width="23" height="30"/><rect x="322" y="352" width="23" height="30"/>
+                    <rect x="512" y="332" width="29" height="29"/><rect x="558" y="332" width="29" height="29"/><rect x="512" y="382" width="29" height="29"/><rect x="558" y="382" width="29" height="29"/>
+                    <rect x="665" y="275" width="18" height="27"/><rect x="692" y="275" width="18" height="27"/><rect x="665" y="320" width="18" height="27"/><rect x="692" y="320" width="18" height="27"/>
+                    <rect x="879" y="242" width="27" height="34"/><rect x="925" y="242" width="27" height="34"/><rect x="879" y="296" width="27" height="34"/><rect x="925" y="296" width="27" height="34"/>
+                    <rect x="1130" y="281" width="24" height="31"/><rect x="1170" y="281" width="24" height="31"/><rect x="1130" y="331" width="24" height="31"/><rect x="1170" y="331" width="24" height="31"/>
+                    <rect x="1370" y="310" width="21" height="29"/><rect x="1407" y="310" width="21" height="29"/><rect x="1370" y="357" width="21" height="29"/><rect x="1407" y="357" width="21" height="29"/>
+                </g>
+                <g fill="#1d7b48">
+                    <circle cx="20" cy="490" r="50"/><circle cx="245" cy="490" r="44"/><circle cx="470" cy="486" r="56"/>
+                    <circle cx="745" cy="492" r="46"/><circle cx="1040" cy="485" r="58"/><circle cx="1295" cy="490" r="52"/><circle cx="1580" cy="486" r="60"/>
+                </g>
+            </svg>
+        </div>
+
+        <div class="grass" aria-hidden="true"></div>
+        <div class="landing-pad" aria-hidden="true"></div>
+
+        <div class="drone-flight" aria-hidden="true">
+            <div class="drone">
+                <div class="drone-arm left"></div>
+                <div class="drone-arm right"></div>
+                <div class="rotor left"></div>
+                <div class="rotor right"></div>
+                <div class="drone-core"><div class="camera"></div></div>
+                <div class="drone-leg left"></div>
+                <div class="drone-leg right"></div>
+            </div>
+        </div>
+
+        <div class="intro-progress" aria-hidden="true"></div>
+    </div>
+
+    <header class="site-header" id="siteHeader">
+        <div class="container nav">
+            <a class="brand" href="#inicio" aria-label="DIVULGA+AQUI — início">
+                <span class="brand-symbol">D+A</span>
+                <span>DIVULGA<span>+</span>AQUI</span>
+            </a>
+
+            <nav aria-label="Navegação principal">
+                <ul class="nav-links">
+                    <li><a href="#plano">O plano</a></li>
+                    <li><a href="#stories">30 dias</a></li>
+                    <li><a href="#cidade">Na cidade</a></li>
+                    <li><a href="#como-funciona">Como funciona</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="replay-button" id="replayIntro" type="button" title="Rever entrada do drone" aria-label="Rever entrada do drone">↻</button>
+                <button class="btn btn-dark" type="button" data-whatsapp>Quero aparecer</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="container hero-grid">
+                <div class="hero-copy" data-reveal>
+                    <span class="eyebrow">Sua marca em movimento</span>
+                    <h1>Você aparece <span class="highlight">em tudo.</span></h1>
+                    <p>Presença digital e física para negócios locais: <strong>site, Stories, comercial, tráfego pago e folhas A4 em pontos estratégicos da cidade.</strong></p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-dark" type="button" data-whatsapp>Quero fazer parte <span aria-hidden="true">↗</span></button>
+                        <a class="btn btn-outline" href="#plano">Conhecer o plano</a>
+                    </div>
+                    <div class="micro-proof" aria-label="Destaques do serviço">
+                        <span>Presença diária</span>
+                        <span>Digital + físico</span>
+                        <span>Conteúdo renovado</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual" data-reveal>
+                    <div class="visual-orbit" aria-hidden="true"></div>
+                    <div class="paper-stack" aria-label="Exemplo de folha A4 DIVULGA+AQUI">
+                        <div class="paper-sheet back-one"></div>
+                        <div class="paper-sheet back-two"></div>
+                        <article class="paper-sheet">
+                            <div class="a4-design">
+                                <div class="a4-top"><span>DIVULGA+AQUI</span><span class="a4-plus">D+A</span></div>
+                                <h3>Sua marca <span>vista</span> de verdade.</h3>
+                                <p>Comunicação que chega à tela e também à mesa do consumidor.</p>
+                                <div class="a4-footer"><span>Presença local</span><span>Digital + A4</span></div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="floating-chip one"><b>30</b><span>dias de Stories</span></div>
+                    <div class="floating-chip two"><b>6</b><span>comércios parceiros</span></div>
+                    <div class="floating-chip three"><b>▶</b><span>1 comercial mensal</span></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="impact-strip">
+            <div class="container">
+                <div class="impact-grid" data-reveal>
+                    <div class="impact-item"><strong>30 dias</strong><span>com arte nova para Stories</span></div>
+                    <div class="impact-item"><strong>1 comercial</strong><span>novo vídeo todos os meses</span></div>
+                    <div class="impact-item"><strong>6 pontos</strong><span>com displays de mesa e folhas A4</span></div>
+                    <div class="impact-item"><strong>1 site</strong><span>reunindo todos os participantes</span></div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content-section" id="plano">
+            <div class="container">
+                <p class="section-kicker" data-reveal>Plano de presença completa</p>
+                <h2 class="section-title" data-reveal>Um plano. Cinco formas de colocar sua marca em evidência.</h2>
+                <p class="section-lead" data-reveal>Comunicação contínua para o seu negócio não desaparecer depois de uma única publicação. Você participa de uma rede de divulgação que combina alcance, frequência e presença local.</p>
+
+                <div class="offer-grid">
+                    <article class="offer-card large dark" data-reveal>
+                        <div class="offer-number"><span>01 — ALCANCE</span><span class="offer-icon">◎</span></div>
+                        <h3>Tráfego pago para todos.</h3>
+                        <p>As campanhas ganham impulso com mídia patrocinada compartilhada, ampliando o alcance do projeto e levando os participantes a novos públicos.</p>
+                        <div class="story-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                    </article>
+
+                    <article class="offer-card medium lime" data-reveal>
+                        <div class="offer-number"><span>02 — VITRINE</span><span class="offer-icon">⌂</span></div>
+                        <h3>Um site para todos.</h3>
+                        <p>Uma vitrine online organizada para apresentar os negócios participantes e facilitar a descoberta de marcas, produtos e serviços.</p>
+                    </article>
+
+                    <article class="offer-card third" data-reveal>
+                        <div class="offer-number"><span>03 — STORIES</span><span class="offer-icon">✦</span></div>
+                        <h3>Arte nova todos os dias.</h3>
+                        <p>Durante 30 dias, uma criação diferente da outra, desenvolvida exclusivamente para Stories.</p>
+                    </article>
+
+                    <article class="offer-card third" data-reveal>
+                        <div class="offer-number"><span>04 — VÍDEO</span><span class="offer-icon">▶</span></div>
+                        <h3>1 comercial mensal.</h3>
+                        <p>Vídeo comercial para dar voz, ritmo e movimento à sua marca ao longo do mês.</p>
+                    </article>
+
+                    <article class="offer-card third" data-reveal>
+                        <div class="offer-number"><span>05 — PRESENÇA LOCAL</span><span class="offer-icon">⌖</span></div>
+                        <h3>Displays em 6 comércios.</h3>
+                        <p>Divulgação física em folhas A4, colocadas em displays de mesa nos estabelecimentos participantes.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section stories-section" id="stories">
+            <div class="container">
+                <p class="section-kicker" data-reveal>Conteúdo que não se repete</p>
+                <h2 class="section-title" data-reveal>Todo dia, um novo motivo para sua marca aparecer.</h2>
+                <p class="section-lead" data-reveal>Em vez de uma campanha parada, uma sequência visual criada para manter o público vendo, lembrando e reconhecendo o seu negócio.</p>
+
+                <div class="stories-layout">
+                    <div class="stories-copy" data-reveal>
+                        <h3>Uma arte diferente da outra.</h3>
+                        <p>São peças pensadas exclusivamente para o formato vertical dos Stories, com variação de mensagem, composição e ritmo visual durante todo o ciclo.</p>
+                        <div class="days-pill"><strong>30</strong><span>dias seguidos de presença</span></div>
+                    </div>
+
+                    <div class="story-carousel" data-reveal aria-label="Exemplos ilustrativos de Stories diferentes">
+                        <div class="story-card"><div class="story-ui"><div class="story-progress-line"></div><span class="story-label">Dia 03</span><strong>Novidade<br>no ar.</strong><small>Conteúdo exclusivo para Stories</small></div></div>
+                        <div class="story-card"><div class="story-ui"><div class="story-progress-line"></div><span class="story-label">Dia 11</span><strong>Sua marca<br>em foco.</strong><small>Formato vertical e direto</small></div></div>
+                        <div class="story-card"><div class="story-ui"><div class="story-progress-line"></div><span class="story-label">Dia 18</span><strong>Você<br>aparece.</strong><small>DIVULGA+AQUI</small></div></div>
+                        <div class="story-card"><div class="story-ui"><div class="story-progress-line"></div><span class="story-label">Dia 24</span><strong>Todo dia<br>é diferente.</strong><small>Nova composição e mensagem</small></div></div>
+                        <div class="story-card"><div class="story-ui"><div class="story-progress-line"></div><span class="story-label">Dia 30</span><strong>Fechando<br>com força.</strong><small>Um mês inteiro de presença</small></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="cidade">
+            <div class="container">
+                <div class="city-layout">
+                    <div class="city-map" data-reveal aria-label="Representação dos seis pontos de divulgação na cidade">
+                        <div class="map-road"></div>
+                        <div class="map-center">D+A</div>
+                        <div class="map-point p1"><span>1</span></div>
+                        <div class="map-point p2"><span>2</span></div>
+                        <div class="map-point p3"><span>3</span></div>
+                        <div class="map-point p4"><span>4</span></div>
+                        <div class="map-point p5"><span>5</span></div>
+                        <div class="map-point p6"><span>6</span></div>
+                    </div>
+
+                    <div class="city-copy">
+                        <p class="section-kicker" data-reveal>Da tela para a cidade</p>
+                        <h2 class="section-title" data-reveal>Divulgação que chega até a mesa.</h2>
+                        <p class="section-lead" data-reveal>As folhas A4 transformam displays de mesa em pequenos pontos de mídia, levando as marcas participantes para dentro de seis comércios.</p>
+
+                        <div class="feature-list">
+                            <div class="feature-row" data-reveal><b>01</b><div><strong>Formato A4 profissional</strong><p>Leitura rápida, visual claro e destaque para o anunciante.</p></div></div>
+                            <div class="feature-row" data-reveal><b>02</b><div><strong>Exposição em 6 estabelecimentos</strong><p>Presença física distribuída em locais de circulação.</p></div></div>
+                            <div class="feature-row" data-reveal><b>03</b><div><strong>Integração com o digital</strong><p>A campanha física reforça o site, os Stories, o vídeo e o tráfego pago.</p></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section process-section" id="como-funciona">
+            <div class="container">
+                <p class="section-kicker" data-reveal>Como funciona</p>
+                <h2 class="section-title" data-reveal>Sua marca entra. A divulgação começa.</h2>
+                <p class="section-lead" data-reveal>Um processo simples para reunir o material, criar a comunicação e colocar o negócio em circulação.</p>
+
+                <div class="process-grid">
+                    <article class="process-card" data-reveal><span>ETAPA 01</span><h3>Você envia as informações</h3><p>Nome, logo, contato, produtos, serviços e os destaques do seu negócio.</p></article>
+                    <article class="process-card" data-reveal><span>ETAPA 02</span><h3>A comunicação é criada</h3><p>Preparamos a identidade da campanha, os Stories, o comercial e a folha A4.</p></article>
+                    <article class="process-card" data-reveal><span>ETAPA 03</span><h3>Sua marca entra no circuito</h3><p>Site, mídia patrocinada, redes sociais e displays físicos passam a trabalhar juntos.</p></article>
+                    <article class="process-card" data-reveal><span>ETAPA 04</span><h3>Você aparece durante o mês</h3><p>Uma presença contínua, com conteúdo renovado e vários pontos de contato.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-wrap">
+            <div class="container">
+                <div class="cta-box" data-reveal>
+                    <div class="cta-content">
+                        <p class="section-kicker">DIVULGA+AQUI</p>
+                        <h2>Não basta existir.<br>É preciso aparecer.</h2>
+                        <p>Entre para uma divulgação que combina frequência digital, conteúdo em vídeo, site, tráfego pago e presença física na cidade.</p>
+                        <button class="btn btn-primary" type="button" data-whatsapp>Quero colocar minha marca aqui <span aria-hidden="true">↗</span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div>
+                    <a class="brand" href="#inicio"><span class="brand-symbol">D+A</span><span>DIVULGA<span>+</span>AQUI</span></a>
+                    <p class="footer-note">Divulgação integrada para negócios locais: presença digital, conteúdo diário e exposição física.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#plano">O plano</a>
+                    <a href="#stories">30 dias</a>
+                    <a href="#cidade">Na cidade</a>
+                    <button type="button" data-whatsapp style="background:none;color:inherit;cursor:pointer;font-weight:inherit;">Fale conosco</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© <span id="anoAtual"></span> DIVULGA+AQUI. Todos os direitos reservados.</span>
+                <span>Sua marca vista. Sua cidade conectada.</span>
+            </div>
+        </div>
+    </footer>
+
+    <button class="whatsapp-float" type="button" data-whatsapp aria-label="Falar sobre o DIVULGA+AQUI">
+        <strong aria-hidden="true">✆</strong><span>Quero participar</span>
+    </button>
+
+    <script>
+        /*
+         * Se quiser direcionar o WhatsApp para um número específico,
+         * coloque somente os números com DDI + DDD. Exemplo: 5514999999999
+         */
+        const WHATSAPP_NUMERO = "";
+        const WHATSAPP_MENSAGEM = "Olá! Quero conhecer o plano de divulgação do DIVULGA+AQUI.";
+
+        const intro = document.getElementById("intro");
+        const skipIntro = document.getElementById("skipIntro");
+        const replayIntro = document.getElementById("replayIntro");
+        let introTimer;
+
+        function finalizarIntro() {
+            clearTimeout(introTimer);
+            intro.classList.add("is-leaving");
+            document.body.classList.remove("intro-playing");
+            window.setTimeout(() => intro.setAttribute("aria-hidden", "true"), 780);
+        }
+
+        function iniciarIntro() {
+            clearTimeout(introTimer);
+            intro.classList.remove("is-leaving");
+            intro.removeAttribute("aria-hidden");
+            document.body.classList.add("intro-playing");
+
+            /* Reinicia as animações sem recarregar a página. */
+            intro.style.display = "none";
+            void intro.offsetHeight;
+            intro.style.display = "grid";
+
+            introTimer = window.setTimeout(finalizarIntro, 5100);
+        }
+
+        function abrirWhatsApp() {
+            const numero = WHATSAPP_NUMERO.replace(/\D/g, "");
+            const destino = numero ? `https://wa.me/${numero}` : "https://wa.me/";
+            window.open(`${destino}?text=${encodeURIComponent(WHATSAPP_MENSAGEM)}`, "_blank", "noopener");
+        }
+
+        skipIntro.addEventListener("click", finalizarIntro);
+        replayIntro.addEventListener("click", iniciarIntro);
+        document.querySelectorAll("[data-whatsapp]").forEach(botao => botao.addEventListener("click", abrirWhatsApp));
+
+        const header = document.getElementById("siteHeader");
+        window.addEventListener("scroll", () => header.classList.toggle("scrolled", window.scrollY > 24), { passive: true });
+
+        const observador = new IntersectionObserver((entradas) => {
+            entradas.forEach(entrada => {
+                if (entrada.isIntersecting) {
+                    entrada.target.classList.add("visible");
+                    observador.unobserve(entrada.target);
+                }
+            });
+        }, { threshold: .12, rootMargin: "0px 0px -35px" });
+
+        document.querySelectorAll("[data-reveal]").forEach(elemento => observador.observe(elemento));
+        document.getElementById("anoAtual").textContent = new Date().getFullYear();
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            window.setTimeout(finalizarIntro, 120);
+        } else {
+            introTimer = window.setTimeout(finalizarIntro, 5100);
+        }
+    </script>
+</body>
+</html>
