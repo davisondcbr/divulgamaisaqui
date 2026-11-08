@@ -94,7 +94,7 @@ button,input,textarea,select{font:inherit}.hidden{display:none!important}
      <div id="step3" class="hidden">
 <div class="link-editor">
  <h4>Botões e Links do Site</h4>
- <p>Crie quantos botões quiser. Ex.: Cardápio, Catálogo, Instagram, Localização, Comprar agora.</p>
+ <p>Crie quantos botões quiser. Eles serão incluídos automaticamente no INDEX gerado. Ex.: Cardápio, Catálogo, Instagram, Localização, Comprar agora.</p>
  <div id="linksEditor"></div>
  <button type="button" class="secondary" onclick="addCustomButton()">+ Adicionar botão</button>
 </div>
@@ -281,7 +281,7 @@ async function saveCompany(downloadAfter=false){
   if(photosData.some(x=>x.file)) await uploadPhotos(client.id,o.codigo);
   await saveCustomButtons(client.id);
   await loadCompanies();renderAll();
-  if(downloadAfter) downloadSiteIndex(o.codigo);
+  if(downloadAfter) downloadSiteIndex(o.codigo,customButtons.map((b,i)=>({nome:String(b.nome||'').trim(),link:safeUrl(b.link),ordem:i})).filter(b=>b.nome&&b.link));
   alert('Salvo com sucesso! Código: '+o.codigo+(downloadAfter?' — o INDEX foi preparado para download.':''));
   editing=null;photosData=[];showView('companies');
  }catch(e){
@@ -307,11 +307,11 @@ async function delCompany(code){
  if(error){alert('Não foi possível excluir.');return}
  await loadCompanies();renderAll()
 }
-function buildStandaloneHtml(o,pics){
+function buildStandaloneHtml(o,pics,buttonsOverride=null){
  const hero=pics[0]||'';
  const gallery=pics.map((x,i)=>`<button class="photo" type="button" data-src="${x}" aria-label="Ampliar foto ${i+1}"><img src="${x}" alt="Foto ${i+1}" loading="lazy"><span>Ampliar</span></button>`).join('');
  const phone=esc(o.whatsapp||'WhatsApp');
- const btns=(o.sites_botoes||customButtons||[]).slice().sort((a,b)=>(a.ordem||0)-(b.ordem||0))
+ const btns=(buttonsOverride!==null?buttonsOverride:(o.sites_botoes||[])).slice().sort((a,b)=>(a.ordem||0)-(b.ordem||0))
   .filter(b=>b.nome&&b.link)
   .map(b=>`<a class="custom-link" href="${safeUrl(b.link)}" target="_blank" rel="noopener">${esc(b.nome)}</a>`).join('');
  const accent=o.destaque==='Verde'?'#62d000':o.destaque==='Laranja'?'#ff8b19':'#168cff';
@@ -356,14 +356,14 @@ function buildStandaloneHtml(o,pics){
 }
 function renderPreview(){
  const o=formData(), pics=photosData.map(x=>x.preview).filter(Boolean);
- sitePreview.srcdoc=buildStandaloneHtml(o,pics);
+ sitePreview.srcdoc=buildStandaloneHtml(o,pics,customButtons);
  openPublished.classList.toggle('hidden',!editing);
 }
-function downloadSiteIndex(code){
+function downloadSiteIndex(code,buttonsOverride=null){
  const o=companies.find(x=>x.codigo===code);
  if(!o){alert('Site não encontrado para gerar o INDEX.');return}
  const pics=(o.sites_midias||[]).map(x=>x.url).filter(Boolean);
- const html=buildStandaloneHtml(o,pics);
+ const html=buildStandaloneHtml(o,pics,buttonsOverride!==null?buttonsOverride:(o.sites_botoes||[]));
  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
  const url=URL.createObjectURL(blob);
  const a=document.createElement('a');
