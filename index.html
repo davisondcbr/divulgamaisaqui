@@ -80,333 +80,56 @@
         }
 
         /* =========================
-           ENTRADA CINEMATOGRÁFICA
+           ENTRADA CINEMATOGRÁFICA — VOO FPV
         ========================== */
-
         .intro {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: grid;
-            place-items: center;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at 73% 16%, rgba(255,255,255,.94) 0 4%, transparent 18%),
-                linear-gradient(180deg, #8bdcff 0%, #c8f2ff 47%, #f6feff 65%);
-            transition: opacity .75s ease, visibility .75s ease;
+            position: fixed; inset: 0; z-index: 9999; overflow: hidden;
+            background: #07131f; transition: opacity .85s ease, visibility .85s ease;
+            perspective: 1100px;
         }
-
-        .intro.is-leaving {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        .intro.is-leaving { opacity:0; visibility:hidden; pointer-events:none; }
+        .fpv-world { position:absolute; inset:-10%; transform-style:preserve-3d; animation:fpvFlight 7.2s cubic-bezier(.18,.72,.18,1) forwards; }
+        .fpv-city {
+            position:absolute; inset:0; background-image:
+              linear-gradient(180deg, rgba(6,22,32,.02), rgba(6,22,32,.12)),
+              url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=2200&q=90');
+            background-size:cover; background-position:center 46%; filter:saturate(1.08) contrast(1.04);
+            transform:scale(1.08); animation:cityRush 7.2s cubic-bezier(.18,.72,.18,1) forwards;
         }
-
-        .intro-sun {
-            position: absolute;
-            top: 8%;
-            right: 12%;
-            width: min(150px, 18vw);
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: rgba(255, 247, 183, .96);
-            box-shadow: 0 0 80px 26px rgba(255, 247, 183, .62);
+        .fpv-city::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(112,207,255,.05) 0 45%,rgba(14,65,36,.12) 72%,rgba(7,19,31,.35)); }
+        .fpv-grass {
+            position:absolute; left:-12%; right:-12%; bottom:-48%; height:66%; opacity:0;
+            background:radial-gradient(ellipse at 50% 12%,rgba(180,255,120,.38),transparent 28%),
+                       repeating-linear-gradient(96deg,rgba(255,255,255,.025) 0 2px,transparent 2px 10px),
+                       linear-gradient(180deg,#4f9d43,#286f32 50%,#153e25);
+            filter:blur(.15px) saturate(1.2); transform:rotateX(63deg) scale(1.35); transform-origin:center top;
+            animation:grassLanding 7.2s ease forwards;
         }
-
-        .cloud {
-            position: absolute;
-            width: 150px;
-            height: 36px;
-            border-radius: 100px;
-            background: rgba(255,255,255,.82);
-            filter: drop-shadow(0 12px 18px rgba(56,123,152,.1));
-            animation: cloudMove 12s linear infinite;
-        }
-
-        .cloud::before,
-        .cloud::after {
-            content: "";
-            position: absolute;
-            bottom: 4px;
-            border-radius: 50%;
-            background: inherit;
-        }
-
-        .cloud::before { width: 62px; height: 62px; left: 24px; }
-        .cloud::after { width: 78px; height: 78px; right: 18px; }
-        .cloud.c1 { top: 17%; left: 8%; animation-duration: 16s; transform: scale(.75); }
-        .cloud.c2 { top: 28%; left: 62%; animation-duration: 21s; animation-delay: -8s; transform: scale(.5); }
-
-        @keyframes cloudMove {
-            from { translate: -25vw 0; }
-            to { translate: 115vw 0; }
-        }
-
-        .intro-city {
-            position: absolute;
-            inset: auto 0 20%;
-            width: 100%;
-            height: 54%;
-        }
-
-        .intro-city svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .grass {
-            position: absolute;
-            inset: auto 0 0;
-            height: 25%;
-            background:
-                radial-gradient(ellipse at 50% 0, rgba(217,255,67,.32), transparent 44%),
-                repeating-linear-gradient(93deg, transparent 0 9px, rgba(255,255,255,.05) 10px 11px),
-                linear-gradient(180deg, #50bb59, #208b45 72%, #126637);
-            border-top: 8px solid rgba(217,255,67,.55);
-        }
-
-        .grass::before {
-            content: "";
-            position: absolute;
-            inset: 22% 12% auto;
-            height: 18%;
-            border-radius: 50%;
-            background: rgba(7,19,31,.14);
-            filter: blur(16px);
-            animation: landingShadow 4.4s ease forwards;
-        }
-
-        .landing-pad {
-            position: absolute;
-            z-index: 3;
-            left: 50%;
-            bottom: 7%;
-            width: min(320px, 62vw);
-            height: min(90px, 13vw);
-            translate: -50% 0;
-            border: 3px solid rgba(217,255,67,.9);
-            border-radius: 50%;
-            background: rgba(7,19,31,.78);
-            box-shadow: 0 0 0 12px rgba(7,19,31,.14), 0 20px 40px rgba(7,19,31,.25);
-        }
-
-        .landing-pad::before,
-        .landing-pad::after {
-            content: "";
-            position: absolute;
-            inset: 50% auto auto 50%;
-            background: var(--lime);
-            transform: translate(-50%, -50%);
-        }
-
-        .landing-pad::before { width: 42%; height: 5px; }
-        .landing-pad::after { width: 5px; height: 58%; }
-
-        .drone-flight {
-            position: absolute;
-            z-index: 8;
-            left: 50%;
-            top: 48%;
-            width: clamp(180px, 24vw, 310px);
-            animation: droneApproach 4.35s cubic-bezier(.2,.75,.22,1) forwards;
-            filter: drop-shadow(0 24px 18px rgba(7,19,31,.24));
-        }
-
-        .drone {
-            position: relative;
-            height: 112px;
-            animation: hover .52s ease-in-out infinite alternate;
-        }
-
-        .drone-core {
-            position: absolute;
-            left: 50%;
-            top: 35px;
-            width: 84px;
-            height: 40px;
-            translate: -50% 0;
-            border-radius: 22px 22px 28px 28px;
-            background: linear-gradient(145deg, #20394b, #07131f 72%);
-            box-shadow: inset 0 4px 0 rgba(255,255,255,.12);
-        }
-
-        .drone-core::before {
-            content: "D+A";
-            position: absolute;
-            inset: 8px 17px;
-            display: grid;
-            place-items: center;
-            border-radius: 7px;
-            background: var(--lime);
-            color: var(--ink);
-            font-size: 13px;
-            font-weight: 950;
-            letter-spacing: -.04em;
-        }
-
-        .camera {
-            position: absolute;
-            left: 50%;
-            bottom: -15px;
-            width: 24px;
-            height: 24px;
-            translate: -50% 0;
-            border: 5px solid #1e3546;
-            border-radius: 50%;
-            background: radial-gradient(circle at 38% 34%, #b6f2ff 0 13%, #20749b 15% 36%, #06141e 40%);
-        }
-
-        .drone-arm {
-            position: absolute;
-            top: 48px;
-            width: 42%;
-            height: 8px;
-            border-radius: 10px;
-            background: #132b3c;
-        }
-
-        .drone-arm.left { left: 8%; rotate: -8deg; }
-        .drone-arm.right { right: 8%; rotate: 8deg; }
-
-        .rotor {
-            position: absolute;
-            top: 25px;
-            width: 38%;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(7,19,31,.74);
-            animation: rotorSpin .09s linear infinite;
-            box-shadow: 0 0 18px rgba(102,217,255,.36);
-        }
-
-        .rotor::after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            top: -4px;
-            width: 10px;
-            height: 16px;
-            translate: -50% 0;
-            border-radius: 4px;
-            background: #20394b;
-        }
-
-        .rotor.left { left: -4%; }
-        .rotor.right { right: -4%; }
-
-        .drone-leg {
-            position: absolute;
-            top: 70px;
-            width: 32px;
-            height: 25px;
-            border: 4px solid #132b3c;
-            border-top: 0;
-            border-radius: 0 0 14px 14px;
-        }
-
-        .drone-leg.left { left: calc(50% - 44px); }
-        .drone-leg.right { right: calc(50% - 44px); }
-
-        @keyframes rotorSpin {
-            50% { transform: scaleX(.18); opacity: .5; }
-        }
-
-        @keyframes hover {
-            to { translate: 0 -5px; rotate: .7deg; }
-        }
-
-        @keyframes droneApproach {
-            0% { transform: translate(-145vw, -56vh) scale(.55) rotate(-8deg); }
-            42% { transform: translate(-54vw, -31vh) scale(.76) rotate(4deg); }
-            72% { transform: translate(-16vw, -15vh) scale(.9) rotate(-2deg); }
-            88% { transform: translate(-50%, 8vh) scale(.93) rotate(0); }
-            100% { transform: translate(-50%, 17vh) scale(.9) rotate(0); }
-        }
-
-        @keyframes landingShadow {
-            0%, 35% { transform: scale(.15); opacity: 0; }
-            82% { transform: scale(.65); opacity: .3; }
-            100% { transform: scale(.38); opacity: .2; }
-        }
-
-        .intro-brand {
-            position: absolute;
-            z-index: 10;
-            left: 50%;
-            top: 8%;
-            width: min(680px, calc(100% - 44px));
-            translate: -50% 0;
-            text-align: center;
-            color: var(--ink);
-            opacity: 0;
-            transform: translateY(18px);
-            animation: brandReveal .75s 3.55s ease forwards;
-        }
-
-        .intro-brand small {
-            display: block;
-            margin-bottom: 8px;
-            font-size: clamp(11px, 1.25vw, 15px);
-            font-weight: 850;
-            letter-spacing: .2em;
-            text-transform: uppercase;
-        }
-
-        .intro-brand strong {
-            display: block;
-            font-size: clamp(42px, 8vw, 96px);
-            font-weight: 950;
-            letter-spacing: -.075em;
-            line-height: .88;
-        }
-
-        .intro-brand strong span { color: #4c7500; }
-
-        @keyframes brandReveal {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .intro-progress {
-            position: absolute;
-            z-index: 12;
-            left: 50%;
-            bottom: 22px;
-            width: min(380px, calc(100% - 120px));
-            height: 4px;
-            translate: -50% 0;
-            overflow: hidden;
-            border-radius: 99px;
-            background: rgba(255,255,255,.42);
-        }
-
-        .intro-progress::after {
-            content: "";
-            display: block;
-            width: 100%;
-            height: 100%;
-            transform-origin: left;
-            background: var(--ink);
-            animation: introProgress 4.9s linear forwards;
-        }
-
-        @keyframes introProgress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
-        .skip-intro {
-            position: absolute;
-            z-index: 20;
-            top: 22px;
-            right: 22px;
-            padding: 10px 16px;
-            border: 1px solid rgba(7,19,31,.18);
-            border-radius: 999px;
-            color: var(--ink);
-            background: rgba(255,255,255,.68);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 800;
-        }
+        .fpv-shadow { position:absolute; left:50%; bottom:7%; width:240px; height:50px; translate:-50% 0; border-radius:50%; background:rgba(0,0,0,.34); filter:blur(20px); opacity:0; animation:groundShadow 7.2s ease forwards; }
+        .fpv-vignette { position:absolute; inset:0; z-index:5; pointer-events:none; background:radial-gradient(circle at center,transparent 48%,rgba(1,8,13,.2) 82%,rgba(1,8,13,.55) 120%); }
+        .fpv-glare { position:absolute; z-index:4; width:55vw; height:55vw; right:-16vw; top:-24vw; border-radius:50%; background:radial-gradient(circle,rgba(255,245,188,.3),rgba(255,245,188,.07) 30%,transparent 68%); mix-blend-mode:screen; animation:glareMove 7.2s ease forwards; }
+        .fpv-hud { position:absolute; z-index:8; inset:24px; color:rgba(255,255,255,.8); font:700 11px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.12em; text-shadow:0 2px 8px rgba(0,0,0,.55); opacity:.82; animation:hudFade 7.2s ease forwards; }
+        .fpv-hud .tl,.fpv-hud .tr,.fpv-hud .bl,.fpv-hud .br { position:absolute; }
+        .fpv-hud .tl{left:0;top:0}.fpv-hud .tr{right:0;top:0}.fpv-hud .bl{left:0;bottom:0}.fpv-hud .br{right:0;bottom:0}
+        .fpv-reticle { position:absolute; z-index:8; left:50%; top:50%; width:64px; height:64px; translate:-50% -50%; opacity:.55; animation:reticleLand 7.2s ease forwards; }
+        .fpv-reticle::before,.fpv-reticle::after{content:"";position:absolute;background:rgba(255,255,255,.75)}
+        .fpv-reticle::before{left:0;right:0;top:50%;height:1px}.fpv-reticle::after{top:0;bottom:0;left:50%;width:1px}
+        .intro-brand { position:absolute; z-index:12; left:50%; top:50%; width:min(850px,calc(100% - 42px)); translate:-50% -50%; text-align:center; color:white; opacity:0; transform:scale(.94) translateY(16px); animation:brandLanding 7.2s ease forwards; text-shadow:0 6px 30px rgba(0,0,0,.38); }
+        .intro-brand small{display:block;margin-bottom:12px;font-size:clamp(11px,1.25vw,15px);font-weight:850;letter-spacing:.22em;text-transform:uppercase}
+        .intro-brand strong{display:block;font-size:clamp(48px,9vw,112px);font-weight:950;letter-spacing:-.075em;line-height:.86}.intro-brand strong span{color:#d9ff43}
+        .intro-brand em{display:block;margin-top:18px;font-style:normal;font-size:clamp(14px,1.8vw,20px);font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.86)}
+        .intro-progress { position:absolute;z-index:14;left:50%;bottom:24px;width:min(420px,calc(100% - 120px));height:3px;translate:-50% 0;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.25) }
+        .intro-progress::after{content:"";display:block;width:100%;height:100%;transform-origin:left;background:#d9ff43;animation:introProgress 7.2s linear forwards}
+        .skip-intro{position:absolute;z-index:20;top:22px;right:22px;padding:10px 16px;border:1px solid rgba(255,255,255,.3);border-radius:999px;color:white;background:rgba(7,19,31,.38);backdrop-filter:blur(12px);cursor:pointer;font-size:13px;font-weight:800}
+        @keyframes fpvFlight{0%{transform:rotateZ(-1.8deg) rotateX(1deg)}28%{transform:rotateZ(.8deg) rotateX(-1deg)}55%{transform:rotateZ(-.5deg) rotateX(4deg)}78%{transform:rotateZ(.25deg) rotateX(10deg)}100%{transform:rotateZ(0) rotateX(0)}}
+        @keyframes cityRush{0%{transform:scale(1.08) translate3d(-1.5%,0,0)}38%{transform:scale(1.34) translate3d(1%,-2%,0)}68%{transform:scale(1.72) translate3d(-1%,-7%,0);filter:saturate(1.1) contrast(1.05) blur(0)}86%{transform:scale(2.35) translate3d(0,-15%,0);filter:saturate(1.12) contrast(1.05) blur(.5px)}100%{transform:scale(2.75) translate3d(0,-20%,0);filter:saturate(1.05) contrast(1.03) blur(2px)}}
+        @keyframes grassLanding{0%,55%{opacity:0;bottom:-60%}70%{opacity:.2;bottom:-50%}86%{opacity:.9;bottom:-34%}100%{opacity:1;bottom:-22%;transform:rotateX(68deg) scale(1.6)}}
+        @keyframes groundShadow{0%,76%{opacity:0;transform:scale(.2)}92%{opacity:.22;transform:scale(.7)}100%{opacity:.38;transform:scale(1)}}
+        @keyframes glareMove{0%{transform:translate(0,0)}70%{transform:translate(-12vw,9vh)}100%{transform:translate(-18vw,16vh);opacity:.35}}
+        @keyframes hudFade{0%,72%{opacity:.78}90%,100%{opacity:0}}
+        @keyframes reticleLand{0%{transform:scale(.8) rotate(2deg)}65%{transform:scale(1.08) rotate(-1deg)}88%,100%{transform:scale(.55);opacity:0}}
+        @keyframes brandLanding{0%,78%{opacity:0;transform:scale(.94) translateY(16px)}88%{opacity:1;transform:scale(1.015) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
+        @keyframes introProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 
         /* =========================
            NAVEGAÇÃO
@@ -1454,61 +1177,25 @@
 </head>
 
 <body class="intro-playing">
-    <div class="intro" id="intro" role="dialog" aria-label="Entrada animada DIVULGA+AQUI">
+    <div class="intro" id="intro" role="dialog" aria-label="Voo cinematográfico DIVULGA+AQUI">
         <button class="skip-intro" type="button" id="skipIntro">Pular entrada</button>
-        <div class="intro-sun"></div>
-        <div class="cloud c1"></div>
-        <div class="cloud c2"></div>
-
+        <div class="fpv-world" aria-hidden="true">
+            <div class="fpv-city"></div>
+            <div class="fpv-grass"></div>
+            <div class="fpv-shadow"></div>
+        </div>
+        <div class="fpv-glare" aria-hidden="true"></div>
+        <div class="fpv-vignette" aria-hidden="true"></div>
+        <div class="fpv-reticle" aria-hidden="true"></div>
+        <div class="fpv-hud" aria-hidden="true">
+            <span class="tl">FPV • DIVULGA+AQUI</span><span class="tr">REC ●</span>
+            <span class="bl">VOO URBANO</span><span class="br">POUSO 00:07</span>
+        </div>
         <div class="intro-brand">
-            <small>Pousando novas oportunidades</small>
+            <small>Pousamos onde seu cliente está</small>
             <strong>DIVULGA<span>+</span>AQUI</strong>
+            <em>Sua marca por toda a cidade.</em>
         </div>
-
-        <div class="intro-city" aria-hidden="true">
-            <svg viewBox="0 0 1600 610" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 375L120 300L220 360L355 225L455 320L570 205L665 305L805 176L924 284L1038 210L1185 310L1320 200L1425 290L1600 220V610H0Z" fill="#8ccf92" opacity=".6"/>
-                <path d="M0 432L100 350L206 405L350 292L474 398L610 274L720 395L850 260L1000 386L1160 264L1278 388L1420 288L1600 360V610H0Z" fill="#56ad72"/>
-                <g fill="#f6fbfc">
-                    <rect x="50" y="315" width="95" height="195" rx="4"/><rect x="155" y="365" width="78" height="145" rx="4"/>
-                    <rect x="258" y="276" width="112" height="234" rx="4"/><rect x="385" y="340" width="76" height="170" rx="4"/>
-                    <rect x="486" y="305" width="132" height="205" rx="4"/><rect x="640" y="242" width="92" height="268" rx="4"/>
-                    <rect x="754" y="328" width="78" height="182" rx="4"/><rect x="852" y="208" width="126" height="302" rx="4"/>
-                    <rect x="1000" y="298" width="84" height="212" rx="4"/><rect x="1102" y="250" width="118" height="260" rx="4"/>
-                    <rect x="1240" y="338" width="84" height="172" rx="4"/><rect x="1344" y="280" width="106" height="230" rx="4"/>
-                    <rect x="1470" y="344" width="82" height="166" rx="4"/>
-                </g>
-                <g fill="#9ed4df" opacity=".82">
-                    <rect x="72" y="342" width="20" height="27"/><rect x="104" y="342" width="20" height="27"/><rect x="72" y="387" width="20" height="27"/><rect x="104" y="387" width="20" height="27"/>
-                    <rect x="282" y="305" width="23" height="30"/><rect x="322" y="305" width="23" height="30"/><rect x="282" y="352" width="23" height="30"/><rect x="322" y="352" width="23" height="30"/>
-                    <rect x="512" y="332" width="29" height="29"/><rect x="558" y="332" width="29" height="29"/><rect x="512" y="382" width="29" height="29"/><rect x="558" y="382" width="29" height="29"/>
-                    <rect x="665" y="275" width="18" height="27"/><rect x="692" y="275" width="18" height="27"/><rect x="665" y="320" width="18" height="27"/><rect x="692" y="320" width="18" height="27"/>
-                    <rect x="879" y="242" width="27" height="34"/><rect x="925" y="242" width="27" height="34"/><rect x="879" y="296" width="27" height="34"/><rect x="925" y="296" width="27" height="34"/>
-                    <rect x="1130" y="281" width="24" height="31"/><rect x="1170" y="281" width="24" height="31"/><rect x="1130" y="331" width="24" height="31"/><rect x="1170" y="331" width="24" height="31"/>
-                    <rect x="1370" y="310" width="21" height="29"/><rect x="1407" y="310" width="21" height="29"/><rect x="1370" y="357" width="21" height="29"/><rect x="1407" y="357" width="21" height="29"/>
-                </g>
-                <g fill="#1d7b48">
-                    <circle cx="20" cy="490" r="50"/><circle cx="245" cy="490" r="44"/><circle cx="470" cy="486" r="56"/>
-                    <circle cx="745" cy="492" r="46"/><circle cx="1040" cy="485" r="58"/><circle cx="1295" cy="490" r="52"/><circle cx="1580" cy="486" r="60"/>
-                </g>
-            </svg>
-        </div>
-
-        <div class="grass" aria-hidden="true"></div>
-        <div class="landing-pad" aria-hidden="true"></div>
-
-        <div class="drone-flight" aria-hidden="true">
-            <div class="drone">
-                <div class="drone-arm left"></div>
-                <div class="drone-arm right"></div>
-                <div class="rotor left"></div>
-                <div class="rotor right"></div>
-                <div class="drone-core"><div class="camera"></div></div>
-                <div class="drone-leg left"></div>
-                <div class="drone-leg right"></div>
-            </div>
-        </div>
-
         <div class="intro-progress" aria-hidden="true"></div>
     </div>
 
@@ -1764,7 +1451,7 @@
             void intro.offsetHeight;
             intro.style.display = "grid";
 
-            introTimer = window.setTimeout(finalizarIntro, 5100);
+            introTimer = window.setTimeout(finalizarIntro, 7400);
         }
 
         function abrirWhatsApp() {
@@ -1795,7 +1482,7 @@
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             window.setTimeout(finalizarIntro, 120);
         } else {
-            introTimer = window.setTimeout(finalizarIntro, 5100);
+            introTimer = window.setTimeout(finalizarIntro, 7400);
         }
     </script>
 </body>
